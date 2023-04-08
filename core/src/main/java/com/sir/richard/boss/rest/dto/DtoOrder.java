@@ -20,10 +20,11 @@ import java.util.Map;
 public class DtoOrder {
 
     private Long id;
-    private int orderNo;
+    private Integer orderNo;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_FORMAT_yyyy_MM_dd)
     private LocalDate orderDate;
+
     private OrderTypes type;
     private DtoCustomer customer;
 

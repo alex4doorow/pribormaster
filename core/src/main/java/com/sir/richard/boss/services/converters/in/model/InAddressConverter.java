@@ -30,8 +30,9 @@ public class InAddressConverter implements IOPersistConverter<Address, TeAddress
         Optional<TeWikiAddressType> wikiAddressType = wikiAddressTypeRepository.findById(Long.valueOf(inputAddress.getAddressType().getId()));
         teSourceAddress.setType(wikiAddressType.get());
         teSourceAddress.setCountryCode(inputAddress.getCountry().getCode());
-        teSourceAddress.setCity(teSourceAddress.getCity());
-        teSourceAddress.setPvz(teSourceAddress.getPvz());
+        teSourceAddress.setPostCode(inputAddress.getPostCode());
+        teSourceAddress.setCity(inputAddress.getCity());
+        teSourceAddress.setPvz(inputAddress.getPvz());
         teSourceAddress.setAddress(inputAddress.getAddress());
         teSourceAddress.setAnnotation(inputAddress.getAnnotation());
         return teSourceAddress;

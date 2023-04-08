@@ -2,6 +2,7 @@ package com.sir.richard.boss.services.converters.out.model;
 
 import com.sir.richard.boss.bl.entity.TeCustomer;
 import com.sir.richard.boss.bl.entity.TeOrder;
+import com.sir.richard.boss.bl.entity.TeOrderStatusItem;
 import com.sir.richard.boss.bl.jpa.TeCustomerRepository;
 import com.sir.richard.boss.model.data.*;
 import com.sir.richard.boss.model.types.*;
@@ -65,10 +66,7 @@ public class OutOrderConverter implements IOConverter<TeOrder, Order> {
         if (teOrder.getItems() != null) {
             teOrder.getItems().forEach(teItem -> {
                 OrderItem item = new OrderItem(order);
-
-                //teItem.getProduct().getId();
                 Product product = productConverter.convertTo(teItem.getProduct());
-
                 item.setId(teItem.getId());
                 item.setNo(teItem.getNo());
                 item.setProduct(product);
@@ -80,21 +78,20 @@ public class OutOrderConverter implements IOConverter<TeOrder, Order> {
                 order.getItems().add(item);
             });
         }
-
         if (teOrder.getStatuses() != null) {
-
-            teOrder.getStatuses().forEach(teStatus -> {
+            int no = 1;
+            for (TeOrderStatusItem teStatus : teOrder.getStatuses()) {
                 OrderStatusItem item = new OrderStatusItem(order);
                 item.setId(teStatus.getId());
-                item.setNo(0);
+                item.setNo(no);
                 item.setStatus(OrderStatuses.getValueById(teStatus.getStatus().getId()));
                 item.setCrmStatus(teStatus.getCrmStatus());
                 item.setCrmSubStatus(teStatus.getCrmSubStatus());
                 item.setAddedDate(teStatus.getDateAdded());
                 order.getStatuses().add(item);
-            });
+                no++;
+            }
         }
-
         order.setAddedDate(teOrder.getDateAdded());
         order.setModifiedDate(teOrder.getDateModified());
         order.setAnnotation(teOrder.getAnnotation());

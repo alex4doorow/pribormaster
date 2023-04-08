@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,6 +30,9 @@ public class TeCustomer implements BaseEntity<Long>, Serializable {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "PERSON_ID", referencedColumnName = "ID")
     private TePerson person;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<TeCustomerCompany> customerCompanies;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TYPE", referencedColumnName = "ID")
