@@ -68,8 +68,7 @@ public class OrderServiceTest {
         log.info("order: {}", order);
         Assertions.assertNotNull(order.getCustomer());
         Assertions.assertEquals(CustomerTypes.COMPANY, order.getCustomer().getType());
-
-
+        Assertions.assertNotNull(order.getCustomer().getViewShortName());
     }
 
     @Test
