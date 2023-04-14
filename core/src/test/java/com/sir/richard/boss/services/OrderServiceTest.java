@@ -36,6 +36,7 @@ public class OrderServiceTest {
 
     @Test
     public void testCustomerOrderFindById() {
+        log.info("squash 1");
         Order order = orderService.findById(10714L);
         log.info("order: {}", order);
         Assertions.assertNotNull(order.getCustomer());
