@@ -20,5 +20,21 @@ public class DtoCustomer {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private DtoAddress address;
 
+    public String getViewShortName() {
+        if (type == CustomerTypes.CUSTOMER) {
+            return person.getShortName();
+        } else if (type == CustomerTypes.COMPANY) {
+            return company.getShortName();
+        } else {
+            return "Unknown";
+        }
+    }
 
+    public String getViewPhoneNumber() {
+        if (type == CustomerTypes.CUSTOMER) {
+            return person.getPhoneNumber();
+        } else {
+            return "(000) 000-00-00";
+        }
+    }
 }

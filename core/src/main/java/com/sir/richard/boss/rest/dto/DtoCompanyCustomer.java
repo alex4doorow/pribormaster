@@ -16,5 +16,7 @@ public class DtoCompanyCustomer {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<DtoPerson> contacts;
 
-
+    public String getShortName() {
+        return shortName;
+    }
 }

@@ -50,4 +50,10 @@ public class DtoOrder {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String annotation;
+
+    public String getViewNo() {
+        String result = String.valueOf(this.getOrderNo());
+        // ...
+        return result;
+    }
 }

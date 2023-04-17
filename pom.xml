@@ -79,6 +79,7 @@
     <modules>
         <module>core</module>
         <module>shop-rest</module>
+        <module>shop-web</module>
     </modules>
 
 </project>

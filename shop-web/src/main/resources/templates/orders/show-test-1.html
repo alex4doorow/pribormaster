@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="pribormaster.ru описание">
+    <meta name="keywords" content="pribormaster.ru ключевые слова"/>
+    <meta name="author" content="Aleksey Fedorov">
+
+    <link rel="icon" data-th-href="@{/resources/images/favicon.ico}">
+    <link data-th-href="@{/resources/css/bootstrap.css}" rel="stylesheet">
+    <link data-th-href="@{/resources/css/bootstrap-icons.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link data-th-href="@{/resources/css/dashboard.css}" rel="stylesheet">
+    <link data-th-href="@{/resources/css/bootstrap-datepicker.css}" rel="stylesheet">
+    <link data-th-href="@{/resources/css/datatables.css}" rel="stylesheet">
+
+    <title th:text="#{test.welcome1}">Title</title>
+</head>
+<body>
+
+<p>test p1</p>
+<p th:text="#{test.welcome1}">p2</p>
+<p data-th-text="#{test.welcome1}">p3</p>
+<p th:utext="#{test.welcome2}">p4</p>
+<p>Today is: <span th:text="${order.orderDate}"></span>p5</p>
+<p th:utext="#{test.welcome3(${order.orderDate})}">p6</p>
+
+<p>
+    Today is: <span th:text="${#calendars.format(dOrderDate,'dd.MM.yyyy')}">p7</span>
+</p>
+<div>
+    <p>Name: <span th:text="${order.customer.person.firstName}">Sebastian</span></p>
+    <p>Surname: <span th:text="${order.customer.person.middleName}">Pepper</span></p>
+    <p>Last Name: <span th:text="${order.customer.person.lastName}">Saturn</span></p>
+</div>
+<br>
+<a href="details.html" th:href="@{/web/orders/{orderId}(orderId=${order.id})}">view</a>
+<br>
+<p>Please select an option</p>
+<ol>
+    <li><a href="product/list.html" th:href="@{/product/list}">Product List</a></li>
+    <li><a href="order/list.html" th:href="@{/order/list}">Order List</a></li>
+    <li><a href="subscribe.html" th:href="@{/subscribe}">Subscribe to our Newsletter</a></li>
+    <li><a href="userprofile.html" th:href="@{/userprofile}">See User Profile</a></li>
+</ol>
+
+<p>The year is <span th:text="2013">1492</span>.</p>
+<p>In two years, it will be <span th:text="2013 + 2">1494</span>.</p>
+
+<div th:if="${order.items.size()} == 0">
+    <p>1: <span th:text="${order.items.size}"></span></p>
+</div>
+<div th:if="${order.items.size()} > 0">
+    <p>2: <span th:text="${order.items.size}"></span></p>
+</div>
+
+<span th:text="'The name of the customer is ' + ${order.customer.person.firstName}"></span>
+
+
+<table>
+    <tr>
+        <th>#</th>
+        <th>PRODUCT</th>
+        <th>PRICE</th>
+        <th>QUANTITY</th>
+        <th>AMOUNT</th>
+    </tr>
+    <tr th:each="item : ${order.items}">
+        <td th:text="${item.no}"></td>
+        <td th:text="${item.product.sku}"></td>
+        <td th:text="${item.price}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="${item.amount}"></td>
+    </tr>
+</table>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" th:src="@{/resources/assets/js/vendor/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/resources/assets/js/vendor/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/resources/js/bootstrap.min.js}"></script>
+
+<script type="text/javascript" th:src="@{/resources/js/bootstrap-datepicker.min.js}"></script>
+<script type="text/javascript" th:src="@{/resources/js/locales/bootstrap-datepicker.ru.min.js}"></script>
+<script type="text/javascript" th:src="@{/resources/js/datatables.js}"></script>
+<script type="text/javascript" th:src="@{/resources/js/jquery.mask.min.js}"></script>
+<!-- CDEK -->
+<script type="text/javascript" src="https://www.cdek.ru/website/edostavka/template/js/widjet.js" id="ISDEKscript" ></script>
+
+    <div th:replace="~{fragments/footer-test :: footer1}">footer1</div>
+</body>
+</html>

@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="pribormaster.ru описание">
+  <meta name="keywords" content="pribormaster.ru ключевые слова"/>
+  <meta name="author" content="Aleksey Fedorov">
+  <link rel="icon" data-th-href="@{/resources/images/favicon.ico}">
+  <!-- Bootstrap core CSS -->
+  <link data-th-href="@{/resources/css/bootstrap.css}" rel="stylesheet">
+  <link data-th-href="@{/resources/css/bootstrap-icons.css}" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link data-th-href="@{/resources/css/dashboard.css}" rel="stylesheet">
+  <link data-th-href="@{/resources/css/bootstrap-datepicker.css}" rel="stylesheet">
+  <link data-th-href="@{/resources/css/datatables.css}" rel="stylesheet">
+
+  <title th:text="#{app.title} + ' | ' + #{order.show.header}"></title>
+
+</head>
+<body>
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+  <a class="navbar-brand col-sm-3 col-md-2 mr-0" target="_blank" href="http://pribormaster.ru/admin" th:text="#{app.title}"></a>
+  <input id="input-search-by-order-conditions" class="search-by-order-no form-control form-control-dark w-100" type="text" placeholder='Введите данные для поиска заказа' aria-label='Введите данные для поиска заказа'>
+  <ul class="navbar-nav px-3">
+    <li class="nav-item text-nowrap">
+      <a id="link-search-by-order-no" class="search-by-order-no nav-link" href="#"><span th:text="#{main.btn.find}"></span></a>
+    </li>
+  </ul>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a id="nav-link-home" class="nav-menus-item nav-link active" th:href="@{/}">
+              <i class="bi bi-house-door text-dark"></i>
+              <span th:text="#{index.header}"></span><span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a id="nav-link-orders" class="nav-menus-item nav-link" th:href="@{/web/orders}">
+              <i class="bi bi-files text-dark"></i>
+              Заказы
+            </a>
+          </li>
+          <li class="nav-item">
+            <a id="nav-link-customers" class="nav-menus-item nav-link" href="#">
+              <i class="bi bi-people text-dark"></i>
+              Покупатели
+            </a>
+          </li>
+        </ul>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Wiki</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a id="nav-link-products" class="nav-menus-item nav-link" href="/sir-richard-boss-web/wiki/products/-1">
+              <i class="bi bi-cart-check text-dark"></i>
+              Товары
+            </a>
+          </li>
+          <li class="nav-item">
+            <a id="nav-link-wiki-stock" class="nav-link" href="/sir-richard-boss-web/wiki/stock-products">
+              <i class="bi bi-shop-window text-dark"></i>
+              Склад
+            </a>
+          </li>
+        </ul>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Интеграция</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a id="nav-link-ym-products" class="nav-menus-item nav-link" href="/sir-richard-boss-web/wiki/products/ym">
+              <i class="bi bi-cart-check text-dark"></i>
+              Товары на "Яндекс-Маркет"
+            </a>
+          </li>
+          <li class="nav-item">
+            <a id="nav-link-ozon-products" class="nav-menus-item nav-link" href="/sir-richard-boss-web/wiki/products/ozon">
+              <i class="bi bi-cart-check text-dark"></i>
+              Товары на "Озон"
+            </a>
+          </li>
+        </ul>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Отчеты</span>
+        </h6>
+        <div class="sidebar-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a id="nav-link-report-product-sales" class="nav-link" href="/sir-richard-boss-web/reports/product-sales">
+                <i class="bi bi-printer text-dark"></i>
+                Отчет по товарам (за период)
+              </a>
+            </li>
+            <li class="nav-item">
+              <a id="nav-link-report-complex-aggregate-product-sales" class="nav-link" href="/sir-richard-boss-web/reports/complex-aggregate-product-sales">
+                <i class="bi bi-printer text-dark"></i>
+                Агрегированный отчет по товарам
+              </a>
+            </li>
+            <li class="nav-item">
+              <a id="nav-link-report-product-sales-by-query" class="nav-link" href="/sir-richard-boss-web/reports/product-sales-by-query">
+                <i class="bi bi-printer text-dark"></i>
+                Отчет по товарам (по запросу)
+              </a>
+            </li>
+            <li class="nav-item">
+              <a id="nav-link-report-product-sales-by-query-name" class="nav-link" href="/sir-richard-boss-web/reports/product-sales-by-query-name">
+                <i class="bi bi-printer text-dark"></i>
+                Отчет по товарам (по условию)
+              </a>
+            </li>
+            <li class="nav-item">
+              <a id="nav-link-report-sales-funnel" class="nav-link" href="/sir-richard-boss-web/reports/sales-funnel">
+                <i class="bi bi-printer text-dark"></i>
+                Отчет "Воронка продаж"
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+      <div class="d-flex justify-content-start flex-wrap flex-md-nowrap align-items-start">
+        <h1 class="h4" th:text="#{order.show.headers.h1(${order.viewNo}, ${#temporals.format(order.orderDate, 'dd.MM.yyyy')})}"></h1>
+      </div>
+      <div class="d-flex justify-content-start flex-wrap flex-md-nowrap align-items-start border-bottom- mb-2">
+        <h2 class="h5" th:utext="${order.customer.viewShortName} + ', ' + ${order.customer.viewPhoneNumber} + ' ' + '<span class=\'badge badge-secondary\'>' + ${order.customer.id} + '</span>'">
+        </h2>
+      </div>
+      <div>
+        <button id="btn-update-order" type="button" class="btn btn-primary" th:text="#{main.btn.updateData}"></button>
+        <button id="btn-show-order" type="button" class="btn btn-light" disabled th:text="#{main.btn.showData}"></button>
+        <button id="btn-status-order" type="button" class="btn btn-light" th:text="#{main.btn.statusData}"></button>
+        <button id="btn-clone-order" type="button" class="btn btn-light" th:text="#{main.btn.cloneData}"></button>
+      </div>
+      <br/>
+      <ul class="nav nav-tabs" id="orderTab" role="tablist">
+        <li class="nav-item"><a class="nav-link active" id="order-tab"
+                                data-toggle="tab" href="#order" role="tab" aria-controls="order"
+                                aria-selected="true">Заказ</a>
+        </li>
+        <li class="nav-item"><a class="nav-link" id="customer-tab"
+                                data-toggle="tab" href="#customer" role="tab" aria-controls="customer"
+                                aria-selected="false">Покупатель</a>
+        </li>
+        <li class="nav-item"><a class="nav-link" id="delivery-tab"
+                                data-toggle="tab" href="#delivery" role="tab" aria-controls="delivery"
+                                aria-selected="false">Доставка</a>
+        </li>
+        <li class="nav-item"><a class="nav-link" id="amount-tab"
+                                data-toggle="tab" href="#amount" role="tab" aria-controls="amount"
+                                aria-selected="false">Калькуляция</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="orderTabContent">
+        <div class="tab-pane fade show active" id="order" role="tabpanel"
+             aria-labelledby="order-tab">
+
+
+          <div class="container-fluid">
+            <br />
+            <div class="row">
+              <label class="col-sm-3">ID</label>
+              <div class="col-sm-9"><span th:text="${order.id}"></span></div>
+
+            </div>
+            <div class="row">
+              <label class="col-sm-3">#</label>
+              <div class="col-sm-9">
+                <strong>14353 (2077)</strong>
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="col-sm-3">Дата заказа</label>
+              <div class="col-sm-9">
+                <strong>14.04.2023</strong>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Тип</label>
+              <div class="col-sm-9">заказ</div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Источник</label>
+              <div class="col-sm-9">лид</div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Канал привлечения</label>
+              <div class="col-sm-9">реклама</div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Вариант оплаты</label>
+              <div class="col-sm-9">постоплата</div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Категория</label>
+              <div class="col-sm-9">отпугиватели собак</div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Сайт</label>
+              <div class="col-sm-9">pribormaster.ru</div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Дополнительно</label>
+              <div class="col-sm-9"></div>
+            </div>
+            <!-- crm id
+            <div class="row">
+                <label class="col-sm-3">Импортирована</label>
+                <div class="col-sm-9"></div>
+            </div>
+            <div class="row">
+                <label class="col-sm-3">Идентификатор системы</label>
+                <div class="col-sm-9"></div>
+            </div>
+             -->
+
+
+
+            <div class="row">
+              <label class="col-sm-3">Статус</label>
+              <div class="col-sm-9">
+                <strong>подтвержден</strong>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Запись создана</label>
+              <div class="col-sm-9">
+                14.04.2023 17:03:40
+              </div>
+            </div>
+            <br />
+            <h6>
+              Детализация
+            </h6>
+
+            <table class="table table-striped table-sm">
+
+              <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Наименование товара</th>
+                <th scope="col">Ед. изм. </th>
+                <th scope="col">Кол-во</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Скидка</th>
+                <th scope="col">Закупка</th>
+                <th scope="col">Сумма</th>
+              </tr>
+              </thead>
+              <tbody>
+
+
+              <tr>
+                <td>1</td>
+                <td>[ANTIDOG-UPAKOVKA-SVETOSHUM] Упаковка со сменными светозвуковыми картриджами PYRODEFENDER (3 шт)</td>
+                <td>шт.</td>
+                <td class="text-center">1</td>
+                <td class="text-right">650,00 ₽</td>
+                <td class="text-right">0%</td>
+                <td class="text-right">480,00 ₽</td>
+                <td class="text-right">650,00 ₽</td>
+              </tr>
+
+
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-center"></td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+                <td class="text-right"><strong>480,00 ₽</strong></td>
+                <td class="text-right"><strong>650,00 ₽</strong></td>
+              </tr>
+              </tbody>
+              <tfoot>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Доставка</td>
+                <td></td>
+                <td class="text-right">240,00 ₽</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><strong>Итого вместе с доставкой</strong></td>
+                <td></td>
+                <td class="text-right"><strong>890,00 ₽</strong></td>
+              </tr>
+              </tfoot>
+            </table>
+            <h6>История изменений</h6>
+            <div class="row">
+              <div class="col-sm-6">
+                <table class="table table-striped table-sm">
+                  <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col">CRM статус </th>
+                    <th scope="col">CRM этап обработки</th>
+                    <th scope="col">Дата</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                  <tr>
+                    <th scope="row">0</th>
+                    <td>заявка</td>
+                    <td></td>
+                    <td></td>
+                    <td>14.04.2023 17:03:42</td>
+                  </tr>
+
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>подтвержден</td>
+                    <td></td>
+                    <td></td>
+                    <td>14.04.2023 17:13:33</td>
+                  </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <br>
+            <h6>Внешние системы (CRM)</h6>
+            <div class="row">
+              <div class="col-sm-5">
+                <table class="table table-striped table-sm">
+                  <thead>
+                  <tr>
+
+                    <th scope="col">Внешняя система</th>
+                    <th scope="col">Идентификатор записи</th>
+                    <th scope="col">Код</th>
+
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                  <tr>
+                    <td>Админка сайта Opencart</td>
+                    <td>2077</td>
+                    <td></td>
+
+                  </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="tab-pane fade" id="customer" role="tabpanel"
+             aria-labelledby="customer-tab">
+
+          <div class="container-fluid">
+            <br />
+            <div class="row">
+              <label class="col-sm-3">Покупатель</label>
+              <div class="col-sm-9">физическое лицо</div>
+            </div>
+
+            <div class="row">
+              <label class="col-sm-3">Страна</label>
+              <div class="col-sm-9">Российская Федерация</div>
+            </div>
+
+
+            <div class="row">
+              <label class="col-sm-3">Адрес фактический</label>
+              <div class="col-sm-9">Рязань ул. Ленина, 10</div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Статус</label>
+              <div class="col-sm-9 mb-4">Действует</div>
+            </div>
+
+
+
+
+
+            <div class="row">
+              <label class="col-sm-3">Фамилия</label>
+              <div class="col-sm-9">Шпинева</div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Имя</label>
+              <div class="col-sm-9">
+                <strong>Дарья</strong>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Отчество</label>
+              <div class="col-sm-9"></div>
+            </div>
+
+            <div class="row">
+              <label class="col-sm-3">Телефон</label>
+              <div class="col-sm-9">
+                <strong>(960) 541-16-95</strong>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Email</label>
+              <div class="col-sm-9">araveniphs@yandex.ru</div>
+            </div>
+
+
+
+
+
+
+
+          </div>
+
+        </div>
+        <div class="tab-pane fade" id="delivery" role="tabpanel"
+             aria-labelledby="delivery-tab">
+
+          <div class="container-fluid">
+            <br />
+            <div class="row">
+              <label class="col-sm-3">Способ доставки</label>
+              <div class="col-sm-9">СДЭК, ПВЗ</div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Кто оплачивает доставку</label>
+              <div class="col-sm-9">покупатель</div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Страна</label>
+              <div class="col-sm-9">Российская Федерация</div>
+            </div>
+
+            <div class="row">
+              <label class="col-sm-3">Адрес</label>
+              <div class="col-sm-9">
+                <strong>Рязань, ул. Ленина, 10</strong>
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="col-sm-3">Дата доставки</label>
+              <div class="col-sm-9">
+                <strong></strong>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Временной интервал</label>
+              <div class="col-sm-9">
+                <strong></strong>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Стоимость доставки</label>
+              <div class="col-sm-9">
+                <strong>240,00 ₽</strong>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Дополнительная информация</label>
+              <div class="col-sm-9"></div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Постоплата</label>
+              <div class="col-sm-9">
+                <strong>650,00 ₽</strong>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3">Трэккод</label>
+              <div class="col-sm-9">
+                <strong></strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="amount" role="tabpanel"
+             aria-labelledby="amount-tab">
+          <div class="container-fluid">
+            <br />
+            <div class="row">
+              <label class="col-sm-2">К оплате</label>
+              <div class="col-sm-2 text-right">
+                <strong>890,00 ₽</strong>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2">Доход</label>
+              <div class="col-sm-2 text-right">650,00 ₽</div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2">Закупка</label>
+              <div class="col-sm-2 text-right">480,00 ₽</div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2">Прибыль фактическая </label>
+              <div class="col-sm-2 text-right">144,50 ₽</div>
+            </div>
+
+            <div class="row">
+              <label class="col-sm-2">В пути</label>
+              <div class="col-sm-2 text-right">
+                <strong>650,00 ₽</strong>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2">Наложенный платеж </label>
+              <div class="col-sm-2 text-right">постоплата</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </main>
+  </div>
+</div>
+
+
+
+<!-- alert block ets -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" th:src="@{/resources/assets/js/vendor/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/resources/assets/js/vendor/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/resources/js/bootstrap.min.js}"></script>
+
+<script type="text/javascript" th:src="@{/resources/js/bootstrap-datepicker.min.js}"></script>
+<script type="text/javascript" th:src="@{/resources/js/locales/bootstrap-datepicker.ru.min.js}"></script>
+<script type="text/javascript" th:src="@{/resources/js/datatables.js}"></script>
+<script type="text/javascript" th:src="@{/resources/js/jquery.mask.min.js}"></script>
+<!-- CDEK -->
+<script type="text/javascript" src="https://www.cdek.ru/website/edostavka/template/js/widjet.js" id="ISDEKscript" ></script>
+
+<script>
+      //feather.replace();
+	  String.prototype.replaceAll = function(search, replace) {
+		  return this.split(search).join(replace);
+	  }
+	  String.prototype.toNumber = function() {
+		  return Number(this.replace(',00', '').replace(',', '.').replace(new RegExp('[^0-9,\.]'), ''));
+		  
+	  }	  
+	  String.prototype.toFloat = function() {
+		  return parseFloat(this.replace(',00', '').replace(',', '.'));
+	  }
+	  String.prototype.cleanTrashString = function() {
+		    var output = "";
+		    for (var i = 0; i < this.length; i++) {
+		        if (this.charCodeAt(i) <= 127) {
+		            output += this.charAt(i);
+		        }
+		    }
+		    return output;
+	  }
+	  
+	  Number.prototype.formatMoney = function(c, d, t) {
+		    var n = this, 
+		    c = isNaN(c = Math.abs(c)) ? 2 : c, 
+		    d = d == undefined ? "." : d, 
+		    t = t == undefined ? "," : t, 
+		    s = n < 0 ? "-" : "", 
+		    i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))), 
+		    j = (j = i.length) > 3 ? j % 3 : 0;
+		    
+		    if (n > 100000) {
+		    	return n;
+		    }		    
+		   return s + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, ' 1' + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '');
+	  }
+	  
+	  function searchOrderByConditions() {
+		  var searchOrderNo = $('#input-search-by-order-conditions').val();
+		  var searchHref = '/sir-richard-boss-web/orders/show/by-conditions/' + searchOrderNo;
+		  document.location.href = searchHref;	
+	  }
+	  
+      $(function () {
+			$('[data-toggle="tooltip"]').tooltip();			
+			$('[data-toggle="popover"]').popover();		
+			
+			$('.input-mask-time').mask('00:00');
+			//$('.input-mask-phone').mask('(000) 000-00-00');
+			$(".datepicker").datepicker({
+				format: "dd.mm.yyyy",
+			    weekStart: 1,
+			    todayBtn: "linked",
+			    language: "ru",
+			    orientation: "auto",
+			    autoclose: true,
+			    todayHighlight: true
+			});
+		});
+      $(".nav-menus-item").removeClass('active');
+  	  $('.needs-validation').attr('novalidate', '');
+	  $('.form-control-required').attr('required', '');
+	  	  
+	  
+	  $('.search-by-order-no').on('keypress',function(e) {
+		  if(e.which == 13) {
+			  searchOrderByConditions();
+		  }
+		});
+	  
+	  $('#link-search-by-order-no').click(function() {
+		  searchOrderByConditions();
+	  });
+	  
+
+    </script>
+
+<!-- local java script -->
+<script>
+	$('#nav-link-orders').addClass('active');
+	$('#btn-show-order').click(function() {
+		window.location.href = '/sir-richard-boss-web/orders/10764/orders';
+	});
+	$('#btn-update-order').click(function() {
+		window.location.href = '/sir-richard-boss-web/orders/10764/update/orders';
+	});
+	$('#btn-status-order').click(function() {
+		window.location.href = '/sir-richard-boss-web/orders/10764/change-status/orders';
+	});
+	$('#btn-clone-order').click(function() {
+		window.location.href = '/sir-richard-boss-web/orders/10764/clone';
+	});
+</script>
+</body>
+
+<!-- Footer -->
+<footer class="page-footer font-small gray-dark pt-12">
+  <div class="container-fluid">
+    <div class="row">
+      <label class="col-sm-2"></label>
+      <div class="col-sm-5">© 2022 Copyright:<a target="blank" href="https://pribormaster.ru/">&nbsp;www.pribormaster.ru</a>&nbsp;|&nbsp;sir-richard-boss-web&nbsp;|&nbsp;4.3.0-SNAPSHOT</div>
+    </div>
+  </div>
+</footer>
+</html>

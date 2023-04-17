@@ -1,0 +1,758 @@
+app.name  = Заказы
+app.title = SIR RICHARD BOSS
+app.header.description = pribormaster.ru описание
+app.header.keywords = pribormaster.ru ключевые слова
+app.header.author = Aleksey Fedorov
+app.footer.copyright=© 2023 Copyright: www.pribormaster.ru | sir-richard-boss-web | 4.3.0-SNAPSHOT
+
+main.const.ruble = ₽
+
+main.const.table.value.status.yes = v
+main.const.table.value.status.no =
+
+main.message.recordNotFound = Запись не найдена!
+
+main.menus.left.home = Главная
+main.menus.left.orders = Заказы
+main.menus.left.products = Товары
+main.menus.left.customers = Покупатели
+main.menus.left.alarm = Сигнализация
+main.menus.left.vacancies = Вакансии
+
+main.menus.left.integration = Интеграция
+main.menus.left.ymProducts = Товары на "Яндекс-Маркет"
+main.menus.left.ozonProducts = Товары на "Озон"
+
+main.menus.left.Reports = Отчеты
+main.menus.left.Reports.productSales = Отчет по товарам (за период)
+main.menus.left.Reports.complexAggregateProductSales = Агрегированный отчет по товарам
+main.menus.left.Reports.productSalesByQuery = Отчет по товарам (по запросу)
+main.menus.left.Reports.productSalesByQueryName = Отчет по товарам (по условию)
+main.menus.left.Reports.orderSales = Отчет по продажам (заказы)
+main.menus.left.Reports.salesFunnel = Отчет "Воронка продаж"
+main.menus.left.stock = Склад
+
+main.btn.add = Добавить
+main.btn.update = Изменить
+main.btn.delete = Удалить
+main.btn.erase = Удалить навсегда
+main.btn.updateData = Заполнение
+main.btn.showData = Просмотр
+main.btn.statusData = Статус
+main.btn.cloneData = Копировать
+main.btn.save = Сохранить
+main.btn.ok = OK
+main.btn.cancel = Отмена
+main.btn.execute = Применить
+main.btn.clear = Очистить
+main.btn.close = Закрыть
+main.btn.reload = Перезагрузить
+
+main.btn.items.add = Строка
+main.btn.items.delete = Удалить
+
+main.btn.print = Печать
+
+main.btn.find = Поиск
+main.placeholder.find = Введите данные для поиска заказа
+
+index.header = Главная
+index.title = Главная
+
+error.header = Ошибка
+error.title = Ошибка
+
+reports.anyReport.form.headers.period = Отобрать данные за период
+
+reports.anyReport.form.fields.period.start = С
+reports.anyReport.form.fields.period.end = По
+reports.anyReport.form.fields.invalidFeedback.period.start = Ошибочно задана даты начала периода 
+reports.anyReport.form.fields.invalidFeedback.period.end = Ошибочно задана даты конца периода
+
+reports.anyReport.form.fields.placeholder.period.start = Период "С"
+reports.anyReport.form.fields.placeholder.period.end = Период "По"
+
+reports.productSales.form.title = Отчет по продажам (товары)
+reports.productSales.form.header = Отчет по продажам (товары)
+reports.productSales.form.headers.period = Отобрать данные за период
+reports.productSales.form.fields.period.start = С
+reports.productSales.form.fields.period.end = По
+reports.productSales.form.fields.advertBudget = Рекламный бюджет
+reports.productSales.form.fields.invalidFeedback.period.start = Ошибочно задана даты начала периода 
+reports.productSales.form.fields.invalidFeedback.period.end = Ошибочно задана даты конца периода
+reports.productSales.form.fields.placeholder.period.start = Период "С"
+reports.productSales.form.fields.placeholder.period.end = Период "По"
+
+reports.aggregate.productSales.form.title = Агрегированный отчет по товарам
+reports.aggregate.productSales.form.header = Агрегированный отчет по товарам
+reports.aggregate.productSales.form.headers.period = Отобрать данные за период
+reports.aggregate.productSales.form.fields.period.start = С
+reports.aggregate.productSales.form.fields.period.end = По
+reports.aggregate.productSales.form.fields.invalidFeedback.period.start = Ошибочно задана даты начала периода
+reports.aggregate.productSales.form.fields.invalidFeedback.period.end = Ошибочно задана даты конца периода
+reports.aggregate.productSales.form.fields.placeholder.period.start = Период "С"
+reports.aggregate.productSales.form.fields.placeholder.period.end = Период "По"
+
+reports.productSalesByQuery.form.headers.deliveryTypes = Варианты доставки
+reports.productSalesByQuery.form.headers.customerTypes = Покупатели
+reports.productSalesByQuery.form.headers.paymentTypes = Способы оплаты
+reports.productSalesByQuery.form.headers.advertTypes = Канал привлечения
+
+reports.productSalesByQueryName.form.title = Отчет по продажам (товары по фиксированным условиям)
+reports.productSalesByQueryName.form.header = Отчет по продажам (товары по фиксированным условиям)
+reports.productSalesByQueryName.form.headers.period = Отобрать данные за период
+
+reports.productSalesByQueryName.form.fields.queryName = Вариант запроса
+
+
+reports.productSalesByQuery.form.title = Отчет по продажам (товары по запросу)
+reports.productSalesByQuery.form.header = Отчет по продажам (товары по запросу)
+reports.productSalesByQuery.form.headers.period = Отобрать данные за период
+
+reports.productSalesByQuery.form.fields.period.start = С
+reports.productSalesByQuery.form.fields.period.end = По
+
+reports.productSalesByQuery.form.fields.invalidFeedback.period.start = Ошибочно задана даты начала периода 
+reports.productSalesByQuery.form.fields.invalidFeedback.period.end = Ошибочно задана даты конца периода
+
+reports.productSalesByQuery.form.fields.placeholder.period.start = Период "С"
+reports.productSalesByQuery.form.fields.placeholder.period.end = Период "По"
+
+reports.salesFunnel.form.title = Воронка продаж
+reports.salesFunnel.form.header = Воронка продаж
+reports.salesFunnel.form.headers.period = Отобрать данные за период
+ 
+orders.header = Заказы
+orders.title = Заказы
+
+orders.conditions.btn.currentMonth = Текущий месяц
+orders.conditions.btn.priorMonth = Предыдущий месяц
+orders.conditions.btn.last7Days = Последние 7 дней
+orders.conditions.btn.last30Days = Последние 30 дней
+orders.conditions.btn.last90Days = Последние 90 дней
+orders.conditions.btn.filter = Фильтр
+
+orders.table.headers.no = #
+orders.table.headers.dateOrder = Дата
+orders.table.headers.category = Категория
+orders.table.headers.client = Клиент
+orders.table.headers.phone = Телефон
+orders.table.headers.address = Адрес
+orders.table.headers.delivery = Доставка
+orders.table.headers.amount = Итого
+orders.table.headers.trackCode = Трэккод
+
+orders.table.items.amount.bill = Доход
+orders.table.items.amount.total = Итого (без доставки)
+orders.table.items.amount.totalWithDelivery = Итого
+orders.table.items.amount.supplier = Закупка
+orders.table.items.amount.margin = Прибыль
+orders.table.items.amount.postpay = Постоплата
+
+orders.table.footers.amount.bill = Доход за период:
+orders.table.footers.amount.margin = Прибыль за период:
+orders.table.footers.amount.supplier = Закуплено за период:
+orders.table.footers.amount.postpay = Постоплата за период:
+orders.table.footers.amount.postpaySDEK = Наложенный платеж СДЭК:
+orders.table.footers.amount.postpayPost = Наложенный платеж Почта России:
+orders.table.footers.amount.postpayCompany = Постоплата по организациям:
+orders.table.footers.amount.postpayYandexMarket = Постоплата по Яндекс.Маркет:
+orders.table.footers.amount.postpayOzonMarket = Постоплата по ОЗОН:
+orders.table.footers.amount.postpayOzonRocket = Постоплата по OZON.Rocket:
+orders.table.footers.amount.postpayYandexGo = Постоплата по Yandex.GO:
+
+orders.table.footers.amount.advert = Расходы на рекламу:
+orders.table.footers.count.total = Лидов:
+orders.table.footers.count.real = Из них действующие заказы:
+orders.table.footers.count.working = Из них в работе:
+orders.table.footers.count.click = Число кликов:
+orders.table.footers.percent.conversionApproved = Конверсия в заказ:
+orders.table.footers.percent.conversionBid = Конверсия в заявку:
+
+orders.btn.crm-load = Загрузить заказы из лидов
+orders.btn.statuses-reload = Обновить статусы заказов
+orders.btn.orders-trouble = Проблемные заказы
+orders.btn.statuses-today = Заказы за сегодня
+orders.btn.actualization-postpay = Завершение заказов по факту оплаты
+
+
+orders.btn.operates = Операции
+orders.btn.approve = Подтвердить
+orders.btn.cancel = Отменить
+orders.btn.changeStatus = Изменить статус
+orders.btn.customerOrders = История заказов
+orders.btn.delete = Пометить как "удалено"
+orders.btn.clone = Копировать
+orders.btn.bidExpired = Запрос на актуальность
+
+orders.btn.print = Документы
+orders.btn.print.bill = Товарный чек
+orders.btn.print.sdekBill = Накладная курьеру
+orders.btn.print.postRussiaAddressTicket = Почта России, ярлык (предоплата)
+orders.btn.print.postRussiaAddressTicketWithPostpay = Почта России, ярлык (наложенный платеж)
+orders.btn.print.postRussiaPostpay = Почта России, наложенный платеж
+orders.btn.print.kkm = Кассовый чек
+orders.btn.print.pko = Приходный кассовый ордер
+orders.btn.print.garantTicketAll = Гарантийный талон (для всех)
+orders.btn.print.garantTicketSititek = Гарантийный талон (СИТИТЕК)
+orders.btn.print.returnForm = Бланк возврата
+
+orders.btn.export = Экспорт
+orders.btn.export.excel.cdek = Выгрузка заказов в СДЭК (excel)
+orders.btn.export.api.cdek = Выгрузка заказов в СДЭК (интеграция)
+orders.btn.export.api.ozon.rocket = Выгрузка заказов в OZON.Rocket
+
+orders.modal.approve.caption = Подтверждение
+orders.modal.approve.text = Выполнить подтверждение заявки
+orders.modal.cancel.text = Отменить заказ
+orders.modal.delete.text = Удалить заявку
+
+orders.conditions.form.filter.header = Фильтр просмотра заказов
+orders.conditions.form.filter.title = Фильтр просмотра заказов
+
+order.conditions.form.headers.periods = Отобрать данные за период
+order.conditions.form.headers.orders = Заказы, клиенты
+order.conditions.form.headers.orders.customers.companies = Организации
+order.conditions.form.headers.statuses = Статусы заказов
+order.conditions.form.headers.orderTypes = Типы лидов
+order.conditions.form.headers.deliveryTypes = Варианты доставки
+order.conditions.form.headers.customerTypes = Покупатели
+order.conditions.form.headers.paymentTypes = Способы оплаты
+order.conditions.form.headers.advertTypes = Канал привлечения
+
+order.conditions.form.headers.additional = Дополнительные параметры
+
+orders.conditions.form.periods = Периодичность
+
+order.conditions.form.fields.no = Номер заказа
+order.conditions.form.fields.period.start = С
+order.conditions.form.fields.placeholder.period.start = Период "С"
+order.conditions.form.fields.invalidFeedback.period.start = Ошибочно задана даты начала периода 
+
+order.conditions.form.fields.period.end = По
+order.conditions.form.fields.placeholder.period.end = Период "По"
+order.conditions.form.fields.invalidFeedback.period.end = Ошибочно задана даты конца периода
+
+order.conditions.form.fields.period.filterExist = Условие по периоду
+order.conditions.form.fields.period.isPeriod = включить период
+
+order.conditions.form.fields.trackCode = Трэккод
+order.conditions.form.fields.deliveryAddress = Адрес доставки
+order.conditions.form.fields.product = Товар
+order.conditions.form.fields.customer.person.phoneNumber = Номер телефона
+order.conditions.form.fields.customer.person.email = Email
+order.conditions.form.fields.customer.person.lastName = Фамилия
+order.conditions.form.fields.customer.company.inn = ИНН
+order.conditions.form.fields.customer.company.shortName = Краткое наименование
+
+order.show.header = Данные по заказу
+order.show.title = Данные по заказу
+order.show.headers.h1 = Просмотр данных по заказу #{0} от {1} г. 
+order.show.headers.h2 = Покупатель: 
+
+order.show.tabs.order = Заказ
+order.show.tabs.customer = Покупатель
+order.show.tabs.delivery = Доставка
+order.show.tabs.calculate = Калькуляция
+
+order.show.fields.id = ID
+order.show.fields.no = #
+order.show.fields.orderDate = Дата заказа
+order.show.fields.orderType = Тип
+order.show.fields.sourceType = Источник
+order.show.fields.advertType = Канал привлечения
+order.show.fields.paymentType = Вариант оплаты
+order.show.fields.productCategory = Категория
+order.show.fields.store = Сайт
+order.show.fields.annotation = Дополнительно
+order.show.fields.crm = Импортирована
+order.show.fields.crmParentId = Идентификатор системы
+
+order.show.fields.status = Статус
+order.show.fields.addedDate = Запись создана
+order.show.fields.offer.countDay = Срок 
+order.show.fields.offer.startDate = Дата начала срока
+
+order.show.items.header = Детализация
+order.show.items.table.headers.no = #
+order.show.items.table.headers.sku = Артикул
+order.show.items.table.headers.product = Наименование товара
+order.show.items.table.headers.unit = Ед. изм. 
+order.show.items.table.headers.unit.value = шт.
+order.show.items.table.headers.quantity = Кол-во
+order.show.items.table.headers.price = Цена
+order.show.items.table.headers.discountRate = Скидка
+order.show.items.table.headers.supplierAmount = Закупка
+order.show.items.table.headers.amount = Сумма
+
+order.show.items.table.footer.delivery = Доставка
+order.show.items.table.footer.total = Итого
+order.show.items.table.footer.totalWithDelivery = Итого вместе с доставкой
+  
+order.show.statuses.header = История изменений
+order.show.statuses.table.headers.no = #
+order.show.statuses.table.headers.status = Статус
+order.show.statuses.table.headers.crmStatus = CRM статус 
+order.show.statuses.table.headers.crmSubStatus = CRM этап обработки
+order.show.statuses.table.headers.addedDate = Дата
+
+order.show.crm.header = Внешние системы (CRM)
+order.show.crm.table.headers.no = #
+order.show.crm.table.headers.crm = Внешняя система
+order.show.crm.table.headers.parentId = Идентификатор записи
+order.show.crm.table.headers.parentCode = Код
+
+order.show.comments.header = Конвертация
+order.show.comments.table.headers.type = Тип
+order.show.comments.table.headers.key = Код
+order.show.comments.table.headers.value = Значение
+
+order.show.customer.fields.type = Покупатель
+order.show.customer.fields.country = Страна
+order.show.customer.fields.address = Адрес фактический
+order.show.customer.fields.status = Статус
+
+order.show.customer.fields.firstName = Имя
+order.show.customer.fields.lastName = Фамилия
+order.show.customer.fields.middleName = Отчество
+order.show.customer.fields.telephone = Телефон
+order.show.customer.fields.email = Email
+
+order.show.customer.company.header = Организация
+order.show.customer.company.contact.header = Контактное лицо
+order.show.customer.fields.company.shortName = Краткое наименование
+order.show.customer.fields.company.longName = Полное наименование
+order.show.customer.fields.company.inn = ИНН
+order.show.customer.fields.company.contact.telephone = Телефон
+order.show.customer.fields.company.contact.email = Email
+order.show.customer.fields.company.contact.firstName = Имя
+order.show.customer.fields.company.contact.middleName = Отчество
+order.show.customer.fields.company.contact.lastName = Фамилия
+
+order.show.delivery.fields.type = Способ доставки
+order.show.delivery.fields.paymentType = Кто оплачивает доставку
+order.show.delivery.fields.country = Страна
+order.show.delivery.fields.address = Адрес
+order.show.delivery.fields.deliveryDate = Дата доставки
+order.show.delivery.fields.courierPeriod = Временной интервал
+order.show.delivery.fields.price = Стоимость доставки
+order.show.delivery.fields.annotation = Дополнительная информация
+order.show.delivery.fields.postpayAmount = Постоплата
+order.show.delivery.fields.trackCode = Трэккод
+
+order.show.calculate.fields.orderAmount = Сумма заказа
+order.show.calculate.fields.totalAmount = К оплате
+order.show.calculate.fields.billAmount = Доход
+order.show.calculate.fields.supplierAmount = Закупка
+order.show.calculate.fields.marginAmount = Прибыль фактическая 
+order.show.calculate.fields.postpayAmount = В пути
+order.show.calculate.fields.postpayType = Наложенный платеж 
+
+order.form.new.header = Создать заказ
+order.form.new.title = Создать заказ
+order.form.new.headers.h1 = Создать заказ
+order.form.new.headers.h2 = Новый покупатель
+
+order.form.update.header = Изменить данные по заказу
+order.form.update.title = Редактирование заказа
+order.form.update.headers.h1 = Изменить данные по заказу #{0} от {1} г. 
+order.form.update.headers.h2 = Покупатель: 
+
+order.form.approve.header = Подтвердить заявку
+order.form.approve.title = Подтверждение заявки
+order.form.approve.headers.h1 = Подтвердить заявку #{0} от {1} г. 
+order.form.approve.headers.h2 = Покупатель: 
+
+order.form.cancel.header = Отменить заказ
+order.form.cancel.title = Отмена заказа
+order.form.cancel.headers.h1 = Отменить заказ #{0} от {1} г. 
+order.form.cancel.headers.h2 = Покупатель: 
+
+order.form.changeStatus.header = Изменить статус заказа
+order.form.changeStatus.title = Изменить статус заказа
+order.form.changeStatus.headers.h1 = Изменить статус заказа #{0} от {1} г. 
+order.form.changeStatus.headers.h2 = Покупатель:
+
+order.form.billExpiredStatus.header = Запрос на актуальность счета
+order.form.billExpiredStatus.title = Запрос на актуальность счета
+order.form.billExpiredStatus.headers.h1 = Запрос на актуальность счета #{0} от {1} г. 
+order.form.billExpiredStatus.headers.h2 = Организация:
+order.form.billExpiredStatus.textMessage = Текст письма  
+
+order.form.fields.annotation
+
+order.form.headers.order = Заказ
+
+order.form.headers.customer = Покупатель
+order.form.headers.customer.person = Физическое лицо
+order.form.headers.customer.company = Юридическое лицо
+order.form.headers.customer.businessman = Индивидуальный предприниматель
+order.form.headers.customer.foreignerCustomer = Нерезидент, физическое лицо
+order.form.headers.customer.foreignerCompany = Нерезидент, юридическое лицо
+order.form.headers.customer.contact = Контактное лицо
+
+order.form.headers.delivery = Доставка и оплата
+order.form.headers.delivery.sendMessage = Отправка сообщений
+order.form.headers.payment = Оплата
+order.form.headers.details = Детализация
+
+order.form.fields.id = ID
+
+order.form.fields.no = Номер заказа *
+order.form.fields.placeholder.no = Номер заказа
+order.form.fields.invalidFeedback.no = Укажите номер заказа
+
+order.form.fields.subNo = Расширение
+order.form.fields.placeholder.subNo = Дополнение номера заказа
+order.form.fields.invalidFeedback.subNo = Укажите дополнение к номеру заказа
+
+order.form.fields.orderDate = Дата заказа *
+order.form.fields.placeholder.orderDate = Дата заказа
+order.form.fields.invalidFeedback.orderDate = Укажите дату заказа
+
+order.form.fields.orderType = Тип
+order.form.fields.sourceType = Источник
+order.form.fields.advertType = Канал привлечения
+order.form.fields.productCategory = Категория
+order.form.fields.store = Сайт
+
+order.form.fields.offer.countDay = Срок действия 
+order.form.fields.offer.startDate = Дата начала срока
+
+order.form.fields.orderStatus = Статус
+order.form.fields.annotation = Комментарий
+
+order.form.customer.fields.type = Покупатель
+
+order.form.customer.fields.firstName = Имя *
+order.form.customer.fields.placeholder.firstName = Имя покупателя
+order.form.customer.fields.invalidFeedback.firstName = Укажите имя покупателя
+
+order.form.customer.fields.lastName = Фамилия
+order.form.customer.fields.middleName = Отчество
+
+order.form.customer.fields.shortName = Краткое наименование *
+order.form.customer.fields.placeholder.shortName = Краткое наименование
+order.form.customer.fields.invalidFeedback.shortName = Укажите краткое наименование
+
+order.form.customer.fields.longName = Полное наименование
+order.form.customer.fields.placeholder.longName = Полное наименование
+order.form.customer.fields.invalidFeedback.longName = Укажите полное наименование
+
+order.form.customer.fields.inn = ИНН
+order.form.customer.fields.placeholder.inn = ИНН
+order.form.customer.fields.invalidFeedback.inn = Укажите ИНН
+
+order.form.customer.fields.contact.firstName = Имя *
+order.form.customer.fields.placeholder.contact.firstName = Имя контактного лица
+order.form.customer.fields.invalidFeedback.contact.firstName = Укажите имя контактного лица
+
+order.form.customer.fields.contact.lastName = Фамилия
+order.form.customer.fields.placeholder.contact.lastName = Фамилия контактного лица
+order.form.customer.fields.invalidFeedback.contact.firstName = Укажите фамилию контактного лица
+
+order.form.customer.fields.contact.middleName = Отчество
+order.form.customer.fields.placeholder.contact.middleName = Отчество контактного лица
+order.form.customer.fields.invalidFeedback.contact.middleName = Укажите отчество контактного лица
+
+order.form.customer.fields.contact.email = Email *
+order.form.customer.fields.placeholder.contact.email = Email контактного лица
+order.form.customer.fields.invalidFeedback.contact.email = Укажите Email контактного лица
+
+order.form.customer.fields.contact.telephone = Телефон *
+order.form.customer.fields.placeholder.contact.telephone = Телефон контактного лица
+order.form.customer.fields.invalidFeedback.contact.telephone = Укажите телефон контактного лица
+
+order.form.customer.fields.country = Страна
+
+order.form.customer.fields.telephone = Телефон *
+order.form.customer.fields.placeholder.telephone = Для SMS и подтверждения
+order.form.customer.fields.invalidFeedback.telephone = Укажите номер телефона покупателя
+
+order.form.customer.fields.email = Email
+order.form.customer.fields.address = Адрес фактический
+
+order.form.payment.fields.type = Вариант оплаты
+order.form.payment.fields.annotation = Дополнительно
+
+order.form.delivery.fields.type = Способ доставки
+order.form.delivery.fields.paymentType = Оплачивает доставку
+
+order.form.delivery.fields.priceType = Тариф
+order.form.delivery.fields.placeholder.priceType = Тариф курьерской доставки
+order.form.delivery.fields.invalidFeedback.priceType = Укажите тариф курьерской доставки
+
+order.form.delivery.fields.country = Страна
+order.form.delivery.fields.address = Адрес доставки
+order.form.delivery.fields.courier.deliveryDate = Дата доставки
+order.form.delivery.fields.courier.period.start = Временной
+order.form.delivery.fields.courier.period.end = интервал
+order.form.delivery.fields.courier.annotation = Дополнительная информация по доставке
+order.form.delivery.fields.price = Стоимость доставки
+order.form.delivery.fields.postpayAmount = Постоплата
+order.form.delivery.fields.trackCode = Трэккод
+
+order.form.delivery.fields.recipient.isCustomerEqualsRecipient = Заказчик и получатель являются одним лицом
+order.form.delivery.fields.recipient.contact.firstName = Имя
+order.form.delivery.fields.recipient.contact.middleName = Отчество
+order.form.delivery.fields.recipient.contact.lastName = Фамилия
+order.form.delivery.fields.recipient.contact.telephone = Телефон
+order.form.delivery.fields.recipient.contact.email = Email
+
+order.form.delivery.fields.isSendSms = Отправить СМС
+order.form.delivery.fields.isSendEmail = Отправить Email
+order.form.delivery.fields.isSendMessage = Отправить уведомление
+
+order.form.items.table.headers.no = #
+order.form.items.table.headers.product = Наименование товара
+order.form.items.table.headers.unit = Ед. изм. 
+order.form.items.table.headers.unit.value = шт.
+order.form.items.table.headers.quantity = Кол-во
+order.form.items.table.headers.price = Цена
+order.form.items.table.headers.discountRate = Скидка
+order.form.items.table.headers.supplierAmount = Опт
+order.form.items.table.headers.amount = Сумма
+
+order.form.items.amounts.total = Итого:
+order.form.items.amounts.delivery = Доставка:
+order.form.items.amounts.totalWithDelivery = Итого к оплате:
+order.form.items.amounts.bill = Доход:
+order.form.items.amounts.supplier = Закупка:
+order.form.items.amounts.margin = Прибыль:
+order.form.items.amounts.postpay = Постоплата:
+
+order.form.items.amounts.prices = Тарифы
+order.form.items.amounts.deliveryFactSellerPrice = Доставка продавца:
+order.form.items.amounts.deliveryFactCustomerPrice = Доставка покупателя:
+
+order.form.modal.erase.header = Удалить данные
+order.form.modal.erase.text = Внимание! Данные по заказу будут удалены навсегда. Продолжить выполнение операции?
+
+order.form.modal.orders.actualization.postpay.header = Актуализация заказов по факту оплаты
+order.form.modal.orders.actualization.postpay.text = Внимание! Изменение необратимо. Полученные заказы ОЗОН будут переведены в статус "ЗАВЕРШЕНО" т.к. оплата получена на наш счет. Продолжить выполнение операции?
+
+order.form.modal.ozon.disconnect.header = Отключить магазин на "ОЗОН"
+order.form.modal.ozon.disconnect.text = Внимание! Магазин на "ОЗОН" будет отключен! Продолжить выполнение операции?
+order.form.modal.ozon.reconnect.header = Включить магазин на "ОЗОН"
+order.form.modal.ozon.reconnect.text = Внимание! Магазин на "ОЗОН" будет включен! Продолжить выполнение операции?
+
+order.form.modal.delivery.ozon.rocket.header = Расчет доставки
+order.form.modal.delivery.ozon.rocket.fields.city.search = Город получателя
+order.form.modal.delivery.ozon.rocket.fields.address = Адрес
+order.form.modal.delivery.ozon.rocket.fields.pay.header = Способ оплаты
+order.form.modal.delivery.ozon.rocket.fields.pay.prepay = Предоплата
+order.form.modal.delivery.ozon.rocket.fields.pay.postpay = Оплата при получении
+order.form.modal.delivery.ozon.rocket.fields.pay.card = Картой
+order.form.modal.delivery.ozon.rocket.fields.pay.cash = Наличными
+
+order.form.modal.delivery.cdek.header = Расчет доставки
+order.form.modal.delivery.cdek.fields.city.search = Город получателя
+order.form.modal.delivery.cdek.fields.city = Куда
+order.form.modal.delivery.cdek.fields.pvz = Пункт выдачи
+order.form.modal.delivery.cdek.fields.address = Адрес
+order.form.modal.delivery.cdek.fields.street = Улица
+order.form.modal.delivery.cdek.fields.house = Дом
+order.form.modal.delivery.cdek.fields.flat = Квартира
+
+order.form.modal.delivery.cdek.fields.address.prefix.city = г.
+order.form.modal.delivery.cdek.fields.address.prefix.street = ,
+order.form.modal.delivery.cdek.fields.address.prefix.house = ул., дом
+order.form.modal.delivery.cdek.fields.address.prefix.flat = , кв.
+
+order.form.modal.pvzs.cdek.header = Список ПВЗ СДЭК
+order.form.modal.pvzs.cdek.fields.city.search = Город получателя
+order.form.modal.pvzs.cdek.fields.city = Куда
+order.form.modal.pvzs.cdek.fields.pvzs = Пункты выдачи
+
+order.form.modal.cdek.widjet.header = Выбор пункта выдачи
+
+order.modal.cancel.text = Отменить заказ
+order.modal.delete.text = Удалить заявку
+
+wiki.products.header = Товары
+wiki.products.title = Товары
+
+wiki.products.conditions.form.fields.name = Наименование
+wiki.products.conditions.form.fields.placeholder.name = Укажите товар
+
+wiki.products.table.headers.no = #
+wiki.products.table.headers.name  = Наименование
+wiki.products.table.headers.sku   = SKU
+wiki.products.table.headers.model = Модель
+wiki.products.table.headers.price = Цена
+wiki.products.table.headers.quantity = Всего
+wiki.products.table.headers.status = Статус
+
+wiki.products.table.value.status.yes = вкл.
+wiki.products.table.value.status.no = выкл.
+
+wiki.products.btn.synchronizing = Синхронизация
+wiki.products.btn.createMeta = Мета-теги
+
+wiki.ym.products.header = Товары на "Яндекс-Маркет"
+wiki.ym.products.title = Товары на "Яндекс-Маркет"
+
+wiki.ozon.products.header = Товары на "ОЗОН"
+wiki.ozon.products.title = Товары на "ОЗОН"
+
+wiki.ym.products.table.headers.no    = #
+wiki.ym.products.table.headers.sku   = SKU
+wiki.ym.products.table.headers.ymSku = ЯМ SKU 
+wiki.ym.products.table.headers.name  = Наименование
+wiki.ym.products.table.headers.price = Цена
+wiki.ym.products.table.headers.specialPrice = На маркете
+wiki.ym.products.table.headers.productQuantity = Всего
+wiki.ym.products.table.headers.stockQuantity = У нас
+wiki.ym.products.table.headers.status = Статус
+wiki.ym.products.table.headers.supplierStock = Склад пост.
+wiki.ym.products.table.headers.ymSeller = ЯМ 
+
+wiki.ym.products.btn.offerPrices = Установка цен на товары
+
+wiki.ym.products.conditions.form.filter.header = Фильтр просмотра товаров
+wiki.ym.products.conditions.form.filter.title = Фильтр просмотра товаров
+
+wiki.ym.products.form.headers.products = Продукты
+wiki.ym.products.form.headers.suppliers = Поставщики
+
+wiki.ym.products.conditions.form.fields.name = Наименование
+wiki.ym.products.conditions.form.fields.sku = SKU
+wiki.ym.products.conditions.form.fields.yandexSku = Яндекс Маркет SKU
+
+wiki.ym.products.conditions.form.fields.yandexSellerExist = Доступно на "ЯНДЕКС-МАРКЕТ"
+wiki.ym.products.conditions.form.fields.supplierStockExist = От склада поставщика
+
+wiki.ozon.products.table.headers.no    = #
+wiki.ozon.products.table.headers.sku   = SKU
+wiki.ozon.products.table.headers.ozonSku = OZON SKU 
+wiki.ozon.products.table.headers.name  = Наименование
+wiki.ozon.products.table.headers.price = Цена
+wiki.ozon.products.table.headers.specialPrice = На маркете
+wiki.ozon.products.table.headers.productQuantity = Всего
+wiki.ozon.products.table.headers.stockQuantity = У нас
+wiki.ozon.products.table.headers.status = Статус
+wiki.ozon.products.table.headers.supplierStock = Склад пост.
+wiki.ozon.products.table.headers.ozonSeller = OZON 
+
+wiki.ozon.products.btn.offerPrices = Передача цен и остатков
+wiki.ozon.products.btn.offerPricesFull = Передача цен и остатков (без фильтра)
+wiki.ozon.products.btn.disconnect = Отключить магазин
+wiki.ozon.products.btn.reconnect = Включить магазин
+
+wiki.ozon.products.conditions.form.filter.header = Фильтр просмотра товаров
+wiki.ozon.products.conditions.form.filter.title = Фильтр просмотра товаров
+
+wiki.ozon.products.form.headers.products = Продукты
+wiki.ozon.products.form.headers.suppliers = Поставщики
+
+wiki.ozon.products.conditions.form.fields.name = Наименование
+wiki.ozon.products.conditions.form.fields.sku = SKU
+wiki.ozon.products.conditions.form.fields.ozonSku = OZON SKU
+
+wiki.ozon.products.conditions.form.fields.ozonSellerExist = Доступно на "OZON"
+wiki.ozon.products.conditions.form.fields.supplierStockExist = От склада поставщика
+
+
+wiki.stock.header = Склад
+wiki.stock.title =Склад
+
+wiki.stock.btn.synchronizing = Синхронизация
+wiki.stock.btn.price.reload = Прайс
+
+
+wiki.stock.table.headers.no = #
+wiki.stock.table.headers.supplier.name = Поставщик
+wiki.stock.table.headers.product.sku = Артикул
+wiki.stock.table.headers.product.name = Товар
+wiki.stock.table.headers.product.category.name = Категория
+wiki.stock.table.headers.stock.quantity = Склад
+wiki.stock.table.headers.product.quantity = Всего 
+wiki.stock.table.headers.supplier.quantity = Поставщик
+wiki.stock.table.headers.supplier.price = Опт
+wiki.stock.table.headers.product.price = Розница
+
+wiki.stock.table.footers.amount.supplier = Оптом по поставщику:
+wiki.stock.table.footers.amount.bill = В розницу по поставщику:
+
+wiki.stock.table.footers.amount.totalSupplier = Оптом:
+wiki.stock.table.footers.amount.totalBill = В розницу:
+
+wiki.stock.form.new.header = Добавить товар на склад
+wiki.stock.form.update.header = Изменить данные по товару
+wiki.stock.form.update.title = Редактирование данных по товару
+
+wiki.stock.form.update.headers.h1 = Изменить данные
+wiki.stock.form.fields.id = ID
+
+wiki.stock.form.fields.product = Товар *
+wiki.stock.form.fields.placeholder.product = Товар
+wiki.stock.form.fields.invalidFeedback.product = Введите наименование товара
+
+wiki.stock.form.fields.category = Категория
+
+wiki.stock.form.fields.product.price = Розница
+wiki.stock.form.fields.product.quantity = Всего
+wiki.stock.form.fields.supplier.quantity = Поставщик
+
+wiki.stock.form.fields.supplier = Поставщик
+wiki.stock.form.fields.deliveryMethod = Расчет доставки
+ 
+wiki.stock.form.fields.supplier.price = Опт
+wiki.stock.form.fields.stock.quantity = На складе
+wiki.stock.form.fields.stock.comment = Примечание
+
+wiki.stock.form.modal.delete.header = Удалить данные
+wiki.stock.form.modal.delete.text = Внимание! Данные по товару на складе будут удалены навсегда. Продолжить выполнение операции?
+
+wiki.product.form.update.header = Изменить данные товара
+wiki.product.form.update.title = Редактирование данных товара
+
+wiki.product.form.update.headers.h1 = Изменить данные
+
+wiki.product.form.fields.id = ID
+
+wiki.product.form.fields.name = Наименование товара *
+wiki.product.form.fields.deliveryName = Наименование товара для экспорта в системы доставки CDEK, OZON Roket
+wiki.product.form.fields.placeholder.name = Наименование товара
+wiki.product.form.fields.invalidFeedback.name = Введите наименование товара
+
+wiki.product.form.fields.metaTitle = Мета-тег Title *
+wiki.product.form.fields.metaDescription = Мета-тег Description *
+wiki.product.form.fields.metaKeyword = Мета-тег Keyword
+wiki.product.form.fields.sku = SKU
+wiki.product.form.fields.ymSku = Яндекс Маркет SKU
+wiki.product.form.fields.ozonSku = OZON SKU
+wiki.product.form.fields.category = Категория
+
+wiki.product.form.fields.price = Цена
+wiki.product.form.fields.discountPrice = Цена со скидкой
+wiki.product.form.fields.ozonSpecialPrice = Цена на OZON
+wiki.product.form.fields.ymSpecialPrice = Цена на Яндекс Маркет
+
+wiki.product.form.fields.quantity = Количество
+wiki.product.form.fields.quantity.stockQuantity.text = На нашем складе:
+
+wiki.product.form.fields.status = Включен
+wiki.product.form.fields.supplierStock = От склада поставщика
+wiki.product.form.fields.yandexSeller = Доступно на ЯНДЕКС-МАРКЕТ
+wiki.product.form.fields.ozonSeller = Доступно на OZON
+
+wiki.product.form.fields.deliveryMethod = Способ расчета доставки
+wiki.product.form.fields.type = Тип товара
+
+login.label.username = Username
+login.label.password = Password
+
+alarm.header = Сигнализация
+alarm.title = Сигнализация
+
+alarm.conditions.btn.filter = Фильтр
+
+alarm.table.headers.no = #
+alarm.table.headers.dateAdded = Дата и время
+alarm.table.headers.message = Событие
+
+alarm.btn.action.on = Поставить на охрану
+alarm.btn.action.off = Снять с охраны
+alarm.btn.action.state = Запрос состояния
+alarm.btn.action.invasion = Вторжение!

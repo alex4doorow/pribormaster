@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<!--
+www.pribormaster.ru | sir-richard-boss-web | 4.3.0-SNAPSHOT
+&copy; 2023 Copyright: www.pribormaster.ru | sir-richard-boss-web | 4.3.0-SNAPSHOT
+-->
+<body>
+  <div th:fragment="footer1">
+      <!--
+      <span th:text="${@environment.getProperty('application.name')}">f11</span>
+      <span th:text="${applicationName}">f12</span>
+      <span th:utext="#{app.footer.copyright('www.pribormaster.ru', 'shop-web', '4.3.0-SNAPSHOT')}">f13</span>
+      -->
+      <span th:utext="#{app.footer.copyright('www.pribormaster.ru')}">f13</span>
+      <span th:utext="' | ' + ${@environment.getProperty('application.name')} + ' | ' + ${@environment.getProperty('application.version')}">f14</span>
+  </div>
+</body>
+</html>
+

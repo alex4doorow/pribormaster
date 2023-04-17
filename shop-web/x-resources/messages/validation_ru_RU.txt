@@ -1,0 +1,27 @@
+order.form.fields.notEmpty.no = Обязательно для заполнения
+order.form.fields.valid.no = Введите число
+order.form.fields.diff.no = Значение должно быть больше 0
+order.form.fields.unique.no = Значение уже используется
+
+order.form.fields.notEmpty.formCustomer.firstName = Обязательно для заполнения 
+order.form.fields.notEmpty.formCustomer.phoneNumber = Обязательно для заполнения
+order.form.fields.notEmpty.formCustomer.shortName = Обязательно для заполнения
+order.form.fields.diff.formCustomer.company.inn = ИНН организации должно быть 10 знаков
+order.form.fields.diff.formCustomer.businessman.inn = ИНН ИП должно быть 12 знаков
+order.form.fields.notEmpty.formCustomer.mainContact.email = Обязательно для заполнения
+order.form.fields.notEmpty.formCustomer.mainContact.phoneNumber = Обязательно для заполнения
+order.form.fields.notEmpty.formCustomer.mainContact.firstName = Обязательно для заполнения 
+
+NotEmpty.userForm.name = Name is required!
+NotEmpty.userForm.email = Email is required!
+NotEmpty.userForm.address = Address is required!
+NotEmpty.userForm.password = Password is required!
+NotEmpty.userForm.confirmPassword = Confirm password is required!
+NotEmpty.userForm.sex = Sex is required!
+NotEmpty.userForm.number = Number is required!
+NotEmpty.userForm.country = Country is required!
+Valid.userForm.framework = Please select at least two frameworks!
+Valid.userForm.skill = Please select at least three skills!
+Diff.userform.confirmPassword = Passwords do not match, please retype!
+Pattern.userForm.email = Invalid Email format!	
+	
