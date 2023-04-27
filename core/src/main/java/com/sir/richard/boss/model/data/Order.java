@@ -26,7 +26,7 @@ public class Order extends AnyId {
     private OrderStatuses status;
     private OrderEmailStatuses emailStatus;
     private OrderDelivery delivery;
-    //private List<OrderExternalCrm> externalCrms;
+    private List<OrderExternalCrm> externalCrms;
 
     private List<OrderStatusItem> statuses;
     private List<OrderItem> items;
@@ -44,7 +44,7 @@ public class Order extends AnyId {
 
         this.store = StoreTypes.PM;
         this.delivery = new OrderDelivery(this);
-        //this.externalCrms = new ArrayList<OrderExternalCrm>();
+        this.externalCrms = new ArrayList<>();
         this.statuses = new ArrayList<>();
         this.amounts = new OrderAmounts(this);
         //this.comments = new HashSet<Comment>();
@@ -58,13 +58,11 @@ public class Order extends AnyId {
 
     public String getViewNo() {
         String result = String.valueOf(this.getOrderNo());
-        return result;
-        /*
         if (getExternalCrms() != null && getExternalCrms().size() > 0) {
             if (this.getAdvertType() == OrderAdvertTypes.OZON) {
                 String ozonMarketNo = "";
                 for (OrderExternalCrm externalCrm : getExternalCrms()) {
-                    if (externalCrm.getCrm() == CrmTypes.OZON) {
+                    if (externalCrm.getType() == CrmTypes.OZON) {
                         ozonMarketNo = String.valueOf(externalCrm.getParentCode());
                     }
                 }
@@ -75,10 +73,10 @@ public class Order extends AnyId {
                 String openCartNo = "";
                 String yandexMarketNo = "";
                 for (OrderExternalCrm externalCrm : getExternalCrms()) {
-                    if (externalCrm.getCrm() == CrmTypes.OPENCART) {
+                    if (externalCrm.getType() == CrmTypes.OPENCART) {
                         openCartNo = String.valueOf(externalCrm.getParentId());
                     }
-                    if (externalCrm.getCrm() == CrmTypes.YANDEX_MARKET) {
+                    if (externalCrm.getType() == CrmTypes.YANDEX_MARKET) {
                         yandexMarketNo = String.valueOf(externalCrm.getParentId());
                     }
                 }
@@ -86,19 +84,14 @@ public class Order extends AnyId {
                 return result;
             }
             for (OrderExternalCrm externalCrm : getExternalCrms()) {
-                if (externalCrm.getCrm() == CrmTypes.OPENCART) {
+                if (externalCrm.getType() == CrmTypes.OPENCART) {
                     result += " (" + externalCrm.getParentId() + ")";
                     break;
                 }
             }
             //Просмотр данных по заказу #10161 (197) от 01.03.2021 г.
         }
-        if (subNo == 0) {
-            return result;
-        } else {
-            return result + '-' + String.valueOf(subNo);
-        }
-        */
+        return result;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.sir.richard.boss.services.converters.out.model;
 
 import com.sir.richard.boss.bl.entity.TeCustomer;
 import com.sir.richard.boss.bl.entity.TeOrder;
+import com.sir.richard.boss.bl.entity.TeOrderCrmConnect;
 import com.sir.richard.boss.bl.entity.TeOrderStatusItem;
 import com.sir.richard.boss.bl.jpa.TeCustomerRepository;
 import com.sir.richard.boss.model.data.*;
@@ -90,6 +91,17 @@ public class OutOrderConverter implements IOConverter<TeOrder, Order> {
                 item.setAddedDate(teStatus.getDateAdded());
                 order.getStatuses().add(item);
                 no++;
+            }
+        }
+        if (teOrder.getExternalCrms() != null) {
+            for (TeOrderCrmConnect teOrderCrmConnect : teOrder.getExternalCrms()) {
+                OrderExternalCrm crm = new OrderExternalCrm(order);
+                crm.setId(teOrder.getId());
+                crm.setType(CrmTypes.getValueById(teOrderCrmConnect.getType().getId().intValue()));
+                crm.setParentId(teOrderCrmConnect.getParentId());
+                crm.setParentCode(teOrderCrmConnect.getParentCode());
+                crm.setStatus(CrmStatuses.getValueById(teOrderCrmConnect.getStatus().getId().intValue()));
+                order.getExternalCrms().add(crm);
             }
         }
         order.setAddedDate(teOrder.getDateAdded());

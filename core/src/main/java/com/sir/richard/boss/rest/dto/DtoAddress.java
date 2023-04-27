@@ -1,6 +1,7 @@
 package com.sir.richard.boss.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sir.richard.boss.model.data.CarrierInfo;
 import com.sir.richard.boss.model.types.AddressTypes;
 import com.sir.richard.boss.model.types.Countries;
 import lombok.Data;
@@ -17,5 +18,8 @@ public class DtoAddress {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String pvz;
     private String address;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CarrierInfo carrierInfo;
 
 }

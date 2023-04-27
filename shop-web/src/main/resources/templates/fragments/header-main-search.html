@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0" th:fragment="header-main-search">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" target="_blank" href="http://pribormaster.ru/admin" th:text="#{app.title}"></a>
+      <input id="input-search-by-order-conditions" class="search-by-order-no form-control form-control-dark w-100" type="text" th:placeholder="#{main.placeholder.find}">
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a id="link-search-by-order-no" class="search-by-order-no nav-link" href="#"><span th:text="#{main.btn.find}"></span></a>
+        </li>
+      </ul>
+    </nav>
+</body>
+</html>

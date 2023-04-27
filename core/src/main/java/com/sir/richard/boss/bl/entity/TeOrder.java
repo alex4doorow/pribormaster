@@ -76,6 +76,9 @@ public class TeOrder implements BaseEntity<Long>, Serializable {
     private Set<TeOrderItem> items;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TeOrderCrmConnect> externalCrms;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TeOrderStatusItem> statuses;
 
     @Column(name = "AMOUNT_TOTAL", nullable = false)

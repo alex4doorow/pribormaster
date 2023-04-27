@@ -17,15 +17,14 @@ public class DtoOrderDelivery {
     private BigDecimal price; // значение, которое ввел оператор
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private BigDecimal factCustomerPrice; // сколько платит покупатель
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private BigDecimal factSellerPrice; // сколько платит продавец
     private DeliveryTypes type;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private DeliveryPrices deliveryPrice;
     private PaymentDeliveryTypes paymentDeliveryType;
-
     private DtoAddress address = new DtoAddress();
-
     private String trackCode;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String annotation;
 }

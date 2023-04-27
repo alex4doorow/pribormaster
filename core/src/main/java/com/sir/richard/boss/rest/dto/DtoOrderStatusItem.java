@@ -16,12 +16,14 @@ import java.time.LocalDateTime;
 public class DtoOrderStatusItem {
 
     private Long id;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer no;
     private OrderStatuses status;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String crmStatus;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String crmSubStatus;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATA_FORMAT_UTC)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_FORMAT_UTC)
     private LocalDateTime addedDate;
 
 }

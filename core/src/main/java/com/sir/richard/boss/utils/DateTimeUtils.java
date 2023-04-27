@@ -22,8 +22,10 @@ public class DateTimeUtils {
 		
 	public static final String DATE_FORMAT_dd_MM_yyyy = "dd.MM.yyyy";
 	public static final String DATE_FORMAT_HH_mm = "HH:mm";
-	public static final String DATA_FORMAT_UTC = "yyyy-MM-dd HH:mm:ss.SSS";
-	public static final String DATA_FORMAT_UTC_Z = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+	public static final String DATE_FORMAT_UTC = "dd.MM.yyyy HH:mm:ss";
+	public static final String DATE_FORMAT_UTC_SSS = "yyyy-MM-dd HH:mm:ss.SSS";
+	public static final String DATE_FORMAT_UTC_2 = "yyyy-MM-dd HH:mm:ss";
+	public static final String DATE_FORMAT_UTC_SSS_Z = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 	public static final String DATE_FORMAT_OZON = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 	public static final String DATE_FORMAT_CDEK = "yyyy-MM-dd'T'HH:mm:ssZ"; // "2022-11-21T09:05:06+0000"
 	public static final String DATE_FORMAT_yyyy_MM_dd = "yyyy-MM-dd";
@@ -35,7 +37,7 @@ public class DateTimeUtils {
 	}
 
 	public static String defaultFormatDateTimeByTimeZone(Date date, String timeZoneId) {		
-		final SimpleDateFormat sdf = new SimpleDateFormat(DATA_FORMAT_UTC_Z);
+		final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_UTC_SSS_Z);
 		sdf.setTimeZone(TimeZone.getTimeZone(timeZoneId));
 		return sdf.format(date);
 	}
@@ -44,13 +46,6 @@ public class DateTimeUtils {
 		final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_HH_mm);
 		sdf.setTimeZone(TimeZone.getTimeZone(timeZoneId));
 		return sdf.format(date);
-	}
-
-	public static String formatDate(LocalDateTime date, String dateFormatString) {
-		if (date == null) {
-			return "";
-		}
-		return date.format(DateTimeFormatter.ofPattern(dateFormatString));
 	}
 
 	public static String formatDate(Date date, String dateFormatString) {
@@ -65,9 +60,24 @@ public class DateTimeUtils {
 			return "error: [date=" + date + ", dateFormatString=" + dateFormatString + "]";
 		}		
 	}
+
+	public static String formatLocalDate(LocalDate localDate, String dateFormatString) {
+		return localDate.format(DateTimeFormatter.ofPattern(dateFormatString));
+	}
+
+	public static String formatLocalDateTime(LocalDateTime date, String dateFormatString) {
+		if (date == null) {
+			return "";
+		}
+		return date.format(DateTimeFormatter.ofPattern(dateFormatString));
+	}
 	
 	public static String defaultFormatDate(Date date) {
 		return formatDate(date, DATE_FORMAT_dd_MM_yyyy);
+	}
+
+	public static String defaultFormatLocalDate(LocalDate localDate) {
+		return formatLocalDate(localDate, DATE_FORMAT_dd_MM_yyyy);
 	}
 	
 	public static String defaultFormatTime(Date date) {
@@ -422,7 +432,7 @@ public class DateTimeUtils {
 	}
 	
 	public static Map<Integer, String> getQuarters() {		
-		Map<Integer, String> quarters = new HashMap<Integer, String>();
+		Map<Integer, String> quarters = new HashMap<>();
 		for (int i = 1; i <= 4; i++) {
 			String quarterText = String.valueOf(i) + "-й квартал";			
 			quarters.put(i, quarterText);

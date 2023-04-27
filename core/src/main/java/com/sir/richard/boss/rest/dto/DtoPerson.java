@@ -43,4 +43,14 @@ public class DtoPerson {
         }
         return (ln + " " + fn + " " + mn).trim();
     }
+
+    public String getViewLongName() {
+        String result = StringUtils.defaultString(this.lastName) + " " + StringUtils.defaultString(this.firstName)
+                + " " + StringUtils.defaultString(this.middleName);
+        return result.trim();
+    }
+
+    public static DtoPerson createEmpty() {
+        return new DtoPerson();
+    }
 }

@@ -30,11 +30,53 @@ public class DtoCustomer {
         }
     }
 
-    public String getViewPhoneNumber() {
+    public String getViewLongName() {
         if (type == CustomerTypes.CUSTOMER) {
+            return person.getViewLongName();
+        } else if (type == CustomerTypes.COMPANY) {
+            return company.getViewLongName();
+        } else {
+            return "Unknown";
+        }
+    }
+
+    public String getViewLongNameWithContactInfo() {
+        String viewLongName = getViewLongName();
+        if (type == CustomerTypes.CUSTOMER || type == CustomerTypes.FOREIGNER_CUSTOMER) {
+            return viewLongName + ", " + person.getPhoneNumber();
+        } else if (type == CustomerTypes.COMPANY || type == CustomerTypes.FOREIGNER_COMPANY || type == CustomerTypes.BUSINESSMAN) {
+            String contact = company.getMainContact().getViewLongName() + " " + company.getMainContact().getEmail();
+            return viewLongName.trim() + ", " + contact;
+        } else {
+            return viewLongName;
+        }
+    }
+
+    public String getViewPhoneNumber() {
+        if (type == CustomerTypes.CUSTOMER || type == CustomerTypes.FOREIGNER_CUSTOMER) {
             return person.getPhoneNumber();
+        } else if (type == CustomerTypes.COMPANY || type == CustomerTypes.FOREIGNER_COMPANY || type == CustomerTypes.BUSINESSMAN) {
+            if (company.getContacts().size() > 0) {
+                return company.getContacts().get(0).getPhoneNumber();
+            } else {
+                return "(000) 000-00-00";
+            }
         } else {
             return "(000) 000-00-00";
+        }
+    }
+
+    public String getViewEmail() {
+        if (type == CustomerTypes.CUSTOMER) {
+            return person.getEmail();
+        } else if (type == CustomerTypes.COMPANY || type == CustomerTypes.FOREIGNER_COMPANY || type == CustomerTypes.BUSINESSMAN) {
+            if (company.getContacts().size() > 0) {
+                return company.getContacts().get(0).getEmail();
+            } else {
+                return "unknown@gmail.com";
+            }
+        } else {
+            return "unknown@gmail.com";
         }
     }
 }

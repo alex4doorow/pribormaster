@@ -74,14 +74,12 @@ public class TeUser implements BaseEntity<Long>, Serializable {
     @Override
     public String toString() {
 
-
-
         return "user: {" +
                 "id=" + id +
                 ", name='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", lastLogin=" + DateTimeUtils.formatDate(lastLogin, DateTimeUtils.DATA_FORMAT_UTC) +
+                ", lastLogin=" + DateTimeUtils.formatLocalDateTime(lastLogin, DateTimeUtils.DATE_FORMAT_UTC) +
                 ", roles=" + roles.stream().map(TeRole::getName).toList() +
                 "}";
     }
