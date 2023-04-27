@@ -14,9 +14,7 @@
   <link data-th-href="@{/resources/css/dashboard.css}" rel="stylesheet">
   <link data-th-href="@{/resources/css/bootstrap-datepicker.css}" rel="stylesheet">
   <link data-th-href="@{/resources/css/datatables.css}" rel="stylesheet">
-
   <title th:text="#{app.title} + ' | ' + #{order.show.header}"></title>
-
 </head>
 <body>
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
@@ -28,7 +26,6 @@
     </li>
   </ul>
 </nav>
-
 <div class="container-fluid">
   <div class="row">
     <nav class="col-md-2 d-none d-md-block bg-light sidebar">
@@ -243,34 +240,29 @@
             </h6>
 
             <table class="table table-striped table-sm">
-
               <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Наименование товара</th>
-                <th scope="col">Ед. изм. </th>
-                <th scope="col">Кол-во</th>
-                <th scope="col">Цена</th>
-                <th scope="col">Скидка</th>
-                <th scope="col">Закупка</th>
-                <th scope="col">Сумма</th>
+                <th scope="col" th:text="#{order.show.items.table.headers.product}"></th>
+                <th scope="col" th:text="#{order.show.items.table.headers.unit}"></th>
+                <th scope="col" th:text="#{order.show.items.table.headers.quantity}"></th>
+                <th scope="col" th:text="#{order.show.items.table.headers.price}"></th>
+                <th scope="col" th:text="#{order.show.items.table.headers.discountRate}"></th>
+                <th scope="col" th:text="#{order.show.items.table.headers.supplierAmount}"></th>
+                <th scope="col" th:text="#{order.show.items.table.headers.amount}"></th>
               </tr>
               </thead>
               <tbody>
-
-
-              <tr>
-                <td>1</td>
-                <td>[ANTIDOG-UPAKOVKA-SVETOSHUM] Упаковка со сменными светозвуковыми картриджами PYRODEFENDER (3 шт)</td>
-                <td>шт.</td>
-                <td class="text-center">1</td>
-                <td class="text-right">650,00 ₽</td>
-                <td class="text-right">0%</td>
-                <td class="text-right">480,00 ₽</td>
-                <td class="text-right">650,00 ₽</td>
+              <tr th:each="item : ${order.items}">
+                <td th:text="${item.no}"></td>
+                <td th:text="${item.product.viewName}"></td>
+                <td class="text-center" th:text="#{order.show.items.table.headers.unit.value}"></td>
+                <td class="text-right" th:text="${item.quantity}"></td>
+                <td class="text-right" th:text="${#numbers.formatCurrency(item.price)}"></td>
+                <td class="text-right" th:text="${#numbers.formatDecimal(item.discountRate, 0, 'POINT', 0, 'COMMA')} + '%'"></td>
+                <td class="text-right" th:text="${#numbers.formatCurrency(item.supplierAmount)}"></td>
+                <td class="text-right" th:text="${#numbers.formatCurrency(item.amount)}"></td>
               </tr>
-
-
               <tr>
                 <td></td>
                 <td></td>
@@ -278,8 +270,8 @@
                 <td class="text-center"></td>
                 <td class="text-right"></td>
                 <td class="text-right"></td>
-                <td class="text-right"><strong>480,00 ₽</strong></td>
-                <td class="text-right"><strong>650,00 ₽</strong></td>
+                <td class="text-right"><strong th:text="${#numbers.formatCurrency(order.amounts.get(T(com.sir.richard.boss.model.types.OrderAmountTypes).SUPPLIER))}"></strong></td>
+                <td class="text-right"><strong th:text="${#numbers.formatCurrency(order.amounts.get(T(com.sir.richard.boss.model.types.OrderAmountTypes).TOTAL))}"></strong></td>
               </tr>
               </tbody>
               <tfoot>
@@ -289,9 +281,9 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>Доставка</td>
+                <td th:text="#{order.show.items.table.footer.delivery}"></td>
                 <td></td>
-                <td class="text-right">240,00 ₽</td>
+                <td class="text-right" th:text="${#numbers.formatCurrency(order.delivery.price)}"></td>
               </tr>
               <tr>
                 <td></td>
@@ -299,9 +291,9 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><strong>Итого вместе с доставкой</strong></td>
+                <td><strong th:text="#{order.show.items.table.footer.totalWithDelivery}"></strong></td>
                 <td></td>
-                <td class="text-right"><strong>890,00 ₽</strong></td>
+                <td class="text-right"><strong th:text="${#numbers.formatCurrency(order.amounts.get(T(com.sir.richard.boss.model.types.OrderAmountTypes).TOTAL_WITH_DELIVERY))}"></strong></td>
               </tr>
               </tfoot>
             </table>

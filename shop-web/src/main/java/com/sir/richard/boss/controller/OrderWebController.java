@@ -1,6 +1,7 @@
 package com.sir.richard.boss.controller;
 
 import com.sir.richard.boss.model.data.Order;
+import com.sir.richard.boss.model.types.OrderAmountTypes;
 import com.sir.richard.boss.rest.dto.DtoOrder;
 import com.sir.richard.boss.services.OrderService;
 import com.sir.richard.boss.services.converters.out.dto.OutDtoOrderConverter;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Controller
@@ -38,16 +40,9 @@ public class OrderWebController {
         DtoOrder dtoOrder = outDtoOrderConverter.convertTo(order);
         model.addAttribute("order", dtoOrder);
 
-        Date dOrderDate = DateTimeUtils.convertToDate(order.getOrderDate());
-        model.addAttribute("dOrderDate", dOrderDate);
-        model.addAttribute("applicationName", applicationName);
-
-        //String firstName = dtoOrder.getCustomer().getPerson().getFirstName();
-        //model.addAttribute("firstName", firstName);
-
-
+        //Date dOrderDate = DateTimeUtils.convertToDate(order.getOrderDate());
+        //model.addAttribute("dOrderDate", dOrderDate);
+        //model.addAttribute("applicationName", applicationName);
         return "orders/show";
-//dtoOrder.getCustomer().getPerson().getFirstName()
-        //return "orders/show-test-1";
     }
 }
