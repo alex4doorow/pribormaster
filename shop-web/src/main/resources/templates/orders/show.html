@@ -328,19 +328,14 @@
                     </div>
                     <div class="row">
                         <label class="col-sm-3" th:text="#{order.show.delivery.fields.deliveryDate}"></label>
-                        <div class="col-sm-9">
-                            <!--
-                            <strong th:text="${T(com.sir.richard.boss.utils.DateTimeUtils).formatDate(order.delivery.address.carrierInfo.courierInfo.deliveryDate, 'dd.MM.yyyy, EEE')}"></strong>
-                            -->
+                        <div class="col-sm-9" th:if="${order.delivery.deliveryDate != null}">
+                            <strong th:text="${T(com.sir.richard.boss.utils.DateTimeUtils).formatLocalDate(order.delivery.deliveryDate, T(com.sir.richard.boss.utils.DateTimeUtils).DATE_FORMAT_HH_mm_EEE)}"></strong>
                         </div>
                     </div>
                     <div class="row">
                         <label class="col-sm-3" th:text="#{order.show.delivery.fields.courierPeriod}"></label>
-                        <div class="col-sm-9">
-                            <!--
-                            order.delivery.address.carrierInfo.courierInfo.timeInterval()
-                            <strong></strong>
-                            -->
+                        <div class="col-sm-9" th:if="${order.delivery.timeInterval != null}">
+                            <strong th:text="${order.delivery.timeInterval}"></strong>
                         </div>
                     </div>
                     <div class="row">

@@ -1,5 +1,6 @@
 package com.sir.richard.boss.rest.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sir.richard.boss.model.data.Address;
 import com.sir.richard.boss.model.types.DeliveryPrices;
@@ -9,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -27,4 +29,22 @@ public class DtoOrderDelivery {
     private String trackCode;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String annotation;
+
+    @JsonIgnore
+    public LocalDate getDeliveryDate() {
+        if (getAddress() != null && getAddress().getCourierInfo() != null) {
+            return getAddress().getCourierInfo().getDeliveryDate();
+        } else {
+            return null;
+        }
+    }
+
+    @JsonIgnore
+    public String timeInterval() {
+        if (getAddress() != null && getAddress().getCourierInfo() != null) {
+            return getAddress().getCourierInfo().timeInterval();
+        } else {
+            return null;
+        }
+    }
 }
