@@ -62,6 +62,9 @@ public class OutOrderConverter implements IOConverter<TeOrder, Order> {
         order.getDelivery().setTrackCode(teOrder.getDelivery().getTrackCode());
 
         Address deliveryAddress = addressConverter.convertTo(teOrder.getDelivery().getAddress());
+        CourierInfo courierInfo = new CourierInfo(teOrder.getDelivery().getStartTime(), teOrder.getDelivery().getEndTime());
+        courierInfo.setDeliveryDate(teOrder.getDelivery().getDeliveryDate());
+        deliveryAddress.getCarrierInfo().setCourierInfo(courierInfo);
         order.getDelivery().setAddress(deliveryAddress);
 
         if (teOrder.getItems() != null) {

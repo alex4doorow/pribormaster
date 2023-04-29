@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 public class OrderDelivery extends AnyId {
 
     private Order parent;
-
     private BigDecimal price; // значение, которое ввел оператор
     private BigDecimal factCustomerPrice; // сколько платит покупатель
     private BigDecimal factSellerPrice; // сколько платит продавец
@@ -89,13 +88,13 @@ public class OrderDelivery extends AnyId {
         String result = this.getAddress().getAddress().replace("\"", "");
         if (getDeliveryType().isCourier()
                 && (parent.getStatus() == OrderStatuses.BID || parent.getStatus() == OrderStatuses.APPROVED || parent.getStatus() == OrderStatuses.PAY_WAITING || parent.getStatus() == OrderStatuses.PAY_ON || parent.getStatus() == OrderStatuses.DELIVERING)) {
-            result += ", доставляем: " + DateTimeUtils.formatDate(this.getAddress().getCarrierInfo().getCourierInfo().getDeliveryDate(), "dd.MM.yyyy, EEE") + " " + this.getAddress().getCarrierInfo().getCourierInfo().timeInterval();
+            result += ", доставляем: " + DateTimeUtils.formatLocalDate(this.getAddress().getCarrierInfo().getCourierInfo().getDeliveryDate(), "dd.MM.yyyy, EEE") + " " + this.getAddress().getCarrierInfo().getCourierInfo().timeInterval();
         } else if (getDeliveryType() == DeliveryTypes.YANDEX_MARKET_FBS
                 && (parent.getStatus() == OrderStatuses.BID || parent.getStatus() == OrderStatuses.APPROVED || parent.getStatus() == OrderStatuses.DELIVERING)) {
-            result += ", отгружаем: " + DateTimeUtils.formatDate(this.getAddress().getCarrierInfo().getCourierInfo().getDeliveryDate(), "dd.MM.yyyy, EEE") + " " + this.getAddress().getCarrierInfo().getCourierInfo().timeInterval();
+            result += ", отгружаем: " + DateTimeUtils.formatLocalDate(this.getAddress().getCarrierInfo().getCourierInfo().getDeliveryDate(), "dd.MM.yyyy, EEE") + " " + this.getAddress().getCarrierInfo().getCourierInfo().timeInterval();
         } else if (getDeliveryType() == DeliveryTypes.OZON_FBS
                 && (parent.getStatus() == OrderStatuses.BID || parent.getStatus() == OrderStatuses.APPROVED || parent.getStatus() == OrderStatuses.DELIVERING)) {
-            result += ", отгружаем: " + DateTimeUtils.formatDate(this.getAddress().getCarrierInfo().getCourierInfo().getDeliveryDate(), "dd.MM.yyyy, EEE") + " " + this.getAddress().getCarrierInfo().getCourierInfo().timeInterval();
+            result += ", отгружаем: " + DateTimeUtils.formatLocalDate(this.getAddress().getCarrierInfo().getCourierInfo().getDeliveryDate(), "dd.MM.yyyy, EEE") + " " + this.getAddress().getCarrierInfo().getCourierInfo().timeInterval();
         }
         return result;
     }

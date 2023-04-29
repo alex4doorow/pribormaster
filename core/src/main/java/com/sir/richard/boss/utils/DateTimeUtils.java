@@ -22,6 +22,7 @@ public class DateTimeUtils {
 		
 	public static final String DATE_FORMAT_dd_MM_yyyy = "dd.MM.yyyy";
 	public static final String DATE_FORMAT_HH_mm = "HH:mm";
+	public static final String DATE_FORMAT_HH_mm_EEE = "dd.MM.yyyy, EEE";
 	public static final String DATE_FORMAT_UTC = "dd.MM.yyyy HH:mm:ss";
 	public static final String DATE_FORMAT_UTC_SSS = "yyyy-MM-dd HH:mm:ss.SSS";
 	public static final String DATE_FORMAT_UTC_2 = "yyyy-MM-dd HH:mm:ss";
@@ -108,6 +109,22 @@ public class DateTimeUtils {
 		}
 		SimpleDateFormat formatter = new SimpleDateFormat(dateFormatString);		
 		return formatter.parse(inputString);	
+	}
+
+	public static LocalDateTime stringToLocalDateTime(String inputString, String dateFormatString) throws ParseException {
+		if (StringUtils.isEmpty(inputString)) {
+			return null;
+		}
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormatString);
+		return LocalDateTime.parse(inputString, formatter);
+	}
+
+	public static LocalDate stringToLocalDate(String inputString, String dateFormatString) throws ParseException {
+		if (StringUtils.isEmpty(inputString)) {
+			return null;
+		}
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormatString);
+		return LocalDate.parse(inputString, formatter);
 	}
 	
 	public static Date defaultFormatStringToDate(String inputString) throws ParseException {

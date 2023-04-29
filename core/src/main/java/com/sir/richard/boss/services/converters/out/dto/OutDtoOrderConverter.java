@@ -4,6 +4,7 @@ import com.sir.richard.boss.model.data.Order;
 import com.sir.richard.boss.model.types.OrderAmountTypes;
 import com.sir.richard.boss.rest.dto.*;
 import com.sir.richard.boss.services.converters.IOConverter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -54,6 +55,11 @@ public class OutDtoOrderConverter implements IOConverter<Order, DtoOrder> {
         dtoOrder.getDelivery().getAddress().setType(order.getDelivery().getAddress().getAddressType());
         dtoOrder.getDelivery().getAddress().setCity(order.getDelivery().getAddress().getCarrierInfo().getCityContext());
         dtoOrder.getDelivery().getAddress().setPvz(order.getDelivery().getAddress().getCarrierInfo().getPvz());
+
+        if (!StringUtils.isEmpty(order.getDelivery().getAddress().getCarrierInfo().getCourierInfo().timeInterval())) {
+            dtoOrder.getDelivery().getAddress().setCourierInfo(order.getDelivery().getAddress().getCarrierInfo().getCourierInfo());
+        }
+
 
         DtoCustomer dtoCustomer = customerConverter.convertTo(order.getCustomer());
         dtoOrder.setCustomer(dtoCustomer);

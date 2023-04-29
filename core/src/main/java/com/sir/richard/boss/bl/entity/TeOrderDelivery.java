@@ -8,6 +8,8 @@ import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "SR_ORDER_DELIVERY")
@@ -52,4 +54,20 @@ public class TeOrderDelivery implements BaseEntity<Long>, Serializable {
 
     @Column(name = "TRACK_CODE")
     private String trackCode;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "RECIPIENT_ID", referencedColumnName = "ID")
+    private TePerson person;
+
+    @Column(name = "DATE_DELIVERY")
+    private LocalDate deliveryDate;
+
+    @Column(name = "TIME_IN")
+    private LocalDateTime startTime;
+
+    @Column(name = "TIME_OUT")
+    private LocalDateTime endTime;
+
+    @Column(name = "ANNOTATION", length = 256)
+    private String annotation;
 }

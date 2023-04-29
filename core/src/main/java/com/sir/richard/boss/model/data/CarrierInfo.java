@@ -1,5 +1,6 @@
 package com.sir.richard.boss.model.data;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -42,7 +43,7 @@ public class CarrierInfo implements Cloneable {
     private BigDecimal coordX;
     private BigDecimal coordY;
     private List<String> postalCodes = new ArrayList<>();
-    private CourierInfo courierInfo = new CourierInfo();
+    private CourierInfo courierInfo;
 
     public Integer getPostalSize() {
         if (postalCodes == null) {
@@ -63,7 +64,7 @@ public class CarrierInfo implements Cloneable {
         clone.street = this.street == null ? null : this.street;
         clone.house = this.house == null ? null : this.house;
         clone.flat = this.flat == null ? null : this.flat;
-        clone.courierInfo = this.courierInfo == null ? null : courierInfo.clone();
+        //clone.courierInfo = this.courierInfo == null ? null : courierInfo.clone();
         return clone;
     }
 }
