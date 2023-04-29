@@ -23,8 +23,8 @@ public class InDtoOrderConverterTest {
 
     @Test
     public void testOrderAdd() throws CoreException {
-        /*
-        DtoOrder dtoOrder = jsonMapper.fromJSON(stub.getAddOrderData(), DtoOrder.class);
+
+        DtoOrder dtoOrder = jsonMapper.fromJSON(stub.getAddCompanyOrderData(), DtoOrder.class);
         Order order = inDtoOrderConverter.convertTo(dtoOrder);
         log.info("order: {}", order);
 
@@ -48,7 +48,5 @@ public class InDtoOrderConverterTest {
 
         Assertions.assertNotNull(order.getItems());
         Assertions.assertNotNull(order.getStatuses());
-
-        */
     }
 }
