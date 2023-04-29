@@ -3,6 +3,7 @@ package com.sir.richard.boss.services.converters.out.model;
 import com.sir.richard.boss.bl.entity.TeAddress;
 import com.sir.richard.boss.bl.entity.TeCustomer;
 import com.sir.richard.boss.bl.entity.TeCustomerCompany;
+import com.sir.richard.boss.bl.entity.TePerson;
 import com.sir.richard.boss.bl.jpa.TeCustomerRepository;
 import com.sir.richard.boss.model.data.*;
 import com.sir.richard.boss.model.types.AddressTypes;
@@ -29,18 +30,6 @@ public class OutCustomerConverter implements IOConverter<TeCustomer, AnyCustomer
             customerAddress = addressConverter.convertTo(teAddress);
             break;
         }
-/*
-        teCustomer.getAddresses()
-                .stream()
-                .filter(teAddress -> AddressTypes.getValueById(teAddress.getType().getId()) == AddressTypes.MAIN)
-                .forEach(teAddress -> {
-                    customerAddress.setId(teAddress.getId());
-                    customerAddress.setCountry(Countries.getValueByCode(teAddress.getCountryCode()));
-                    customerAddress.setAddressType(AddressTypes.MAIN);
-                    customerAddress.setAddress(teAddress.getAddress());
-
-        });
-*/
 
         AnyCustomer customer;
         if (teCustomer.getType().getId() == CustomerTypes.CUSTOMER.getId()) {
@@ -63,19 +52,18 @@ public class OutCustomerConverter implements IOConverter<TeCustomer, AnyCustomer
             localCustomer.setShortName(teCustomerCompany.getShortName());
             localCustomer.setLongName(teCustomerCompany.getLongName());
 
-            /*
-            teCustomer.getContacts().forEach(teContact -> {
-                Contact contact = new Contact(customerAddress.getCountry());
-                contact.setId(teContact.getId());
-                contact.setFirstName(teContact.getFirstName());
-                contact.setLastName(teContact.getLastName());
-                contact.setMiddleName(teContact.getMiddleName());
-                contact.setEmail(teContact.getEmail());
-                contact.setPhoneNumber(teContact.getPhoneNumber());
-                localCustomer.getContacts().add(contact);
-            });
-            */
-
+            if (teCustomer.getContacts() != null) {
+                for (TePerson teContact : teCustomer.getContacts()) {
+                    Contact contact = new Contact(customerAddress.getCountry());
+                    contact.setId(teContact.getId());
+                    contact.setFirstName(teContact.getFirstName());
+                    contact.setLastName(teContact.getLastName());
+                    contact.setMiddleName(teContact.getMiddleName());
+                    contact.setEmail(teContact.getEmail());
+                    contact.setPhoneNumber(teContact.getPhoneNumber());
+                    localCustomer.getContacts().add(contact);
+                }
+            }
             customer = localCustomer;
         } else {
             return null;

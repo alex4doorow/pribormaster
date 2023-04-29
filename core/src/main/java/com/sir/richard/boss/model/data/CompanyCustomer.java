@@ -17,11 +17,11 @@ public class CompanyCustomer extends ForeignerCompanyCustomer {
 
     @Override
     public String toString() {
-        return "CompanyCustomer [id=" + getId()
+        return "CompanyCustomer {id=" + getId()
                 + ", inn=" + StringUtils.defaultString(getInn())
                 + ", shortName=" + StringUtils.defaultString(getShortName())
-                + ", longName=" + StringUtils.defaultString(getShortName())
-                + "]";
+                //+ ", longName=" + StringUtils.defaultString(getShortName())
+                + "}";
     }
 }
 

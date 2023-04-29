@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header-head (customPageTitle)">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="pribormaster.ru описание">
+    <meta name="author" content="Alex Fedorov alex4doorow@pribormaster.ru">
+    <link rel="icon" data-th-href="@{/resources/images/favicon.ico}">
+    <!-- Bootstrap core CSS -->
+    <link data-th-href="@{/resources/css/bootstrap.css}" rel="stylesheet">
+    <link data-th-href="@{/resources/css/bootstrap-icons.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link data-th-href="@{/resources/css/dashboard.css}" rel="stylesheet">
+    <link data-th-href="@{/resources/css/bootstrap-datepicker.css}" rel="stylesheet">
+    <link data-th-href="@{/resources/css/datatables.css}" rel="stylesheet">
+    <!-- TODO custom title -->
+    <title th:text="#{app.title} + ' | ' + ${customPageTitle}"></title>
+</head>
+</html>

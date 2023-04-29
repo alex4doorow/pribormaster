@@ -2,24 +2,31 @@ package com.sir.richard.boss.services.converters.out.dto;
 
 import com.sir.richard.boss.model.data.Order;
 import com.sir.richard.boss.model.types.OrderAmountTypes;
-import com.sir.richard.boss.rest.dto.DtoCustomer;
-import com.sir.richard.boss.rest.dto.DtoOrder;
-import com.sir.richard.boss.rest.dto.DtoOrderItem;
-import com.sir.richard.boss.rest.dto.DtoOrderStatusItem;
+import com.sir.richard.boss.rest.dto.*;
 import com.sir.richard.boss.services.converters.IOConverter;
+import com.sir.richard.boss.services.converters.IOConverterOfList;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class OutDtoOrderConverter implements IOConverter<Order, DtoOrder> {
+public class OutDtoOrderConverter implements IOConverter<Order, DtoOrder>, IOConverterOfList<Order, DtoOrder> {
 
     @Autowired
     OutDtoProductConverter productConverter;
 
     @Autowired
     OutDtoCustomerConverter customerConverter;
+
+    @Override
+    public List<DtoOrder> convertTo(List<Order> orders) {
+        return orders
+                .stream()
+                .map(this::convertTo)
+                .toList();
+    }
 
     @Override
     public DtoOrder convertTo(Order order) {
@@ -58,6 +65,10 @@ public class OutDtoOrderConverter implements IOConverter<Order, DtoOrder> {
         dtoOrder.getDelivery().getAddress().setCity(order.getDelivery().getAddress().getCarrierInfo().getCityContext());
         dtoOrder.getDelivery().getAddress().setPvz(order.getDelivery().getAddress().getCarrierInfo().getPvz());
 
+        if (!StringUtils.isEmpty(order.getDelivery().getAddress().getCarrierInfo().getCourierInfo().timeInterval())) {
+            dtoOrder.getDelivery().getAddress().setCourierInfo(order.getDelivery().getAddress().getCarrierInfo().getCourierInfo());
+        }
+
         DtoCustomer dtoCustomer = customerConverter.convertTo(order.getCustomer());
         dtoOrder.setCustomer(dtoCustomer);
 
@@ -78,13 +89,23 @@ public class OutDtoOrderConverter implements IOConverter<Order, DtoOrder> {
                 .stream()
                 .map(item -> new DtoOrderStatusItem(
                         item.getId(),
-                        //item.getNo(),
+                        item.getNo(),
                         item.getStatus(),
                         item.getCrmStatus(),
                         item.getCrmSubStatus(),
                         item.getAddedDate()))
                 .toList();
         dtoOrder.setStatuses(dtoOrderStatusItems);
+
+        List<DtoOrderExternalCrm> dtoOrderExternalCrms = order.getExternalCrms()
+                .stream()
+                .map(crm -> new DtoOrderExternalCrm(crm.getType(),
+                        crm.getStatus(),
+                        crm.getParentId(),
+                        crm.getParentCode()))
+                .toList();
+        dtoOrder.setExternalCrms(dtoOrderExternalCrms);
+
         dtoOrder.setAddedDate(order.getAddedDate());
         dtoOrder.setModifiedDate(order.getModifiedDate());
         dtoOrder.setAnnotation(order.getAnnotation());

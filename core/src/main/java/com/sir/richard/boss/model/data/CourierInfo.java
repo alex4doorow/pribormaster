@@ -1,35 +1,39 @@
 package com.sir.richard.boss.model.data;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sir.richard.boss.utils.DateTimeUtils;
 import com.sir.richard.boss.utils.Pair;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.ParseException;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@EqualsAndHashCode
-@ToString
-public class CourierInfo extends Pair<Date> {
+public class CourierInfo extends Pair<LocalDateTime> {
 
     @Setter
     @Getter
-    private Date deliveryDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_FORMAT_dd_MM_yyyy)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private LocalDate deliveryDate;
 
     public CourierInfo() {
         super();
     }
 
-    public CourierInfo(Date start, Date end) {
+    public CourierInfo(LocalDateTime start, LocalDateTime end) {
         super(start, end);
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_FORMAT_HH_mm)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public String getStartTime() {
         if (getStart() != null) {
-            return DateTimeUtils.formatDate(getStart(), DateTimeUtils.DATE_FORMAT_HH_mm);
+            return DateTimeUtils.formatLocalDateTime(getStart(), DateTimeUtils.DATE_FORMAT_HH_mm);
         } else {
             return null;
         }
@@ -44,15 +48,17 @@ public class CourierInfo extends Pair<Date> {
             setStart(null);
         }
         try {
-            this.setStart(DateTimeUtils.stringToDate(startTime, DateTimeUtils.DATE_FORMAT_HH_mm));
+            this.setStart(DateTimeUtils.stringToLocalDateTime(startTime, DateTimeUtils.DATE_FORMAT_HH_mm));
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_FORMAT_HH_mm)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public String getEndTime() {
         if (getEnd() != null) {
-            return DateTimeUtils.formatDate(getEnd(), DateTimeUtils.DATE_FORMAT_HH_mm);
+            return DateTimeUtils.formatLocalDateTime(getEnd(), DateTimeUtils.DATE_FORMAT_HH_mm);
         } else {
             return null;
         }
@@ -63,23 +69,24 @@ public class CourierInfo extends Pair<Date> {
             setEnd(null);
         }
         try {
-            this.setEnd(DateTimeUtils.stringToDate(endTime, DateTimeUtils.DATE_FORMAT_HH_mm));
+            this.setEnd(DateTimeUtils.stringToLocalDateTime(endTime, DateTimeUtils.DATE_FORMAT_HH_mm));
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
+    @JsonIgnore
     public String timeInterval() {
         if (this.getStart() == null && this.getEnd() == null) {
             return "";
         }
-        String startTime = StringUtils.defaultString(DateTimeUtils.formatDate(this.getStart(),
-                DateTimeUtils.DATE_FORMAT_HH_mm));
-        String endTime = StringUtils.defaultString(DateTimeUtils.formatDate(this.getEnd(),
+        String startTime = StringUtils.defaultString(DateTimeUtils.formatLocalDateTime(this.getStart(), DateTimeUtils.DATE_FORMAT_HH_mm));
+        String endTime = StringUtils.defaultString(DateTimeUtils.formatLocalDateTime(this.getEnd(),
                 DateTimeUtils.DATE_FORMAT_HH_mm));
         return startTime + " - " + endTime;
     }
 
+    /*
     @Override
     public CourierInfo clone() throws CloneNotSupportedException  {
         super.clone();
@@ -89,5 +96,6 @@ public class CourierInfo extends Pair<Date> {
         clone.deliveryDate = this.deliveryDate == null ? null : (Date) deliveryDate.clone();
         return clone;
     }
+    */
 }
 

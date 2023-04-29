@@ -1,8 +1,13 @@
 package com.sir.richard.boss.utils;
 
-public class Pair<T extends Cloneable> {
-		
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public class Pair<T> {
+
+	@JsonIgnore
 	private T start;
+
+	@JsonIgnore
 	private T end;
 		
 	public Pair() {
@@ -37,14 +42,16 @@ public class Pair<T extends Cloneable> {
 	public void setEnd(T end) {
 		this.end = end;
 	}
-	
+
+	@JsonIgnore
 	public boolean isEmpty() {
 		if (this.end == null || this.start == null) {
 			return true;
 		}
 		return false;
 	}
-	
+
+	@JsonIgnore
 	public boolean isNotEmpty() {
 		return !isEmpty();
 	}

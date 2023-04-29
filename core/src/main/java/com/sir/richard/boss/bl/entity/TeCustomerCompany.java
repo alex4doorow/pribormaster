@@ -35,10 +35,7 @@ public class TeCustomerCompany implements BaseEntity<Long>, Serializable {
     @Column(name = "LONG_NAME", length = 100)
     private String longName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "ID")
     private TeCustomer customer;
-
-
-
 }

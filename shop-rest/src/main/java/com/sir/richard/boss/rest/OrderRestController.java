@@ -23,7 +23,7 @@ import java.util.Optional;
 //        HTTP DELETE http://www.javadevjournal.com/users/{userId}  //Removes customer profile
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/rest/v1/orders")
 @Slf4j
 public class OrderRestController {
 

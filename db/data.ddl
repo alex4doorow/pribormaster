@@ -1,137 +1,14 @@
+/*-------------------------------------------------------------*/
+/*                           SEQUENCE                          */
+/*-------------------------------------------------------------*/
+
 CREATE SEQUENCE IF NOT EXISTS SR_SEQUENCE START 1;
 
--- p326995_pm.oc_currency definition
+/*-------------------------------------------------------------*/
+/*                 ПОЛЬЗОВАТЕЛЬСКИЕ СПРАВОЧНИКИ                */
+/*-------------------------------------------------------------*/
 
-CREATE TABLE oc_currency (
-  currency_id bigint NOT NULL,
-  title varchar(32) NOT NULL,
-  code varchar(3) NOT NULL,
-  symbol_left varchar(12) NOT NULL,
-  symbol_right varchar(12) NOT NULL,
-  decimal_place char(1) NOT NULL,
-  value numeric(15,8) NOT NULL,
-  status int NOT NULL,
-  date_modified timestamp NOT NULL,
-  PRIMARY KEY (currency_id)
-);
-
-CREATE TABLE oc_language (
-  language_id int NOT NULL,
-  name varchar(32) NOT NULL,
-  code varchar(5) NOT NULL,
-  locale varchar(255) NOT NULL,
-  image varchar(64) NOT NULL,
-  directory varchar(32) NOT NULL,
-  sort_order int NOT NULL DEFAULT '0',
-  status int NOT NULL,
-  PRIMARY KEY (language_id)
- );
-
-CREATE TABLE oc_ll_cdek_city (
-  CityCode bigint NOT NULL,
-  region_id bigint NOT NULL,
-  country_id bigint NOT NULL,
-  CountryCode bigint NOT NULL,
-  CityName varchar(255) DEFAULT NULL,
-  EngName varchar(255) DEFAULT NULL,
-  FullName varchar(255) DEFAULT NULL,
-  EngFullName varchar(255) DEFAULT NULL,
-  Center varchar(255) DEFAULT NULL,
-  PostCodeList varchar(255) DEFAULT NULL,
-  NalSumLimit varchar(255) DEFAULT NULL,
-  FullNameFIAS varchar(255) DEFAULT NULL,
-  FIAS varchar(255) DEFAULT NULL,
-  KLADR varchar(255) DEFAULT NULL,
-  cityDD bigint DEFAULT NULL,
-  pvzCode varchar(255) DEFAULT NULL,
-  PRIMARY KEY (CityCode)
-);
-
-CREATE TABLE IF NOT EXISTS OC_COUNTRY (
-  COUNTRY_ID BIGINT NOT NULL,
-  NAME VARCHAR(128) NOT NULL,
-  ISO_CODE_2 VARCHAR(2) NOT NULL,
-  ISO_CODE_3 VARCHAR(3) NOT NULL,
-  ADDRESS_FORMAT TEXT NOT NULL,
-  POSTCODE_REQUIRED INT NOT NULL,
-  STATUS INT NOT NULL DEFAULT 1,
-  PRIMARY KEY (COUNTRY_ID)
-);
-
-CREATE UNIQUE INDEX IF NOT EXISTS OC_COUNTRY_ISO_CODE_2_UNIQ ON OC_COUNTRY(ISO_CODE_2);
-
-CREATE TABLE IF NOT EXISTS OC_MANUFACTURER (
-  MANUFACTURER_ID BIGINT NOT NULL,
-  NAME VARCHAR(64) NOT NULL,
-  IMAGE VARCHAR(255) DEFAULT NULL,
-  SORT_ORDER INT NOT NULL,
-  COUNTRY_BRAND VARCHAR(128) DEFAULT NULL,
-  COUNTRY_ORIGIN VARCHAR(128) DEFAULT NULL,
-  PRIMARY KEY (MANUFACTURER_ID)
- );
-
- CREATE TABLE IF NOT EXISTS OC_PRODUCT (
-   PRODUCT_ID BIGINT NOT NULL,
-   MODEL VARCHAR(64) NOT NULL,
-   SKU VARCHAR(64) NOT NULL,
-   UPC VARCHAR(12) NOT NULL,
-   EAN VARCHAR(14) NOT NULL,
-   JAN VARCHAR(13) NOT NULL,
-   ISBN VARCHAR(17) NOT NULL,
-   MPN VARCHAR(64) NOT NULL,
-   LOCATION VARCHAR(128) NOT NULL,
-   QUANTITY INT NOT NULL DEFAULT 0,
-   STOCK_STATUS_ID BIGINT NOT NULL,
-   IMAGE VARCHAR(255) DEFAULT NULL,
-   MANUFACTURER_ID BIGINT NOT NULL,
-   SHIPPING INT NOT NULL DEFAULT 1,
-   PRICE NUMERIC(15,4) NOT NULL DEFAULT 0.0000,
-   POINTS INT NOT NULL DEFAULT 0,
-   TAX_CLASS_ID INT NOT NULL,
-   DATE_AVAILABLE TIMESTAMP NOT NULL DEFAULT CURRENT_DATE,
-   WEIGHT NUMERIC(15,8) NOT NULL DEFAULT 0.00000000,
-   WEIGHT_CLASS_ID INT NOT NULL DEFAULT 0,
-   LENGTH NUMERIC(15,8) NOT NULL DEFAULT 0.00000000,
-   WIDTH NUMERIC(15,8) NOT NULL DEFAULT 0.00000000,
-   HEIGHT NUMERIC(15,8) NOT NULL DEFAULT 0.00000000,
-   LENGTH_CLASS_ID INT NOT NULL DEFAULT 0,
-   SUBTRACT INT NOT NULL DEFAULT 1,
-   MINIMUM INT NOT NULL DEFAULT 1,
-   SORT_ORDER INT NOT NULL DEFAULT 0,
-   STATUS INT NOT NULL DEFAULT 0,
-   VIEWED INT NOT NULL DEFAULT 0,
-   DATE_ADDED TIMESTAMP NOT NULL,
-   DATE_MODIFIED TIMESTAMP NOT NULL,
-   CATEGORY_GROUP_ID INT DEFAULT 0,
-   COMPOSITE INT DEFAULT 0,
-   DELIVERY_NAME VARCHAR(255) DEFAULT NULL,
-   PRIMARY KEY (PRODUCT_ID)
- );
-
- CREATE TABLE IF NOT EXISTS OC_PRODUCT_DESCRIPTION (
-   PRODUCT_ID BIGINT NOT NULL,
-   LANGUAGE_ID INT NOT NULL,
-   NAME VARCHAR(255) NOT NULL,
-   DESCRIPTION TEXT NOT NULL,
-   TAG TEXT NOT NULL,
-   META_TITLE VARCHAR(255) NOT NULL,
-   META_DESCRIPTION VARCHAR(255) NOT NULL,
-   META_KEYWORD VARCHAR(255) NOT NULL,
-   PRIMARY KEY (PRODUCT_ID, LANGUAGE_ID)
- );
-
-CREATE TABLE IF NOT EXISTS OC_PRODUCT_SPECIAL (
-  PRODUCT_SPECIAL_ID BIGINT NOT NULL,
-  PRODUCT_ID BIGINT NOT NULL,
-  CUSTOMER_GROUP_ID INT NOT NULL,
-  PRIORITY INT NOT NULL DEFAULT 1,
-  PRICE NUMERIC(15,4) NOT NULL DEFAULT 0.0000,
-  DATE_START TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  DATE_END TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (PRODUCT_SPECIAL_ID)
-);
-
- CREATE TABLE IF NOT EXISTS SR_PRODUCT_COMPOSITE (
+CREATE TABLE IF NOT EXISTS SR_PRODUCT_COMPOSITE (
  	ID BIGINT NOT NULL,
      MASTER_PRODUCT_ID INT NOT NULL,
  	SLAVE_PRODUCT_ID VARCHAR(30) NOT NULL,
@@ -140,9 +17,6 @@ CREATE TABLE IF NOT EXISTS OC_PRODUCT_SPECIAL (
      CONSTRAINT SR_PRODUCT_COMPOSITE_UQ UNIQUE (MASTER_PRODUCT_ID, SLAVE_PRODUCT_ID, SLAVE_TYPE),
  	PRIMARY KEY(ID)
  );
-
-----------------------------
-
 
 CREATE TABLE IF NOT EXISTS SR_SYS_USER (
   ID BIGINT NOT NULL,
@@ -176,6 +50,7 @@ CREATE TABLE IF NOT EXISTS SR_SYS_USER_ROLES (
 	ROLE_ID BIGINT NOT NULL,
     PRIMARY KEY (ID)
 );
+
 ALTER TABLE SR_SYS_USER_ROLES ADD CONSTRAINT FK_SR_SYS_ROLES_USER_ID FOREIGN KEY (USER_ID) REFERENCES SR_SYS_USER(ID);
 ALTER TABLE SR_SYS_USER_ROLES ADD CONSTRAINT FK_SR_SYS_ROLES_ROLE_ID FOREIGN KEY (ROLE_ID) REFERENCES SR_SYS_ROLE(ID);
 
@@ -195,7 +70,7 @@ CREATE TABLE IF NOT EXISTS SR_SYS_TOTAL_AMOUNT (
 );
 
 /*-------------------------------------------------------------*/
-/*                 ПОЛЬЗОВАТЕЛЬСКИЕ СПРАВОЧНИКИ                */
+/*                ПОЛЬЗОВАТЕЛЬСКИЕ СПРАВОЧНИКИ                 */
 /*-------------------------------------------------------------*/
 
 /* СТАТУСЫ ПОКУПАТЕЛЕЙ */
@@ -218,8 +93,6 @@ CREATE TABLE IF NOT EXISTS SR_WIKI_ADDRESS_TYPE (
 	ANNOTATION VARCHAR(255) NOT NULL /* ОПИСАНИЕ */,
 	PRIMARY KEY(ID)
 );
-
--- ГОРОД	КОД	АДРЕС	ТЕЛЕФОНЫ	ГРАФИК РАБОТЫ	ИНДЕКС
 
 /* ПВЗ СДЭК */
 CREATE TABLE IF NOT EXISTS SR_WIKI_CDEK_PVZ (
@@ -319,11 +192,6 @@ CREATE TABLE IF NOT EXISTS SR_WIKI_CRM_STATUS (
 	PRIMARY KEY(ID)
 );
 
-
-/*-------------------------------------------------------------*/
-/*                ПОЛЬЗОВАТЕЛЬСКИЕ СПРАВОЧНИКИ                 */
-/*-------------------------------------------------------------*/
-
 /* СПОСОБЫ ДОСТАВКИ */
 CREATE TABLE IF NOT EXISTS SR_WIKI_ORDER_DELIVERY (
 	ID INT NOT NULL, /* ИДЕНТИФИКАТОР */
@@ -350,8 +218,7 @@ CREATE TABLE IF NOT EXISTS SR_WIKI_COMMENT_TYPE (
 	ID INT NOT NULL, /* ИДЕНТИФИКАТОР */
 	ANNOTATION VARCHAR(255) NULL /* ОПИСАНИЕ */,	
 	PRIMARY KEY(ID)
-);   
-   
+);
    
 CREATE TABLE IF NOT EXISTS SR_WIKI_STOCK (
 ID INT NOT NULL, /* ИДЕНТИФИКАТОР */
@@ -385,7 +252,7 @@ ALTER TABLE SR_WIKI_STOCK_SUPPLIER
 /*                          ДАННЫЕ                             */
 /*-------------------------------------------------------------*/
 
-/* ЧЕЛОВЕК */
+/* PERSON */
 CREATE TABLE IF NOT EXISTS SR_PERSON (
 	ID INT NOT NULL, /* ИДЕНТИФИКАТОР */
     FIRST_NAME VARCHAR(255) NOT NULL, /* ИМЯ */
@@ -429,16 +296,6 @@ ALTER TABLE SR_ADDRESS
     ADD CONSTRAINT FK_SR_ADDRESS_ISO_CODE_2 FOREIGN KEY (COUNTRY_ISO_CODE_2)
     REFERENCES OC_COUNTRY (ISO_CODE_2);
 
-/* ПРИМЕРЫ АДРЕСОВ
-ДОСТАВКА КУРЬЕРОМ: Г. МОСКВА, СТОЛЕШНИКОВ ПЕРЕУЛОК Д.15 КВ.15
-ДОСТАВКА КУРЬЕРОМ: МО, ИСТРА, ДАЧНЫЙ ПОСЕЛОК Д.15
-ПОЧТА РОССИИ: 662971, КРАСНОЯРСКИЙ КРАЙ, ЖЕЛЕЗНОГОРСК Г. УЛИЦА ЛЕНИНА ДОМ 30 КВ 33
-СДЭК, ДО ПВЗ: Г. КАЗАНЬ, УЛ. ГВАРДЕЙСКАЯ
-СДЭК, ДО АДРЕСА: Г. МОСКВА, СТОЛЕШНИКОВ ПЕРЕУЛОК Д.15 КВ.15
-ДЕЛОВЫЕ ЛИНИИ: Г.ТУЛА, ДО ТЕРМИНАЛА
-САМОВЫВОЗ
-*/
-
 /* КЛИЕНТ */
 CREATE TABLE SR_CUSTOMER (
 	ID BIGINT NOT NULL, /* ИДЕНТИФИКАТОР */
@@ -463,11 +320,9 @@ ALTER TABLE SR_CUSTOMER
 
 /* СВЯЗКИ АДРЕСОВ И КЛИЕНТОВ */
 CREATE TABLE SR_CUSTOMER_ADDRESS (
-	ID BIGINT NOT NULL, /* ИДЕНТИФИКАТОР */
 	ADDRESS_ID BIGINT NOT NULL, /* ADDRESS.ID */
     CUSTOMER_ID BIGINT NOT NULL, /* CUSTOMER_ID.ID */
-    CONSTRAINT SR_CUSTOMER_ADDRESS_UQ UNIQUE (CUSTOMER_ID, ADDRESS_ID),
-	PRIMARY KEY (ID)
+    CONSTRAINT SR_CUSTOMER_ADDRESS_UQ UNIQUE (CUSTOMER_ID, ADDRESS_ID)
 );
 
 ALTER TABLE SR_CUSTOMER_ADDRESS
@@ -501,12 +356,10 @@ ALTER TABLE SR_CUSTOMER_COMPANY
 
 /* КОНТАКТЫ ДЛЯ ОРГАНИЗАЦИЙ */
 CREATE TABLE SR_CUSTOMER_CONTACT (
-	ID BIGINT NOT NULL, /* ИДЕНТИФИКАТОР */
     TYPE INT DEFAULT 1 NOT NULL, /* ТИП */
     CUSTOMER_ID BIGINT NOT NULL,
     PERSON_ID BIGINT NOT NULL,
-    CONSTRAINT SR_CUSTOMER_CONTACT_UQ UNIQUE (CUSTOMER_ID, PERSON_ID),
-    PRIMARY KEY (ID)
+    CONSTRAINT SR_CUSTOMER_CONTACT_UQ UNIQUE (CUSTOMER_ID, PERSON_ID)
 );
 
 ALTER TABLE SR_CUSTOMER_CONTACT
@@ -768,71 +621,173 @@ CREATE TABLE SR_USER_QUERY (
 	PRIMARY KEY(ID)
 );
 
+/*-------------------------------------------------------------*/
+/*                             VIEWS                           */
+/*-------------------------------------------------------------*/
 
-
-CREATE or replace VIEW sr_v_product_light
+CREATE OR REPLACE VIEW SR_V_PRODUCT_LIGHT
 AS
-SELECT p.*, pd.name, pd.description product_description, 
-       pd.meta_description product_meta_description, pd.meta_title product_meta_title, pd.meta_keyword product_meta_keyword
-	FROM oc_product_description pd, oc_product p
-    WHERE pd.product_id = p.product_id 
-      AND pd.language_id = 2;
+SELECT P.*, PD.NAME, PD.DESCRIPTION PRODUCT_DESCRIPTION,
+       PD.META_DESCRIPTION PRODUCT_META_DESCRIPTION, PD.META_TITLE PRODUCT_META_TITLE, PD.META_KEYWORD PRODUCT_META_KEYWORD
+	FROM OC_PRODUCT_DESCRIPTION PD, OC_PRODUCT P
+    WHERE PD.PRODUCT_ID = P.PRODUCT_ID
+      AND PD.LANGUAGE_ID = 2;
      
-CREATE OR REPLACE VIEW sr_v_product
+CREATE OR REPLACE VIEW SR_V_PRODUCT
 AS
-SELECT p.product_id, p.model, p.delivery_name, pd.name, p.sku, p.quantity product_quantity, p.price product_price,
-       p.image product_image, p.manufacturer_id, p.jan, p.isbn, p.mpn,
-       pd.description product_description, 
-       pd.meta_description product_meta_description, pd.meta_title product_meta_title, pd.meta_keyword product_meta_keyword,
-	   cp.id category_id, cp.type_group category_group, cp.annotation category_annotation, 
-       s.supplier_price, s.supplier_quantity supplier_quantity, s.quantity stock_quantity, s.supplier_id, p.status, p.category_group_id,
-       weight, weight_class_id, length, width, height, composite
-	FROM oc_product_description pd, oc_product p 
-    LEFT OUTER JOIN sr_wiki_category_product cp ON (cp.id = p.category_group_id)
-    LEFT OUTER JOIN sr_stock s ON (s.product_id = p.product_id)  
-    LEFT OUTER JOIN oc_product_special ps ON (ps.product_id = p.product_id)  
-    WHERE pd.product_id = p.product_id 
-      AND pd.language_id = 2;
-      -- AND p.status = 1;    
-     
-     
-     
+SELECT P.PRODUCT_ID, P.MODEL, P.DELIVERY_NAME, PD.NAME, P.SKU, P.QUANTITY PRODUCT_QUANTITY, P.PRICE PRODUCT_PRICE,
+       P.IMAGE PRODUCT_IMAGE, P.MANUFACTURER_ID, P.JAN, P.ISBN, P.MPN,
+       PD.DESCRIPTION PRODUCT_DESCRIPTION,
+       PD.META_DESCRIPTION PRODUCT_META_DESCRIPTION, PD.META_TITLE PRODUCT_META_TITLE, PD.META_KEYWORD PRODUCT_META_KEYWORD,
+	   CP.ID CATEGORY_ID, CP.TYPE_GROUP CATEGORY_GROUP, CP.ANNOTATION CATEGORY_ANNOTATION,
+       S.SUPPLIER_PRICE, S.SUPPLIER_QUANTITY SUPPLIER_QUANTITY, S.QUANTITY STOCK_QUANTITY, S.SUPPLIER_ID, P.STATUS, P.CATEGORY_GROUP_ID,
+       WEIGHT, WEIGHT_CLASS_ID, LENGTH, WIDTH, HEIGHT, COMPOSITE
+	FROM OC_PRODUCT_DESCRIPTION PD, OC_PRODUCT P
+    LEFT OUTER JOIN SR_WIKI_CATEGORY_PRODUCT CP ON (CP.ID = P.CATEGORY_GROUP_ID)
+    LEFT OUTER JOIN SR_STOCK S ON (S.PRODUCT_ID = P.PRODUCT_ID)
+    LEFT OUTER JOIN OC_PRODUCT_SPECIAL PS ON (PS.PRODUCT_ID = P.PRODUCT_ID)
+    WHERE PD.PRODUCT_ID = P.PRODUCT_ID
+      AND PD.LANGUAGE_ID = 2;
+      -- AND P.STATUS = 1;
 
--- TEMPORARY DATA
-CREATE SEQUENCE IF NOT EXISTS D_SEQUENCE START 1;
+/*-------------------------------------------------------------*/
+/*                     ВНЕШНИЕ СПРАВОЧНИКИ                     */
+/*-------------------------------------------------------------*/
 
-CREATE TABLE IF NOT EXISTS D_COFFEE (
-  ID VARCHAR(100) NOT NULL,
-  NAME VARCHAR(100) NOT NULL,
-  PRIMARY KEY (ID)
+CREATE TABLE IF NOT EXISTS OC_COUNTRY (
+  COUNTRY_ID BIGINT NOT NULL,
+  NAME VARCHAR(128) NOT NULL,
+  ISO_CODE_2 VARCHAR(2) NOT NULL,
+  ISO_CODE_3 VARCHAR(3) NOT NULL,
+  ADDRESS_FORMAT TEXT NOT NULL,
+  POSTCODE_REQUIRED INT NOT NULL,
+  STATUS INT NOT NULL DEFAULT 1,
+  PRIMARY KEY (COUNTRY_ID)
 );
 
-CREATE TABLE IF NOT EXISTS D_AIRCRAFT (
-ID BIGINT NOT NULL PRIMARY KEY,
-CALLSIGN VARCHAR(7),
-SQUAWK VARCHAR(4),
-REG VARCHAR(6),
-FLIGHTNO VARCHAR(10),
-ROUTE VARCHAR(25),
-TYPE VARCHAR(4),
-CATEGORY VARCHAR(2),
-ALTITUDE INT,
-HEADING INT,
-SPEED INT,
-VERT_RATE INT,
-SELECTED_ALTITUDE INT,
-LAT NUMERIC(20, 4),
-LON NUMERIC(20, 4),
-BAROMETER NUMERIC(20, 4),
-POLAR_DISTANCE NUMERIC(20, 4),
-POLAR_BEARING NUMERIC(20, 4),
-ISADSB BOOLEAN,
-IS_ON_GROUND BOOLEAN,
-LAST_SEEN_TIME TIMESTAMP,
-POS_UPDATE_TIME TIMESTAMP,
-BDS40SEEN_TIME TIMESTAMP);
+CREATE UNIQUE INDEX IF NOT EXISTS OC_COUNTRY_ISO_CODE_2_UNIQ ON OC_COUNTRY(ISO_CODE_2);
 
+CREATE TABLE IF NOT EXISTS OC_MANUFACTURER (
+  MANUFACTURER_ID BIGINT NOT NULL,
+  NAME VARCHAR(64) NOT NULL,
+  IMAGE VARCHAR(255) DEFAULT NULL,
+  SORT_ORDER INT NOT NULL,
+  COUNTRY_BRAND VARCHAR(128) DEFAULT NULL,
+  COUNTRY_ORIGIN VARCHAR(128) DEFAULT NULL,
+  PRIMARY KEY (MANUFACTURER_ID)
+ );
 
+ CREATE TABLE IF NOT EXISTS OC_PRODUCT (
+   PRODUCT_ID BIGINT NOT NULL,
+   MODEL VARCHAR(64) NOT NULL,
+   SKU VARCHAR(64) NOT NULL,
+   UPC VARCHAR(12) NOT NULL,
+   EAN VARCHAR(14) NOT NULL,
+   JAN VARCHAR(13) NOT NULL,
+   ISBN VARCHAR(17) NOT NULL,
+   MPN VARCHAR(64) NOT NULL,
+   LOCATION VARCHAR(128) NOT NULL,
+   QUANTITY INT NOT NULL DEFAULT 0,
+   STOCK_STATUS_ID BIGINT NOT NULL,
+   IMAGE VARCHAR(255) DEFAULT NULL,
+   MANUFACTURER_ID BIGINT NOT NULL,
+   SHIPPING INT NOT NULL DEFAULT 1,
+   PRICE NUMERIC(15,4) NOT NULL DEFAULT 0.0000,
+   POINTS INT NOT NULL DEFAULT 0,
+   TAX_CLASS_ID INT NOT NULL,
+   DATE_AVAILABLE TIMESTAMP NOT NULL DEFAULT CURRENT_DATE,
+   WEIGHT NUMERIC(15,8) NOT NULL DEFAULT 0.00000000,
+   WEIGHT_CLASS_ID INT NOT NULL DEFAULT 0,
+   LENGTH NUMERIC(15,8) NOT NULL DEFAULT 0.00000000,
+   WIDTH NUMERIC(15,8) NOT NULL DEFAULT 0.00000000,
+   HEIGHT NUMERIC(15,8) NOT NULL DEFAULT 0.00000000,
+   LENGTH_CLASS_ID INT NOT NULL DEFAULT 0,
+   SUBTRACT INT NOT NULL DEFAULT 1,
+   MINIMUM INT NOT NULL DEFAULT 1,
+   SORT_ORDER INT NOT NULL DEFAULT 0,
+   STATUS INT NOT NULL DEFAULT 0,
+   VIEWED INT NOT NULL DEFAULT 0,
+   DATE_ADDED TIMESTAMP NOT NULL,
+   DATE_MODIFIED TIMESTAMP NOT NULL,
+   CATEGORY_GROUP_ID INT DEFAULT 0,
+   COMPOSITE INT DEFAULT 0,
+   DELIVERY_NAME VARCHAR(255) DEFAULT NULL,
+   PRIMARY KEY (PRODUCT_ID)
+ );
+
+ CREATE TABLE IF NOT EXISTS OC_PRODUCT_DESCRIPTION (
+   PRODUCT_ID BIGINT NOT NULL,
+   LANGUAGE_ID INT NOT NULL,
+   NAME VARCHAR(255) NOT NULL,
+   DESCRIPTION TEXT NOT NULL,
+   TAG TEXT NOT NULL,
+   META_TITLE VARCHAR(255) NOT NULL,
+   META_DESCRIPTION VARCHAR(255) NOT NULL,
+   META_KEYWORD VARCHAR(255) NOT NULL,
+   PRIMARY KEY (PRODUCT_ID, LANGUAGE_ID)
+ );
+
+CREATE TABLE IF NOT EXISTS OC_PRODUCT_SPECIAL (
+  PRODUCT_SPECIAL_ID BIGINT NOT NULL,
+  PRODUCT_ID BIGINT NOT NULL,
+  CUSTOMER_GROUP_ID INT NOT NULL,
+  PRIORITY INT NOT NULL DEFAULT 1,
+  PRICE NUMERIC(15,4) NOT NULL DEFAULT 0.0000,
+  DATE_START TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  DATE_END TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (PRODUCT_SPECIAL_ID)
+);
+
+CREATE TABLE oc_currency (
+  currency_id bigint NOT NULL,
+  title varchar(32) NOT NULL,
+  code varchar(3) NOT NULL,
+  symbol_left varchar(12) NOT NULL,
+  symbol_right varchar(12) NOT NULL,
+  decimal_place char(1) NOT NULL,
+  value numeric(15,8) NOT NULL,
+  status int NOT NULL,
+  date_modified timestamp NOT NULL,
+  PRIMARY KEY (currency_id)
+);
+
+CREATE TABLE oc_language (
+  language_id int NOT NULL,
+  name varchar(32) NOT NULL,
+  code varchar(5) NOT NULL,
+  locale varchar(255) NOT NULL,
+  image varchar(64) NOT NULL,
+  directory varchar(32) NOT NULL,
+  sort_order int NOT NULL DEFAULT '0',
+  status int NOT NULL,
+  PRIMARY KEY (language_id)
+ );
+
+CREATE TABLE oc_ll_cdek_city (
+  CityCode bigint NOT NULL,
+  region_id bigint NOT NULL,
+  country_id bigint NOT NULL,
+  CountryCode bigint NOT NULL,
+  CityName varchar(255) DEFAULT NULL,
+  EngName varchar(255) DEFAULT NULL,
+  FullName varchar(255) DEFAULT NULL,
+  EngFullName varchar(255) DEFAULT NULL,
+  Center varchar(255) DEFAULT NULL,
+  PostCodeList varchar(255) DEFAULT NULL,
+  NalSumLimit varchar(255) DEFAULT NULL,
+  FullNameFIAS varchar(255) DEFAULT NULL,
+  FIAS varchar(255) DEFAULT NULL,
+  KLADR varchar(255) DEFAULT NULL,
+  cityDD bigint DEFAULT NULL,
+  pvzCode varchar(255) DEFAULT NULL,
+  PRIMARY KEY (CityCode)
+);
+
+/*-------------------------------------------------------------*/
+/*                      TESTING DATA                           */
+/*-------------------------------------------------------------*/
+
+-- TEMPORARY DATA
 CREATE TABLE IF NOT EXISTS BP_DOCUMENTS (
   ID BIGINT PRIMARY KEY NOT NULL,
   CORRELATION_ID VARCHAR(64),

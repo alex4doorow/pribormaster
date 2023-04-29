@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -63,8 +64,8 @@ public class TeOrder implements BaseEntity<Long>, Serializable {
     @JoinColumn(name = "CATEGORY_PRODUCT_ID", referencedColumnName = "ID")
     private TeWikiProductCategory productCategory;
 
-    //@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    //@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "ID")
     private TeCustomer customer;
 
@@ -75,7 +76,10 @@ public class TeOrder implements BaseEntity<Long>, Serializable {
     private Set<TeOrderItem> items;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<TeOrderStatusItem> statuses;
+    private List<TeOrderCrmConnect> externalCrms;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TeOrderStatusItem> statuses;
 
     @Column(name = "AMOUNT_TOTAL", nullable = false)
     private BigDecimal amountTotal;

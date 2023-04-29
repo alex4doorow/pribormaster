@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<body>
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar" th:fragment="header-left-panel">
+              <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                    <a id="nav-link-home" class="nav-menus-item nav-link active" th:href="@{/}">
+                      <i class="bi bi-house-door text-dark"></i>
+                      <span th:text="#{main.menus.left.home}"></span>
+                      <span class="sr-only"></span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a id="nav-link-orders" class="nav-menus-item nav-link" th:href="@{/web/orders}">
+                      <i class="bi bi-files text-dark"></i>
+                      <span th:text="#{main.menus.left.orders}"></span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a id="nav-link-customers" class="nav-menus-item nav-link" href="#">
+                      <i class="bi bi-people text-dark"></i>
+                      <span th:text="#{main.menus.left.customers}"></span>
+                    </a>
+                  </li>
+                </ul>
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                  <span>Wiki</span>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                  <li class="nav-item">
+                    <a id="nav-link-products" class="nav-menus-item nav-link" href="/sir-richard-boss-web/wiki/products/-1">
+                      <i class="bi bi-cart-check text-dark"></i>
+                      <span th:text="#{main.menus.left.products}"></span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a id="nav-link-wiki-stock" class="nav-link" href="/sir-richard-boss-web/wiki/stock-products">
+                      <i class="bi bi-shop-window text-dark"></i>
+                      <span th:text="#{main.menus.left.stock}"></span>
+                    </a>
+                  </li>
+                </ul>
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                  <span th:text="#{main.menus.left.integration}"></span>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                  <li class="nav-item">
+                    <a id="nav-link-ym-products" class="nav-menus-item nav-link" href="/sir-richard-boss-web/wiki/products/ym">
+                      <i class="bi bi-cart-check text-dark"></i>
+                      <span th:text="#{main.menus.left.ymProducts}"></span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a id="nav-link-ozon-products" class="nav-menus-item nav-link" href="/sir-richard-boss-web/wiki/products/ozon">
+                      <i class="bi bi-cart-check text-dark"></i>
+                      <span th:text="#{main.menus.left.ozonProducts}"></span>
+                    </a>
+                  </li>
+                </ul>
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                  <span th:text="#{main.menus.left.Reports}"></span>
+                </h6>
+                <div class="sidebar-sticky">
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a id="nav-link-report-product-sales" class="nav-link" href="/sir-richard-boss-web/reports/product-sales">
+                        <i class="bi bi-printer text-dark"></i>
+                        <span th:text="#{main.menus.left.Reports.productSales}"></span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="nav-link-report-complex-aggregate-product-sales" class="nav-link" href="/sir-richard-boss-web/reports/complex-aggregate-product-sales">
+                        <i class="bi bi-printer text-dark"></i>
+                        <span th:text="#{main.menus.left.Reports.complexAggregateProductSales}"></span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="nav-link-report-product-sales-by-query" class="nav-link" href="/sir-richard-boss-web/reports/product-sales-by-query">
+                        <i class="bi bi-printer text-dark"></i>
+                        <span th:text="#{main.menus.left.Reports.productSalesByQuery}"></span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="nav-link-report-product-sales-by-query-name" class="nav-link" href="/sir-richard-boss-web/reports/product-sales-by-query-name">
+                        <i class="bi bi-printer text-dark"></i>
+                        <span th:text="#{main.menus.left.Reports.productSalesByQueryName}"></span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="nav-link-report-sales-funnel" class="nav-link" href="/sir-richard-boss-web/reports/sales-funnel">
+                        <i class="bi bi-printer text-dark"></i>
+                        <span th:text="#{main.menus.left.Reports.salesFunnel}"></span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+</body>
+</html>

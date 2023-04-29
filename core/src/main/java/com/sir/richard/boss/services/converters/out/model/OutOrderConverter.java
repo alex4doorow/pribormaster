@@ -2,17 +2,22 @@ package com.sir.richard.boss.services.converters.out.model;
 
 import com.sir.richard.boss.bl.entity.TeCustomer;
 import com.sir.richard.boss.bl.entity.TeOrder;
+import com.sir.richard.boss.bl.entity.TeOrderCrmConnect;
+import com.sir.richard.boss.bl.entity.TeOrderStatusItem;
 import com.sir.richard.boss.bl.jpa.TeCustomerRepository;
 import com.sir.richard.boss.model.data.*;
 import com.sir.richard.boss.model.types.*;
 import com.sir.richard.boss.services.converters.IOConverter;
+import com.sir.richard.boss.services.converters.IOConverterOfList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Slf4j
-public class OutOrderConverter implements IOConverter<TeOrder, Order> {
+public class OutOrderConverter implements IOConverter<TeOrder, Order>, IOConverterOfList<TeOrder, Order> {
 
     @Autowired
     private TeCustomerRepository customerRepository;
@@ -23,6 +28,14 @@ public class OutOrderConverter implements IOConverter<TeOrder, Order> {
     private OutAddressConverter addressConverter;
     @Autowired
     private OutCustomerConverter customerConverter;
+
+    @Override
+    public List<Order> convertTo(List<TeOrder> teOrders) {
+        return teOrders
+                .stream()
+                .map(this::convertTo)
+                .toList();
+    }
 
     @Override
     public Order convertTo(TeOrder teOrder) {
@@ -60,15 +73,15 @@ public class OutOrderConverter implements IOConverter<TeOrder, Order> {
         order.getDelivery().setTrackCode(teOrder.getDelivery().getTrackCode());
 
         Address deliveryAddress = addressConverter.convertTo(teOrder.getDelivery().getAddress());
+        CourierInfo courierInfo = new CourierInfo(teOrder.getDelivery().getStartTime(), teOrder.getDelivery().getEndTime());
+        courierInfo.setDeliveryDate(teOrder.getDelivery().getDeliveryDate());
+        deliveryAddress.getCarrierInfo().setCourierInfo(courierInfo);
         order.getDelivery().setAddress(deliveryAddress);
 
         if (teOrder.getItems() != null) {
             teOrder.getItems().forEach(teItem -> {
                 OrderItem item = new OrderItem(order);
-
-                //teItem.getProduct().getId();
                 Product product = productConverter.convertTo(teItem.getProduct());
-
                 item.setId(teItem.getId());
                 item.setNo(teItem.getNo());
                 item.setProduct(product);
@@ -80,21 +93,31 @@ public class OutOrderConverter implements IOConverter<TeOrder, Order> {
                 order.getItems().add(item);
             });
         }
-
         if (teOrder.getStatuses() != null) {
-
-            teOrder.getStatuses().forEach(teStatus -> {
+            int no = 1;
+            for (TeOrderStatusItem teStatus : teOrder.getStatuses()) {
                 OrderStatusItem item = new OrderStatusItem(order);
                 item.setId(teStatus.getId());
-                item.setNo(0);
+                item.setNo(no);
                 item.setStatus(OrderStatuses.getValueById(teStatus.getStatus().getId()));
                 item.setCrmStatus(teStatus.getCrmStatus());
                 item.setCrmSubStatus(teStatus.getCrmSubStatus());
                 item.setAddedDate(teStatus.getDateAdded());
                 order.getStatuses().add(item);
-            });
+                no++;
+            }
         }
-
+        if (teOrder.getExternalCrms() != null) {
+            for (TeOrderCrmConnect teOrderCrmConnect : teOrder.getExternalCrms()) {
+                OrderExternalCrm crm = new OrderExternalCrm(order);
+                crm.setId(teOrder.getId());
+                crm.setType(CrmTypes.getValueById(teOrderCrmConnect.getType().getId().intValue()));
+                crm.setParentId(teOrderCrmConnect.getParentId());
+                crm.setParentCode(teOrderCrmConnect.getParentCode());
+                crm.setStatus(CrmStatuses.getValueById(teOrderCrmConnect.getStatus().getId().intValue()));
+                order.getExternalCrms().add(crm);
+            }
+        }
         order.setAddedDate(teOrder.getDateAdded());
         order.setModifiedDate(teOrder.getDateModified());
         order.setAnnotation(teOrder.getAnnotation());

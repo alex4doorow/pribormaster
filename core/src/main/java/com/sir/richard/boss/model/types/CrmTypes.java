@@ -43,6 +43,5 @@ public enum CrmTypes {
 		} else {
 			return CrmTypes.NONE;
 		}		
-	}	
-	
+	}
 }

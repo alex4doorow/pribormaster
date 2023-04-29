@@ -80,8 +80,8 @@ public class OrderAmounts implements Cloneable {
 	
 	public BigDecimal getBill() {
 		return amounts.get(OrderAmountTypes.BILL);		
-	}	
-	
+	}
+
 	public void setSupplier(BigDecimal value) {
 		amounts.put(OrderAmountTypes.SUPPLIER, value);		
 	}

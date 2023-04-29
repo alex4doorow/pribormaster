@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = {"com.sir.richard.boss"})
 @EntityScan("com.sir.richard.boss.bl.entity")
 @EnableJpaRepositories(basePackages = "com.sir.richard.boss.bl.jpa")
-public class PriborMasterRestConfig {
-
+public class WebConfig {
 
 }
