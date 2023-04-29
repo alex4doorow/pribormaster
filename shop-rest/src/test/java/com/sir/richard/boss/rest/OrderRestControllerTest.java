@@ -66,7 +66,7 @@ public class OrderRestControllerTest {
 
         // view
         this.mockMvc.perform(
-                        get("/rest/orders/" + id)
+                        get("/rest/v1/orders/" + id)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(""))
                 .andExpect(status().is(200))
