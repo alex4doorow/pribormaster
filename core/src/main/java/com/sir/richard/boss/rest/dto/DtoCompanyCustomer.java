@@ -1,5 +1,6 @@
 package com.sir.richard.boss.rest.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,10 +14,10 @@ public class DtoCompanyCustomer {
     private String inn;
     private String shortName;
     private String longName;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<DtoPerson> contacts;
 
+    @JsonIgnore
     public String getViewLongName() {
         String viewLongName = StringUtils.isNotEmpty(this.longName) ? longName : this.shortName;
         viewLongName = viewLongName.trim();
@@ -27,6 +28,7 @@ public class DtoCompanyCustomer {
         }
     }
 
+    @JsonIgnore
     public DtoPerson getMainContact() {
         if (contacts.size() == 0) {
             return DtoPerson.createEmpty();

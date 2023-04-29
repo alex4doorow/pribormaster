@@ -1,6 +1,7 @@
 package com.sir.richard.boss.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sir.richard.boss.model.types.*;
 import com.sir.richard.boss.utils.DateTimeUtils;
@@ -50,6 +51,7 @@ public class DtoOrder {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String annotation;
 
+    @JsonIgnore
     public String getViewNo() {
         String result = String.valueOf(this.getOrderNo());
         if (getExternalCrms() != null && getExternalCrms().size() > 0) {

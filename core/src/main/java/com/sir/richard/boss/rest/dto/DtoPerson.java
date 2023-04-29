@@ -1,5 +1,6 @@
 package com.sir.richard.boss.rest.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class DtoPerson {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String email;
 
+    @JsonIgnore
     public String getShortName() {
         if (StringUtils.isNotEmpty(this.firstName) && StringUtils.isEmpty(this.lastName)) {
             return this.firstName.trim();
@@ -44,12 +46,14 @@ public class DtoPerson {
         return (ln + " " + fn + " " + mn).trim();
     }
 
+    @JsonIgnore
     public String getViewLongName() {
         String result = StringUtils.defaultString(this.lastName) + " " + StringUtils.defaultString(this.firstName)
                 + " " + StringUtils.defaultString(this.middleName);
         return result.trim();
     }
 
+    @JsonIgnore
     public static DtoPerson createEmpty() {
         return new DtoPerson();
     }

@@ -1,5 +1,6 @@
 package com.sir.richard.boss.rest.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -11,8 +12,7 @@ public class DtoProduct {
     private String name;
     private String sku;
 
-    //[ANTIDOG-UPAKOVKA-SVETOSHUM] Упаковка со сменными светозвуковыми картриджами PYRODEFENDER (3 шт)
-
+    @JsonIgnore
     public String getViewSKU() {
         String result = "";
         if (StringUtils.isEmpty(this.sku)) {
@@ -23,6 +23,7 @@ public class DtoProduct {
         return StringUtils.upperCase(result);
     }
 
+    @JsonIgnore
     public String getViewName() {
         final int MAX_VIEW_LENGTH = 139;
         String result = "";

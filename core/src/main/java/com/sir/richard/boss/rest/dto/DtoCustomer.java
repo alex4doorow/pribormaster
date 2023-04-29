@@ -1,5 +1,6 @@
 package com.sir.richard.boss.rest.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sir.richard.boss.model.types.CustomerTypes;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class DtoCustomer {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private DtoAddress address;
 
+    @JsonIgnore
     public String getViewShortName() {
         if (type == CustomerTypes.CUSTOMER) {
             return person.getShortName();
@@ -30,6 +32,7 @@ public class DtoCustomer {
         }
     }
 
+    @JsonIgnore
     public String getViewLongName() {
         if (type == CustomerTypes.CUSTOMER) {
             return person.getViewLongName();
@@ -40,6 +43,7 @@ public class DtoCustomer {
         }
     }
 
+    @JsonIgnore
     public String getViewLongNameWithContactInfo() {
         String viewLongName = getViewLongName();
         if (type == CustomerTypes.CUSTOMER || type == CustomerTypes.FOREIGNER_CUSTOMER) {
@@ -52,6 +56,7 @@ public class DtoCustomer {
         }
     }
 
+    @JsonIgnore
     public String getViewPhoneNumber() {
         if (type == CustomerTypes.CUSTOMER || type == CustomerTypes.FOREIGNER_CUSTOMER) {
             return person.getPhoneNumber();
@@ -66,6 +71,7 @@ public class DtoCustomer {
         }
     }
 
+    @JsonIgnore
     public String getViewEmail() {
         if (type == CustomerTypes.CUSTOMER) {
             return person.getEmail();
