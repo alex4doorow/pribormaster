@@ -8,13 +8,16 @@ import com.sir.richard.boss.bl.jpa.TeCustomerRepository;
 import com.sir.richard.boss.model.data.*;
 import com.sir.richard.boss.model.types.*;
 import com.sir.richard.boss.services.converters.IOConverter;
+import com.sir.richard.boss.services.converters.IOConverterOfList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Slf4j
-public class OutOrderConverter implements IOConverter<TeOrder, Order> {
+public class OutOrderConverter implements IOConverter<TeOrder, Order>, IOConverterOfList<TeOrder, Order> {
 
     @Autowired
     private TeCustomerRepository customerRepository;
@@ -25,6 +28,14 @@ public class OutOrderConverter implements IOConverter<TeOrder, Order> {
     private OutAddressConverter addressConverter;
     @Autowired
     private OutCustomerConverter customerConverter;
+
+    @Override
+    public List<Order> convertTo(List<TeOrder> teOrders) {
+        return teOrders
+                .stream()
+                .map(this::convertTo)
+                .toList();
+    }
 
     @Override
     public Order convertTo(TeOrder teOrder) {

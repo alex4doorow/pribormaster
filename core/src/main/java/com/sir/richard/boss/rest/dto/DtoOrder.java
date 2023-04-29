@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sir.richard.boss.model.types.*;
+import com.sir.richard.boss.rest.dto.view.ViewOrderStatus;
 import com.sir.richard.boss.utils.DateTimeUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -36,7 +38,7 @@ public class DtoOrder {
     private StoreTypes store;
     private OrderStatuses status;
     private OrderEmailStatuses emailStatus;
-    private DtoOrderDelivery delivery = new DtoOrderDelivery();
+    private DtoOrderDelivery delivery = new DtoOrderDelivery(this);
     private List<DtoOrderExternalCrm> externalCrms = new ArrayList<>();
 
     private Map<OrderAmountTypes, BigDecimal> amounts = new HashMap<>();
@@ -88,5 +90,63 @@ public class DtoOrder {
             //Просмотр данных по заказу #10161 (197) от 01.03.2021 г.
         }
         return result;
+    }
+
+    @JsonIgnore
+    public ViewOrderStatus getViewStatus() {
+        return ViewOrderStatus.createViewOrderStatus(this);
+    }
+
+    public String getExpiredDate() {
+        String result = "";
+        /*
+        if (this.getOffer().getCountDay() <= 0) {
+            return result;
+        }
+        if ((this.getOrderType() == OrderTypes.BILL || this.getOrderType() == OrderTypes.KP) && this.getStatus() == OrderStatuses.BID) {
+            result = DateTimeUtils.defaultFormatDate(this.getOffer().getExpiredDate());
+        }
+        */
+        return result;
+    }
+
+    @JsonIgnore
+    public String getViewDateInfo() {
+        String result = this.getType().getAnnotation() + ", " + this.getStatus().getAnnotation();
+        String expiredDate = this.getExpiredDate();
+        if (StringUtils.isEmpty(expiredDate)) {
+            return result;
+        } else {
+            return result + ", " + expiredDate;
+        }
+    }
+
+    @JsonIgnore
+    public boolean isPrepayment() {
+        if (payment == PaymentTypes.PREPAYMENT || payment == PaymentTypes.YANDEX_PAY) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @JsonIgnore
+    public BigDecimal getAmountBill() {
+        return amounts.get(OrderAmountTypes.BILL);
+    }
+
+    @JsonIgnore
+    public BigDecimal getAmountSupplier() {
+        return amounts.get(OrderAmountTypes.SUPPLIER);
+    }
+
+    @JsonIgnore
+    public BigDecimal getAmountMargin() {
+        return amounts.get(OrderAmountTypes.MARGIN);
+    }
+
+    @JsonIgnore
+    public BigDecimal getAmountPostpay() {
+        return amounts.get(OrderAmountTypes.POSTPAY);
     }
 }

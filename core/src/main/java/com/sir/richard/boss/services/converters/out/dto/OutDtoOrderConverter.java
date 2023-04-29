@@ -4,6 +4,7 @@ import com.sir.richard.boss.model.data.Order;
 import com.sir.richard.boss.model.types.OrderAmountTypes;
 import com.sir.richard.boss.rest.dto.*;
 import com.sir.richard.boss.services.converters.IOConverter;
+import com.sir.richard.boss.services.converters.IOConverterOfList;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,13 +12,21 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class OutDtoOrderConverter implements IOConverter<Order, DtoOrder> {
+public class OutDtoOrderConverter implements IOConverter<Order, DtoOrder>, IOConverterOfList<Order, DtoOrder> {
 
     @Autowired
     OutDtoProductConverter productConverter;
 
     @Autowired
     OutDtoCustomerConverter customerConverter;
+
+    @Override
+    public List<DtoOrder> convertTo(List<Order> orders) {
+        return orders
+                .stream()
+                .map(this::convertTo)
+                .toList();
+    }
 
     @Override
     public DtoOrder convertTo(Order order) {
@@ -59,7 +68,6 @@ public class OutDtoOrderConverter implements IOConverter<Order, DtoOrder> {
         if (!StringUtils.isEmpty(order.getDelivery().getAddress().getCarrierInfo().getCourierInfo().timeInterval())) {
             dtoOrder.getDelivery().getAddress().setCourierInfo(order.getDelivery().getAddress().getCarrierInfo().getCourierInfo());
         }
-
 
         DtoCustomer dtoCustomer = customerConverter.convertTo(order.getCustomer());
         dtoOrder.setCustomer(dtoCustomer);
