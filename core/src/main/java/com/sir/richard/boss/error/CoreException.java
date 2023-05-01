@@ -1,4 +1,4 @@
-package com.sir.richard.boss.bl.core;
+package com.sir.richard.boss.error;
 
 import java.io.Serial;
 

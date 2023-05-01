@@ -8,6 +8,7 @@ import com.sir.richard.boss.rest.dto.view.ViewOrderStatus;
 import com.sir.richard.boss.utils.DateTimeUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 @Data
 @NoArgsConstructor
+@ToString
 public class DtoOrder {
 
     private Long id;

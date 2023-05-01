@@ -1,12 +1,12 @@
 package com.sir.richard.boss.services;
 
-import com.sir.richard.boss.bl.core.CoreException;
 import com.sir.richard.boss.bl.entity.TeOrder;
 import com.sir.richard.boss.bl.entity.TeOrderStatusItem;
 import com.sir.richard.boss.bl.jpa.TeCustomerRepository;
 import com.sir.richard.boss.bl.jpa.TeOrderRepository;
 import com.sir.richard.boss.bl.jpa.TeOrderStatusItemRepository;
 import com.sir.richard.boss.bl.jpa.TePersonRepository;
+import com.sir.richard.boss.error.CoreException;
 import com.sir.richard.boss.model.data.Order;
 import com.sir.richard.boss.model.data.conditions.OrderConditions;
 import com.sir.richard.boss.services.converters.in.model.InOrderConverter;

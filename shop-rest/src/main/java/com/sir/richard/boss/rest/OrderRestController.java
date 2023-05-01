@@ -1,6 +1,6 @@
 package com.sir.richard.boss.rest;
 
-import com.sir.richard.boss.bl.core.CoreException;
+import com.sir.richard.boss.error.CoreException;
 import com.sir.richard.boss.model.data.Order;
 import com.sir.richard.boss.rest.dto.DtoOrder;
 import com.sir.richard.boss.services.OrderService;
@@ -9,11 +9,11 @@ import com.sir.richard.boss.services.converters.in.dto.InDtoOrderConverter;
 import com.sir.richard.boss.services.converters.out.dto.OutDtoOrderConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 //        HTTP GET http://www.javadevjournal.com/orders  //Get all orders
 //        HTTP GET http://www.javadevjournal.com/orders/{order-id}  //Get order based on order code
@@ -25,7 +25,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/rest/v1/orders")
 @Slf4j
-public class OrderRestController {
+public class OrderRestController extends BaseRestController{
 
     @Autowired
     private OrderService orderService;
@@ -41,12 +41,16 @@ public class OrderRestController {
     }
 
     @GetMapping("/{id}")
-    Optional<DtoOrder> findDataById(@PathVariable Long id) {
+    ResponseEntity<Object> findDataById(@PathVariable Long id) {
         log.info("[START] {} request: {}", "FIND", id);
-        Order order = orderService.findById(id);
-        DtoOrder dtoOrder = outDtoOrderConverter.convertTo(order);
-        return Optional.of(dtoOrder);
-        //return orderService.findById(id);
+
+        try {
+            Order order = orderService.findById(id);
+            DtoOrder dtoOrder = outDtoOrderConverter.convertTo(order);
+            return response("findById", dtoOrder, false);
+        } catch (Exception e) {
+            return errorResponse("findById", e);
+        }
     }
 
     @PostMapping("/add")
@@ -94,5 +98,12 @@ public class OrderRestController {
         log.info("[START] {} request: {}", "DELETE", id);
 
         //coffees.removeIf(c -> c.getId().equals(id));
+    }
+
+    private ResponseEntity<Object> response(String msgInType, DtoOrder response, boolean isError)	{
+        log.info("[END] {} response:\n{}", msgInType, response);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        return new ResponseEntity<>(response, httpHeaders, (isError) ? HttpStatus.BAD_REQUEST : HttpStatus.OK);
     }
 }

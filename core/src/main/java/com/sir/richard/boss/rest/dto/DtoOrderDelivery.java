@@ -9,12 +9,14 @@ import com.sir.richard.boss.model.types.PaymentDeliveryTypes;
 import com.sir.richard.boss.utils.DateTimeUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
+@ToString
 public class DtoOrderDelivery {
 
     @JsonIgnore

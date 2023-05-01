@@ -1,7 +1,7 @@
 package com.sir.richard.boss.services;
 
-import com.sir.richard.boss.bl.core.CoreException;
 import com.sir.richard.boss.bl.jpa.TeCustomerRepository;
+import com.sir.richard.boss.error.CoreException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

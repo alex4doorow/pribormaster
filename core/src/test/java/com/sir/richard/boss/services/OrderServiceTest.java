@@ -1,6 +1,6 @@
 package com.sir.richard.boss.services;
 
-import com.sir.richard.boss.bl.core.CoreException;
+import com.sir.richard.boss.error.CoreException;
 import com.sir.richard.boss.model.data.Order;
 import com.sir.richard.boss.model.types.CustomerTypes;
 import com.sir.richard.boss.model.types.OrderStatuses;

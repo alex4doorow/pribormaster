@@ -1,6 +1,6 @@
 package com.sir.richard.boss.services.converters.in.dto;
 
-import com.sir.richard.boss.bl.core.CoreException;
+import com.sir.richard.boss.error.CoreException;
 import com.sir.richard.boss.model.data.Order;
 import com.sir.richard.boss.rest.dto.DtoOrder;
 import com.sir.richard.boss.services.OrderServiceJsonStub;

@@ -114,7 +114,6 @@
 
   <build>
     <plugins>
-
       <plugin>
         <groupId>org.graalvm.buildtools</groupId>
         <artifactId>native-maven-plugin</artifactId>
@@ -159,10 +158,8 @@
           </execution>
         </executions>
       </plugin>
-
       <!-- Spring Boot Actuator displays build-related information if a git.properties
         file is present at the classpath -->
-
       <plugin>
         <groupId>io.github.git-commit-id</groupId>
         <artifactId>git-commit-id-maven-plugin</artifactId>
@@ -171,17 +168,14 @@
           <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
-
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
       <url>https://www.apache.org/licenses/LICENSE-2.0</url>
     </license>
   </licenses>
-
   <repositories>
     <repository>
       <id>spring-snapshots</id>
