@@ -47,6 +47,7 @@ main.btn.execute = Применить
 main.btn.clear = Очистить
 main.btn.close = Закрыть
 main.btn.reload = Перезагрузить
+main.btn.enter = Вход
 
 main.btn.items.add = Строка
 main.btn.items.delete = Удалить
@@ -742,6 +743,16 @@ wiki.product.form.fields.type = Тип товара
 
 login.label.username = Username
 login.label.password = Password
+
+login.form.fields.login = User
+login.form.fields.placeholder.login = Введите логин
+login.form.fields.help.login = Мы никогда никому не передадим Ваши данные.
+login.form.fields.invalidFeedback.login = Ошибка ввода логина
+
+login.form.fields.password = Password
+login.form.fields.placeholder.password = Введите пароль
+login.form.fields.help.password = Ваш пароль должен состоять из 8-20 символов, содержать буквы и цифры<br> и не должен содержать пробелов, специальных символов или эмодзи.
+login.form.fields.invalidFeedback.password = Ошибка ввода пароля
 
 alarm.header = Сигнализация
 alarm.title = Сигнализация

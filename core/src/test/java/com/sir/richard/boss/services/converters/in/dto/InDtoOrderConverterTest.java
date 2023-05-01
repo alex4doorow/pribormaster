@@ -25,6 +25,8 @@ public class InDtoOrderConverterTest {
     public void testOrderAdd() throws CoreException {
 
         DtoOrder dtoOrder = jsonMapper.fromJSON(stub.getAddCompanyOrderData(), DtoOrder.class);
+        log.info("{}", dtoOrder);
+
         Order order = inDtoOrderConverter.convertTo(dtoOrder);
         log.info("order: {}", order);
 

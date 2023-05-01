@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
 <head th:replace="~{fragments/header-head :: header-head((customPageTitle=#{index.title}))}"></head>
 <body>
     <nav th:replace="~{fragments/header-main-search :: header-main-search}"></nav>
@@ -9,13 +13,22 @@
         </div>
     </div>
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-        <div class="d-flex justify-content-start flex-wrap flex-md-nowrap align-items-start">
-            <h1 class="h2" th:text="#{index.header}">Welcome</h1>
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <!-- local content -->
+            <h1 class="h2" th:inline="text">Главная: [[${#httpServletRequest.remoteUser}]]</h1>
+            <p><a th:href="@{/logout}">Logout</a></p>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <!-- This content is only shown to authenticated users. -->
+        </div>
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <!-- This content is only shown to administrators. -->
+        </div>
+        <div sec:authorize="hasRole('ROLE_USER')">
+            <!-- This content is only shown to users. -->
         </div>
         <br>
-        <div>
-            <p>Empty</p>
-        </div>
+        <br>
     </main>
     <div th:replace="~{fragments/footer-scripts :: footer-scripts}"></div>
     <script>

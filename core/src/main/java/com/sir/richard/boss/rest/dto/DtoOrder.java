@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sir.richard.boss.model.types.*;
 import com.sir.richard.boss.rest.dto.view.ViewOrderStatus;
 import com.sir.richard.boss.utils.DateTimeUtils;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -19,9 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@ToString
+//@ToString(callSuper=true, includeFieldNames=true)
 public class DtoOrder {
 
     private Long id;
@@ -31,6 +30,7 @@ public class DtoOrder {
     private LocalDate orderDate;
 
     private OrderTypes type;
+    //@ToString.Exclude
     private DtoCustomer customer;
 
     private DtoProductCategory productCategory = new DtoProductCategory();
@@ -99,6 +99,7 @@ public class DtoOrder {
         return ViewOrderStatus.createViewOrderStatus(this);
     }
 
+    @JsonIgnore
     public String getExpiredDate() {
         String result = "";
         /*
@@ -150,5 +151,32 @@ public class DtoOrder {
     @JsonIgnore
     public BigDecimal getAmountPostpay() {
         return amounts.get(OrderAmountTypes.POSTPAY);
+    }
+
+    @Override
+    @JsonIgnore
+    public String toString() {
+        return "DtoOrder {" +
+                "id=" + id +
+                ", orderNo=" + orderNo +
+                ", orderDate=" + orderDate +
+                ", type=" + type +
+               // ", customer=" + customer +
+                ", productCategory=" + productCategory +
+                ", source=" + source +
+                ", advert=" + advert +
+                ", payment=" + payment +
+                ", store=" + store +
+                ", status=" + status +
+                ", emailStatus=" + emailStatus +
+               // ", delivery=" + delivery +
+                ", externalCrms=" + externalCrms +
+                ", amounts=" + amounts +
+                ", items=" + items +
+                ", statuses=" + statuses +
+                ", addedDate=" + addedDate +
+                ", modifiedDate=" + modifiedDate +
+                ", annotation='" + annotation + '\'' +
+                '}';
     }
 }

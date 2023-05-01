@@ -2,16 +2,13 @@ package com.sir.richard.boss.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class DtoPerson {
     private Long id;
     private String firstName;
@@ -58,5 +55,18 @@ public class DtoPerson {
     @JsonIgnore
     public static DtoPerson createEmpty() {
         return new DtoPerson();
+    }
+
+    @JsonIgnore
+    @Override
+    public String toString() {
+        return "DtoPerson {" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
