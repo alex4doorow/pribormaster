@@ -1,15 +1,26 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'home')}">
-
-  <body>
-
-    <h2 th:text="#{welcome}">Welcome</h2>
-    <div class="row">
-        <div class="col-md-12">
-          <img class="img-responsive" src="../static/resources/images/pets.png" th:src="@{/resources/images/pets.png}"/>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header-head :: header-head((customPageTitle=#{index.title}))}"></head>
+<body>
+    <nav th:replace="~{fragments/header-main-search :: header-main-search}"></nav>
+    <div class="container-fluid">
+        <div class="row">
+            <nav th:replace="~{fragments/header-left-panel :: header-left-panel}"></nav>
         </div>
     </div>
-
-  </body>
-
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <div class="d-flex justify-content-start flex-wrap flex-md-nowrap align-items-start">
+            <h1 class="h2" th:text="#{index.header}">Welcome</h1>
+        </div>
+        <br>
+        <div>
+            <p>Empty</p>
+        </div>
+    </main>
+    <div th:replace="~{fragments/footer-scripts :: footer-scripts}"></div>
+    <script>
+        $('#nav-link-home').addClass('active');
+    </script>
+    </body>
+    <footer th:replace="~{fragments/footer-footer :: footer-footer}"></footer>
 </html>
