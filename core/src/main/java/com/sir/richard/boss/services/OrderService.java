@@ -1,16 +1,15 @@
 package com.sir.richard.boss.services;
 
-import com.sir.richard.boss.bl.entity.TeOrder;
-import com.sir.richard.boss.bl.entity.TeOrderStatusItem;
-import com.sir.richard.boss.bl.entity.TeUser;
-import com.sir.richard.boss.bl.entity.TeWikiOrderStatus;
+import com.sir.richard.boss.bl.entity.*;
 import com.sir.richard.boss.bl.jpa.*;
 import com.sir.richard.boss.error.CoreException;
 import com.sir.richard.boss.model.data.Order;
+import com.sir.richard.boss.model.data.OrderItem;
 import com.sir.richard.boss.model.data.OrderStatusItem;
 import com.sir.richard.boss.model.data.conditions.OrderConditions;
 import com.sir.richard.boss.model.types.OrderAmountTypes;
 import com.sir.richard.boss.model.types.OrderStatuses;
+import com.sir.richard.boss.model.types.OrderTypes;
 import com.sir.richard.boss.services.converters.in.model.InOrderConverter;
 import com.sir.richard.boss.services.converters.out.model.OutOrderConverter;
 import com.sir.richard.boss.utils.Pair;
@@ -41,9 +40,17 @@ public class OrderService {
     @Autowired
     private TeOrderRepository orderRepository;
     @Autowired
+    private TeWikiOrderTypeRepository wikiOrderTypeRepository;
+    @Autowired
+    private TeWikiOrderSourceRepository wikiOrderSourceRepository;
+    @Autowired
+    private TeWikiOrderPaymentRepository wikiOrderPaymentRepository;
+    @Autowired
     private TeWikiOrderStatusRepository wikiOrderStatusRepository;
     @Autowired
     private TeOrderStatusItemRepository orderStatusItemRepository;
+    @Autowired
+    private TeWikiProductCategoryRepository wikiProductCategoryRepository;
     @Autowired
     private OutOrderConverter outOrderConverter;
     @Autowired
@@ -179,6 +186,218 @@ public class OrderService {
             orderStatusItemRepository.save(teOrderStatusItem);
         }
     }
+
+    public void changeFullStatusOrder(Order order, TeUser user) throws CoreException {
+
+        OrderStatuses currentOrderStatus = findCurrentStatusOrderByOrderId(order.getId());
+        Optional<TeOrder> teOptionalCurrentOrder = orderRepository.findById(order.getId());
+        if (teOptionalCurrentOrder.isEmpty()) {
+            throw new CoreException(CoreException.RECORD_WITH_ID_NOT_FOUND);
+        }
+        TeOrder teCurrentOrder = teOptionalCurrentOrder.get();
+        Optional<TeWikiOrderType> teWikiOrderType = wikiOrderTypeRepository.findById(Long.valueOf(order.getOrderType().getId()));
+        if (teWikiOrderType.isEmpty()) {
+            throw new CoreException(CoreException.RECORD_WITH_ID_NOT_FOUND);
+        }
+        Optional<TeWikiOrderSource> teWikiOrderSource = wikiOrderSourceRepository.findById(Long.valueOf(order.getSourceType().getId()));
+        if (teWikiOrderSource.isEmpty()) {
+            throw new CoreException(CoreException.RECORD_WITH_ID_NOT_FOUND);
+        }
+        Optional<TeWikiOrderPayment> teWikiOrderPayment = wikiOrderPaymentRepository.findById(Long.valueOf(order.getPaymentType().getId()));
+        if (teWikiOrderPayment.isEmpty()) {
+            throw new CoreException(CoreException.RECORD_WITH_ID_NOT_FOUND);
+        }
+        Optional<TeWikiOrderStatus> teWikiOrderStatus = wikiOrderStatusRepository.findById(Long.valueOf(order.getStatus().getId()));
+        if (teWikiOrderStatus.isEmpty()) {
+            throw new CoreException(CoreException.RECORD_WITH_ID_NOT_FOUND);
+        }
+        Optional<TeWikiProductCategory> teWikiProductCategory = wikiProductCategoryRepository.findById(order.getProductCategory().getId());
+        if (teWikiProductCategory.isEmpty()) {
+            throw new CoreException(CoreException.RECORD_WITH_ID_NOT_FOUND);
+        }
+        teCurrentOrder.setOrderType(teWikiOrderType.get());
+        teCurrentOrder.setSourceType(teWikiOrderSource.get());
+        teCurrentOrder.setPaymentType(teWikiOrderPayment.get());
+        teCurrentOrder.setProductCategory(teWikiProductCategory.get());
+        teCurrentOrder.setStatus(teWikiOrderStatus.get());
+        teCurrentOrder.setDateModified(LocalDateTime.now());
+        teCurrentOrder.setAnnotation(order.getAnnotation());
+        teCurrentOrder.getDelivery().setTrackCode(order.getDelivery().getTrackCode());
+        orderRepository.save(teCurrentOrder);
+
+        if (currentOrderStatus != order.getStatus()) {
+            changeCrmStatus(order);
+            TeOrderStatusItem teOrderStatusItem = new TeOrderStatusItem();
+            teOrderStatusItem.setOrder(teCurrentOrder);
+            teOrderStatusItem.setStatus(teWikiOrderStatus.get());
+            teOrderStatusItem.setDateAdded(LocalDateTime.now());
+            teOrderStatusItem.setUserAdded(user);
+            orderStatusItemRepository.save(teOrderStatusItem);
+
+            if (order.getStatus() == OrderStatuses.APPROVED) {
+                operateSubtractProductQuantityOrder(order, OrderStatuses.APPROVED);
+            }
+        }
+    }
+
+    /**
+     * Операция по расходу товаров с полок нашего склада при подтверждении заказа
+     */
+    public void operateSubtractProductQuantityOrder(Order order, OrderStatuses phase) {
+/*
+        List<OrderItem> orderItems = getItemsByOrder(order);
+
+        for (OrderItem orderItem : orderItems) {
+            wikiDao.updateDeltaQuantityProduct(orderItem.getProduct(), orderItem.getQuantity(), order.getExternalCrm(), phase);
+        }
+*/
+    }
+
+    private void changeCrmStatus(Order order) {
+        /*
+
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+        SqlParameterSource namedParameters;
+
+        final String sqlSelectCountCrmOrder = "SELECT count(*) COUNT_ID FROM sr_order_crm_connect WHERE order_id = :orderId AND crm_id = :crmId AND crm_status = 1";
+
+        namedParameters = new MapSqlParameterSource()
+                .addValue("orderId", order.getId())
+                .addValue("crmId", CrmTypes.OPENCART.getId());
+        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        Integer countOpencart = namedParameterJdbcTemplate.queryForObject(sqlSelectCountCrmOrder, namedParameters, Integer.class);
+
+        if (countOpencart == 0) {
+            return;
+        }
+
+        namedParameters = new MapSqlParameterSource()
+                .addValue("orderId", order.getId())
+                .addValue("crmId", CrmTypes.YANDEX_MARKET.getId());
+        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        Integer countYandexMarket = namedParameterJdbcTemplate.queryForObject(sqlSelectCountCrmOrder, namedParameters, Integer.class);
+
+        namedParameters = new MapSqlParameterSource()
+                .addValue("orderId", order.getId())
+                .addValue("crmId", CrmTypes.OZON.getId());
+        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        Integer countOzonMarket = namedParameterJdbcTemplate.queryForObject(sqlSelectCountCrmOrder, namedParameters, Integer.class);
+
+        int crmOrderStatusId = 17;
+        String crmComment = "";
+        if (order.getStatus() == OrderStatuses.APPROVED) {
+
+            crmOrderStatusId = 19;
+            crmComment = order.getStatus().getAnnotation();
+
+            List<OrderItem> orderItems = getItemsByOrder(order);
+            order.setItems(orderItems);
+
+            if (countYandexMarket > 0) {
+
+                YandexMarketApi yandexMarketApi = new YandexMarketApi(this.environment);
+
+                // поставим в адрес доставки данные из ЯМа
+                Order ymOrder = yandexMarketApi.order(order);
+                if (ymOrder != null) {
+                    String addressText = ymOrder.getDelivery().getAddress().getAddress();
+                    order.getDelivery().getAddress().setAddress(addressText);
+                    customerDao.updateAddress(order.getDelivery().getAddress().getId(), order.getDelivery().getAddress());
+                    if (orderItems.size() == 1 && orderItems.get(0).getQuantity() == 1) {
+                        // делаем грузовые места и смену статусов только для одного товара и одного места
+                        yandexMarketApi.status(order);
+                    }
+                }
+            }
+
+            if (countOzonMarket > 0) {
+                // поставим в адрес доставки данные из OZON
+                OrderExternalCrm ozonCrm = order.getExternalCrmByCode(CrmTypes.OZON);
+                Order ozonOrder = ozonMarketApiService.getOrder(ozonCrm.getParentCode());
+                String addressText = ozonOrder.getDelivery().getAddress().getAddress();
+
+                order.getDelivery().getAddress().setAddress(addressText);
+                customerDao.updateAddress(order.getDelivery().getAddress().getId(), order.getDelivery().getAddress());
+            }
+
+
+        } else if (order.getStatus() == OrderStatuses.DELIVERING) {
+            crmOrderStatusId = 3;
+            if (StringUtils.isEmpty(order.getDelivery().getTrackCode())) {
+                crmComment = "на доставке";
+            } else {
+                crmComment = "трэккод: " + order.getDelivery().getTrackCode();
+            }
+
+            if (countYandexMarket > 0
+                    && order.getDelivery().getAddress().getCarrierInfo().getCourierInfo().getDeliveryDate() != null
+                    && DateTimeUtils.truncateDate(order.getDelivery().getAddress().getCarrierInfo().getCourierInfo().getDeliveryDate()).compareTo(DateTimeUtils.sysDate()) == 0
+            ) {
+                // если запись яма есть, и "сегодня" равно планируемой дате отгрузки, то меняем статус в яме на status = "PROCESSING", subStatus = "SHIPPED"
+                YandexMarketApi yandexMarketApi = new YandexMarketApi(this.environment);
+                yandexMarketApi.status(order);
+            } else {
+                log.error("Yandex.Market status not changed: sysDate != deliveryDate! sysDate:{}, deliveryDate:{}", DateTimeUtils.sysDate(), order.getDelivery().getAddress().getCarrierInfo().getCourierInfo().getDeliveryDate());
+            }
+
+        } else if (order.getStatus() == OrderStatuses.READY_GIVE_AWAY || order.getStatus() == OrderStatuses.READY_GIVE_AWAY_TROUBLE) {
+            crmOrderStatusId = 20;
+            if (StringUtils.isEmpty(order.getDelivery().getTrackCode())) {
+                crmComment = "прибыл";
+            } else {
+                crmComment = "трэккод: " + order.getDelivery().getTrackCode();
+            }
+        } else if (order.getStatus() == OrderStatuses.DELIVERED) {
+            crmOrderStatusId = 18;
+        } else if (order.getStatus() == OrderStatuses.CANCELED) {
+            crmOrderStatusId = 16;
+        } else if (order.getStatus() == OrderStatuses.PAY_WAITING) {
+            crmOrderStatusId = 2;
+        } else if (order.getStatus() == OrderStatuses.PAY_ON) {
+            crmOrderStatusId = 3; // отправлен, чтобы не было повторной загрузки из срм
+        } else if (order.getStatus() == OrderStatuses.FINISHED) {
+            crmOrderStatusId = 5;
+        } else if (order.getStatus() == OrderStatuses.REDELIVERY) {
+            crmOrderStatusId = 12;
+        } else if (order.getStatus() == OrderStatuses.REDELIVERY_FINISHED) {
+            crmOrderStatusId = 11;
+        }
+
+        final String sqlSelectCrmOrder = "SELECT * FROM sr_order_crm_connect WHERE order_id = ? AND crm_id = ? AND crm_status = 1";
+        int crmOrderId = this.jdbcTemplate.queryForObject(sqlSelectCrmOrder,
+                new Object[]{ order.getId(), CrmTypes.OPENCART.getId()},
+                new int[] {Types.INTEGER, Types.INTEGER},
+                new RowMapper<Integer>() {
+                    @Override
+                    public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        return rs.getInt("PARENT_CRM_ID");
+                    }
+                });
+        if (crmOrderId <= 0) {
+            return;
+        }
+
+        final String sqlUpdateCrmOrderStatus = "UPDATE oc_order"
+                + "  SET order_status_id = ?"
+                + "  WHERE order_id = ?";
+
+        this.jdbcTemplate.update(sqlUpdateCrmOrderStatus, new Object[] {
+                crmOrderStatusId,
+                crmOrderId});
+
+
+        final String sqlInsertCrmOrderStatusHistory = "INSERT INTO oc_order_history"
+                + "  (order_id, order_status_id, notify, comment, date_added)"
+                + "  VALUES"
+                + "  (?, ?, 1, ?, ?)";
+        this.jdbcTemplate.update(sqlInsertCrmOrderStatusHistory, new Object[] {
+                crmOrderId,
+                crmOrderStatusId,
+                crmComment,
+                new Date()});
+         */
+    }
+
 
     private OrderStatuses findCurrentStatusOrderByOrderId(Long orderId) throws CoreException {
         Optional<TeOrder> teCurrentOrder = orderRepository.findById(orderId);

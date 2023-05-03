@@ -1,7 +1,9 @@
 package com.sir.richard.boss.controller;
 
 import com.sir.richard.boss.bl.entity.TeUser;
+import com.sir.richard.boss.model.types.*;
 import com.sir.richard.boss.services.UserService;
+import com.sir.richard.boss.services.WikiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -9,11 +11,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 public class BaseController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private WikiService wikiService;
 
     protected TeUser getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -23,9 +30,10 @@ public class BaseController {
     }
 
     protected void populateDefaultModel(Model model) {
-/*
-        model.addAttribute("productCategories", wikiService.getWiki().getCategories());
+
+        model.addAttribute("productCategories", wikiService.getCategories());
         model.addAttribute("customerTypes", CustomerTypes.values());
+        model.addAttribute("orderStatuses", OrderStatuses.values());
         model.addAttribute("orderTypes", OrderTypes.values());
         model.addAttribute("sourceTypes", OrderSourceTypes.values());
         model.addAttribute("advertTypes", OrderAdvertTypes.values());
@@ -35,11 +43,10 @@ public class BaseController {
         model.addAttribute("paymentDeliveryTypes", PaymentDeliveryTypes.values());
         model.addAttribute("paymentDeliveryMethods", PaymentDeliveryMethods.values());
         model.addAttribute("productTypes", ProductTypes.values());
-
         model.addAttribute("countries", Countries.values());
         model.addAttribute("suppliers", SupplierTypes.values());
 
-        List<String> allViewStatuses = new ArrayList<String>();
+        List<String> allViewStatuses = new ArrayList<>();
         allViewStatuses.add(OrderStatuses.BID.getAnnotation());
         allViewStatuses.add(OrderStatuses.APPROVED.getAnnotation());
         allViewStatuses.add(OrderStatuses.PAY_WAITING.getAnnotation());
@@ -56,7 +63,7 @@ public class BaseController {
         allViewStatuses.add(OrderStatuses.LOST.getAnnotation());
         model.addAttribute("allViewStatuses", allViewStatuses);
 
-        List<String> allViewOrderTypes = new ArrayList<String>();
+        List<String> allViewOrderTypes = new ArrayList<>();
         allViewOrderTypes.add(OrderTypes.ORDER.getAnnotation());
         allViewOrderTypes.add(OrderTypes.BILL.getAnnotation());
         allViewOrderTypes.add(OrderTypes.KP.getAnnotation());
@@ -67,7 +74,7 @@ public class BaseController {
         allViewOrderTypes.add(OrderTypes.REPAIR.getAnnotation());
         model.addAttribute("allViewOrderTypes", allViewOrderTypes);
 
-        List<String> allViewDeliveryTypes = new ArrayList<String>();
+        List<String> allViewDeliveryTypes = new ArrayList<>();
         allViewDeliveryTypes.add(DeliveryTypes.CDEK_PVZ_TYPICAL.getAnnotation());
         allViewDeliveryTypes.add(DeliveryTypes.CDEK_PVZ_ECONOMY.getAnnotation());
         allViewDeliveryTypes.add(DeliveryTypes.CDEK_COURIER.getAnnotation());
@@ -88,7 +95,7 @@ public class BaseController {
         allViewDeliveryTypes.add(DeliveryTypes.OZON_ROCKET_POSTAMAT.getAnnotation());
         model.addAttribute("allViewDeliveryTypes", allViewDeliveryTypes);
 
-        List<String> allViewCustomerTypes = new ArrayList<String>();
+        List<String> allViewCustomerTypes = new ArrayList<>();
         allViewCustomerTypes.add(CustomerTypes.CUSTOMER.getLongName());
         allViewCustomerTypes.add(CustomerTypes.COMPANY.getLongName());
         allViewCustomerTypes.add(CustomerTypes.BUSINESSMAN.getLongName());
@@ -96,7 +103,7 @@ public class BaseController {
         allViewCustomerTypes.add(CustomerTypes.FOREIGNER_CUSTOMER.getLongName());
         model.addAttribute("allViewCustomerTypes", allViewCustomerTypes);
 
-        List<String> allViewPaymentTypes = new ArrayList<String>();
+        List<String> allViewPaymentTypes = new ArrayList<>();
         allViewPaymentTypes.add(PaymentTypes.POSTPAY.getAnnotation());
         allViewPaymentTypes.add(PaymentTypes.PREPAYMENT.getAnnotation());
         allViewPaymentTypes.add(PaymentTypes.YANDEX_PAY.getAnnotation());
@@ -106,7 +113,7 @@ public class BaseController {
         allViewPaymentTypes.add(PaymentTypes.CREDIT.getAnnotation());
         model.addAttribute("allViewPaymentTypes", allViewPaymentTypes);
 
-        List<String> allViewAdvertTypes = new ArrayList<String>();
+        List<String> allViewAdvertTypes = new ArrayList<>();
         allViewAdvertTypes.add(OrderAdvertTypes.ADVERT.getAnnotation());
         allViewAdvertTypes.add(OrderAdvertTypes.YANDEX_MARKET.getAnnotation());
         allViewAdvertTypes.add(OrderAdvertTypes.OZON.getAnnotation());
@@ -118,7 +125,7 @@ public class BaseController {
         allViewAdvertTypes.add(OrderAdvertTypes.YOUTUBE.getAnnotation());
         model.addAttribute("allViewAdvertTypes", allViewAdvertTypes);
 
-        List<String> allViewSuppliers = new ArrayList<String>();
+        List<String> allViewSuppliers = new ArrayList<>();
         allViewSuppliers.add(SupplierTypes.SITITEK.getAnnotation());
         allViewSuppliers.add(SupplierTypes.Z1_VEK.getAnnotation());
         allViewSuppliers.add(SupplierTypes.LADIA.getAnnotation());
@@ -135,7 +142,5 @@ public class BaseController {
         allViewSuppliers.add(SupplierTypes.CAMPING_2000.getAnnotation());
         allViewSuppliers.add(SupplierTypes.T4L.getAnnotation());
         model.addAttribute("allViewSuppliers", allViewSuppliers);
-
- */
     }
 }

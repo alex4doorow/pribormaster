@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sir.richard.boss.model.types.*;
 import com.sir.richard.boss.rest.dto.view.ViewOrderStatus;
 import com.sir.richard.boss.utils.DateTimeUtils;
+import com.sir.richard.boss.utils.helpers.OrderHelper;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
@@ -56,6 +57,9 @@ public class DtoOrder {
     private String annotation;
 
     @JsonIgnore
+    private boolean sendMessage;
+
+    @JsonIgnore
     public String getViewNo() {
         String result = String.valueOf(this.getOrderNo());
         if (getExternalCrms() != null && getExternalCrms().size() > 0) {
@@ -101,7 +105,7 @@ public class DtoOrder {
 
     @JsonIgnore
     public String getExpiredDate() {
-        String result = "";
+        return "";
         /*
         if (this.getOffer().getCountDay() <= 0) {
             return result;
@@ -110,7 +114,6 @@ public class DtoOrder {
             result = DateTimeUtils.defaultFormatDate(this.getOffer().getExpiredDate());
         }
         */
-        return result;
     }
 
     @JsonIgnore
@@ -126,11 +129,7 @@ public class DtoOrder {
 
     @JsonIgnore
     public boolean isPrepayment() {
-        if (payment == PaymentTypes.PREPAYMENT || payment == PaymentTypes.YANDEX_PAY) {
-            return true;
-        } else {
-            return false;
-        }
+        return OrderHelper.isPrepayment(payment);
     }
 
     @JsonIgnore

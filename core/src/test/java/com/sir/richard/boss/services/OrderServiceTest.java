@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.PropertySource;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Slf4j
@@ -148,8 +149,8 @@ public class OrderServiceTest {
 
     @Test
     public void testCompanyOrderAdd() throws CoreException {
-        //orderService.delete(100457L);
-        //customerService.delete(100458L);
+        //orderService.delete(100524L);
+        //customerService.delete(100525L);
 
         DtoOrder dtoOrder = jsonMapper.fromJSON(stub.getAddCompanyOrderData(), DtoOrder.class);
         Order order = inDtoOrderConverter.convertTo(dtoOrder);
@@ -165,13 +166,17 @@ public class OrderServiceTest {
         Assertions.assertNotNull(addedOrder.getCustomer().getViewShortName());
 
         Long customerId = addedOrder.getCustomer().getId();
+        addedOrder.setStatus(OrderStatuses.APPROVED);
+        addedOrder.setAnnotation("annotation");
+        addedOrder.getDelivery().setTrackCode("12345678");
 
-        orderService.changeStatusOrder(orderId, OrderStatuses.APPROVED,
-                "annotation", "12345", null,
-                userService.getSystem());
+
+        orderService.changeFullStatusOrder(addedOrder, userService.getSystem());
+
         Order changeStatusOrder = orderService.findById(orderId);
         Assertions.assertEquals(OrderStatuses.APPROVED, changeStatusOrder.getStatus());
-        Assertions.assertEquals("12345", changeStatusOrder.getDelivery().getTrackCode());
+        Assertions.assertEquals("12345678", changeStatusOrder.getDelivery().getTrackCode());
+        Assertions.assertEquals("annotation", changeStatusOrder.getAnnotation());
 
         orderService.delete(orderId);
         customerService.delete(customerId);

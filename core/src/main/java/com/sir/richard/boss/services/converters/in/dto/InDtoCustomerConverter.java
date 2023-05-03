@@ -5,7 +5,6 @@ import com.sir.richard.boss.model.data.CompanyCustomer;
 import com.sir.richard.boss.model.data.Contact;
 import com.sir.richard.boss.model.data.Customer;
 import com.sir.richard.boss.model.types.AddressTypes;
-import com.sir.richard.boss.model.types.CustomerTypes;
 import com.sir.richard.boss.rest.dto.DtoCustomer;
 import com.sir.richard.boss.services.converters.IOConverter;
 import org.springframework.stereotype.Component;
@@ -15,7 +14,7 @@ public class InDtoCustomerConverter implements IOConverter<DtoCustomer, AnyCusto
     @Override
     public AnyCustomer convertTo(DtoCustomer dtoCustomer) {
         AnyCustomer customer;
-        if (dtoCustomer.getType() == CustomerTypes.CUSTOMER) {
+        if (dtoCustomer.getType().isPerson() && dtoCustomer.getPerson() != null) {
             Customer localCustomer = new Customer();
             localCustomer.setId(dtoCustomer.getId());
             localCustomer.setPersonId(dtoCustomer.getPerson().getId());
@@ -24,14 +23,12 @@ public class InDtoCustomerConverter implements IOConverter<DtoCustomer, AnyCusto
             localCustomer.setLastName(dtoCustomer.getPerson().getLastName());
             localCustomer.setPhoneNumber(dtoCustomer.getPerson().getPhoneNumber());
             localCustomer.setEmail(dtoCustomer.getPerson().getEmail());
-
             customer = localCustomer;
-        } else if (dtoCustomer.getType() == CustomerTypes.COMPANY) {
+        } else if (dtoCustomer.getType().isCompany() && dtoCustomer.getCompany() != null) {
             CompanyCustomer localCustomer = new CompanyCustomer();
             localCustomer.setInn(dtoCustomer.getCompany().getInn());
             localCustomer.setShortName(dtoCustomer.getCompany().getShortName());
             localCustomer.setLongName(dtoCustomer.getCompany().getLongName());
-
             dtoCustomer.getCompany().getContacts().forEach(teContact -> {
                 Contact contact = new Contact(dtoCustomer.getAddress().getCountry());
                 contact.setId(teContact.getId());
@@ -48,10 +45,12 @@ public class InDtoCustomerConverter implements IOConverter<DtoCustomer, AnyCusto
             customer = null;
         }
         // todo Address deliveryAddress = addressConverter.convertTo(dtoOrder.getDelivery().getAddress());
-        customer.setId(dtoCustomer.getId());
-        customer.getAddress().setCountry(dtoCustomer.getAddress().getCountry());
-        customer.getAddress().setAddressType(AddressTypes.MAIN);
-        customer.getAddress().setAddress(dtoCustomer.getAddress().getAddress());
+        if (customer != null) {
+            customer.setId(dtoCustomer.getId());
+            customer.getAddress().setCountry(dtoCustomer.getAddress().getCountry());
+            customer.getAddress().setAddressType(AddressTypes.MAIN);
+            customer.getAddress().setAddress(dtoCustomer.getAddress().getAddress());
+        }
         return customer;
     }
 }

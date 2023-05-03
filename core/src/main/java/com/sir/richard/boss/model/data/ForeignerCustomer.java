@@ -2,6 +2,7 @@ package com.sir.richard.boss.model.data;
 
 import com.sir.richard.boss.model.types.Countries;
 import com.sir.richard.boss.model.types.CustomerTypes;
+import com.sir.richard.boss.utils.helpers.CustomerHelper;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
@@ -82,26 +83,7 @@ public class ForeignerCustomer extends AnyCustomer implements Person {
 
     @Override
     public String getViewShortName() {
-        if (StringUtils.isNotEmpty(this.firstName) && StringUtils.isEmpty(this.lastName)) {
-            return this.firstName.trim();
-        }
-        if (StringUtils.isEmpty(this.firstName) && StringUtils.isNotEmpty(this.lastName)) {
-            return this.lastName.trim();
-        }
-        if (StringUtils.isNotEmpty(this.firstName) && StringUtils.isNotEmpty(this.lastName) && StringUtils.isEmpty(this.middleName)) {
-            return (this.lastName + " " + this.firstName).trim();
-        }
-        String ln = "", fn = "", mn = "";
-        if (!StringUtils.isEmpty(this.lastName)) {
-            ln = this.lastName.trim();
-        }
-        if (!StringUtils.isEmpty(this.firstName)) {
-            fn = this.firstName.trim().charAt(0) + ".";
-        }
-        if (!StringUtils.isEmpty(this.middleName)) {
-            mn = this.middleName.trim().charAt(0) + ".";
-        }
-        return (ln + " " + fn + " " + mn).trim();
+        return CustomerHelper.getCustomerShortName(firstName, middleName, lastName);
     }
 
     @Override

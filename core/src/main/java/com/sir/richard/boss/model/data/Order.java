@@ -2,6 +2,7 @@ package com.sir.richard.boss.model.data;
 
 import com.sir.richard.boss.model.types.*;
 import com.sir.richard.boss.utils.DateTimeUtils;
+import com.sir.richard.boss.utils.helpers.OrderHelper;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -95,132 +96,15 @@ public class Order extends AnyId {
     }
 
     public boolean isBillAmount() {
-        if (this.getOrderType() == OrderTypes.ORDER) {
-            if (this.getStatus() == OrderStatuses.APPROVED) {
-                return true;
-            } else if (this.getStatus() == OrderStatuses.PAY_WAITING) {
-                return true;
-            } else if (this.getStatus() == OrderStatuses.PAY_ON) {
-                return true;
-            } else if (this.getStatus() == OrderStatuses.DELIVERING) {
-                return true;
-            } else if (this.getStatus() == OrderStatuses.READY_GIVE_AWAY) {
-                return true;
-            } else if (this.getStatus() == OrderStatuses.READY_GIVE_AWAY_TROUBLE) {
-                return true;
-            } else if (this.getStatus() == OrderStatuses.DELIVERED) {
-                return true;
-            } else if (this.getStatus() == OrderStatuses.FINISHED) {
-                return true;
-            } else if (this.getStatus() == OrderStatuses.DOC_NOT_EXIST) {
-                return true;
-            } else {
-                return true;
-            }
-        } else if (this.getOrderType() == OrderTypes.BILL) {
-            if (this.isPrepayment()) {
-                if (this.getStatus() == OrderStatuses.APPROVED) {
-                    return false;
-                } else if (this.getStatus() == OrderStatuses.PAY_WAITING) {
-                    return false;
-                } else if (this.getStatus() == OrderStatuses.PAY_ON) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.DELIVERING) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.READY_GIVE_AWAY) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.READY_GIVE_AWAY_TROUBLE) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.DELIVERED) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.FINISHED) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.DOC_NOT_EXIST) {
-                    return true;
-                } else {
-                    return true;
-                }
-            } else if (this.getPaymentType() == PaymentTypes.POSTPAY) {
-
-                if (this.getStatus() == OrderStatuses.APPROVED) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.PAY_WAITING) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.PAY_ON) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.DELIVERING) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.READY_GIVE_AWAY) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.READY_GIVE_AWAY_TROUBLE) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.DELIVERED) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.FINISHED) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.DOC_NOT_EXIST) {
-                    return true;
-                } else {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return OrderHelper.isBillAmount(orderType, paymentType, status);
     }
 
     public boolean isPrepayment() {
-        if (paymentType == PaymentTypes.PREPAYMENT || paymentType == PaymentTypes.YANDEX_PAY) {
-            return true;
-        } else {
-            return false;
-        }
+        return OrderHelper.isPrepayment(paymentType);
     }
 
-    public boolean isPostpayAmount() {
-
-        if (this.getOrderType() == OrderTypes.ORDER) {
-            if (this.getPaymentType() == PaymentTypes.POSTPAY) {
-                // заказ ФЛ с наложенным платежом
-                if (this.getStatus() == OrderStatuses.APPROVED) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.DELIVERING) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.READY_GIVE_AWAY) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.READY_GIVE_AWAY_TROUBLE) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.DELIVERED) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.REDELIVERY) {
-                    return true;
-                } else {
-                    return true;
-                }
-            } else if (this.getPaymentType() == PaymentTypes.PAYMENT_COURIER) {
-                return false;
-            }
-        } else if (this.getOrderType() == OrderTypes.BILL) {
-            if (this.isPrepayment()) {
-                return false;
-            } else if (this.getPaymentType() == PaymentTypes.POSTPAY) {
-                if (this.getStatus() == OrderStatuses.APPROVED) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.DELIVERING) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.READY_GIVE_AWAY) {
-                    return true;
-                }  else if (this.getStatus() == OrderStatuses.READY_GIVE_AWAY_TROUBLE) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.DELIVERED) {
-                    return true;
-                } else if (this.getStatus() == OrderStatuses.PAY_WAITING) {
-                    return true;
-                } else {
-                    return true;
-                }
-            }
-        }
-        return false;
+    public boolean isPostpaidAmount() {
+        return OrderHelper.isPostpaidAmount(orderType, paymentType, status);
     }
 
     @Override

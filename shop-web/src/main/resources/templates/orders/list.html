@@ -31,6 +31,13 @@
           </div>
         </div>
         <!-- alert block ets -->
+        <span th:if="${msg != null}">
+          <div th:class="'alert alert-' + ${css} + ' alert-dismissible fade show'" role="alert" th:text="${msg}">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </span>
         <div>
           <button id="button-crm-load" class="btn btn-sm btn-light" onclick="onClickCrmLoad()" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Загрузить заказы из лидов">
             <i class="bi bi-arrow-repeat text-dark"></i>
@@ -64,7 +71,6 @@
               <a id="button-bill-expired-status" class="dropdown-item">Запрос на актуальность</a>
               <div class="dropdown-divider"></div>
               <a id="button-clone" class="dropdown-item">Копировать</a>
-
             </div>
           </div>
 
@@ -114,15 +120,15 @@
               <th scope="col">
                 <input id="checkbox-union" type="checkbox">
               </th>
-              <th scope="col">#</th>
-              <th scope="col">Дата</th>
-              <th scope="col">Категория</th>
-              <th scope="col">Клиент</th>
-              <th scope="col">Телефон</th>
-              <th scope="col">Адрес</th>
-              <th scope="col">Доставка</th>
-              <th scope="col">Итого</th>
-              <th scope="col">Трэккод</th>
+              <th scope="col" th:text="#{orders.table.headers.no}"></th>
+              <th scope="col" th:text="#{orders.table.headers.dateOrder}"></th>
+              <th scope="col" th:text="#{orders.table.headers.category}"></th>
+              <th scope="col" th:text="#{orders.table.headers.client}"></th>
+              <th scope="col" th:text="#{orders.table.headers.phone}"></th>
+              <th scope="col" th:text="#{orders.table.headers.address}"></th>
+              <th scope="col" th:text="#{orders.table.headers.delivery}"></th>
+              <th scope="col" th:text="#{orders.table.headers.amount}"></th>
+              <th scope="col" th:text="#{orders.table.headers.trackCode}"></th>
             </tr>
             </thead>
             <tbody>
@@ -133,8 +139,8 @@
                 -->
                 <input type="checkbox" th:attr="id='checkbox-' + ${order.id}">
               </td>
-              <td th:id="'td-id-' + ${order.id}" th:class="'td-id table-' + ${order.viewStatus.orderNo}" scope="row" th:attr="data-id=${order.id}">
-                <a th:href="@{/web/orders/{orderId}(orderId=${order.id})}" th:text="${order.orderNo}"></a>
+              <td th:id="'td-id-' + ${order.id}" th:class="'td-id table-' + ${order.viewStatus.orderNo}" th:attr="data-id=${order.id}">
+                <a th:href="@{/web/orders/{orderId}/{listType}(orderId=${order.id}, listType=${listType})}" th:text="${order.orderNo}"></a>
               </td>
               <td th:class="'table-' + ${order.viewStatus.orderDate}"
                   th:attr="data-original-title=${order.viewDateInfo}"
@@ -434,7 +440,7 @@
                     deleteHref = '${urlOrders}/' + orderId + '/delete';
                     cloneHref = '${urlOrders}/' + orderId + '/clone';
 
-                    changeStatusHref = '${urlOrders}/' + orderId + '/change-status/${listType}';
+                    changeStatusHref = orderId + '/change-status/orders';
                     bidExpiredHref = '${urlOrders}/' + orderId + '/bill-expired-status/${listType}';
                     eraseHref = '${urlOrders}/' + orderId + '/erase';
 

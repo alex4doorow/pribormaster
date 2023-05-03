@@ -27,30 +27,31 @@
 
 <h4>Детали реализации</h4>
 01. jdk 18.0.2.1
-02. spring boot 2.7.4 with starters: web, security, actuator, devtools, cashe, jpa, jdbc, validation, tomcat      
-03. lombok 1.18.24
-04. sl4j, logback 1.2.11
-05. jackson 2.4.12 
-06. junit 5.8
-07. postgres sql 15
-08. apache poi 5.2
-09. jasper reports, studio 6.20.1
-10. WEB
+02. spring framework 5.3.23 
+03. spring boot 2.7.4 with starters: web, security, actuator, devtools, cashe, jpa, jdbc, validation, tomcat      
+04. lombok 1.18.24
+05. sl4j, logback 1.2.11
+06. jackson 2.4.12 
+07. junit 5.8
+08. postgres sql 15
+09. apache poi 5.2
+10. jasper reports, studio 6.20.1
+11. WEB
    a. tomcat 9.0.67 
    b. thymeleaf 2.7.4
    c. bootstrap 4.2.1
    d. jQuery 3.3.1
   
-11. Сборка: maven 3.8.7
-12. Subversion: git, github
-13. Среда разработки: JetBrains IntelliJ IDEA 
-14. Отчёты и первичные документы: УПД, счета, товарные и транспортные накладные формируются в pdf с помощью jasperReports
-15. Экспорт и импорт данных: Apache POI
-16. Интеграция с внешними системами: REST with spring web client + jackson
+12. Сборка: maven 3.8.7
+13. Subversion: git, github
+14. Среда разработки: JetBrains IntelliJ IDEA 
+15. Отчёты и первичные документы: УПД, счета, товарные и транспортные накладные формируются в pdf с помощью jasperReports
+16. Экспорт и импорт данных: Apache POI
+17. Интеграция с внешними системами: REST with spring web client + jackson
 
 <h4>Реализованы 2 имплементации:</h4>
-1. web - интерфейс для работы пользователей
-2. rest - взаимодействие через rest
+01. web - интерфейс для работы пользователей
+02. rest - взаимодействие через rest
 
 Реальные application.properties в проект не заложены из-за соображений безопасности. В них присутствуют параметры 
 интеграций с CDEK, OZON, Яндекс Маркет и т.п.
@@ -65,5 +66,5 @@
 Если он в true, то запускаются шедулеры и обращаются через интеграцию во внешние системы: передают данные, обновляют данные.
 Для тестовой среды этот параметр сброшен
 
-В каталоге /db находятся файлы построения бд. Cтруктура данных разработана для DB POSTGRES
+В каталоге /db находятся файлы построения DB. Cтруктура данных разработана для POSTGRES
 
