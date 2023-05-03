@@ -9,18 +9,22 @@ import com.sir.richard.boss.error.CoreException;
 import com.sir.richard.boss.model.data.Order;
 import com.sir.richard.boss.model.data.OrderStatusItem;
 import com.sir.richard.boss.model.data.conditions.OrderConditions;
+import com.sir.richard.boss.model.types.OrderAmountTypes;
 import com.sir.richard.boss.model.types.OrderStatuses;
 import com.sir.richard.boss.services.converters.in.model.InOrderConverter;
 import com.sir.richard.boss.services.converters.out.model.OutOrderConverter;
+import com.sir.richard.boss.utils.Pair;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -30,6 +34,8 @@ public class OrderService {
     private EntityManager entityManager;
     @Autowired
     private TePersonRepository personRepository;
+    @Autowired
+    private WikiService wikiService;
     @Autowired
     private TeCustomerRepository customerRepository;
     @Autowired
@@ -187,6 +193,126 @@ public class OrderService {
         return orderRepository.findMaxOrderNo() + 1;
     }
 
+    public Map<OrderAmountTypes, BigDecimal> calcTotalOrdersAmountsByConditions(List<Order> orders, Pair<LocalDate> period) {
+        Map<OrderAmountTypes, BigDecimal> results = new HashMap<OrderAmountTypes, BigDecimal>();
 
+        BigDecimal billAmount = BigDecimal.ZERO;
+        BigDecimal supplierAmount = BigDecimal.ZERO;
+        BigDecimal marginAmount = BigDecimal.ZERO;
+        BigDecimal marginWithoutAdvertAmount = BigDecimal.ZERO;
+        BigDecimal approvedConversion = BigDecimal.ZERO;
+        BigDecimal bidConversion = BigDecimal.ZERO;
 
+        int realOrdersCount = 0;
+        for (Order order : orders) {
+            if (order.isBillAmount()) {
+                realOrdersCount++;
+                billAmount = billAmount.add(order.getAmounts().getBill());
+                supplierAmount = supplierAmount.add(order.getAmounts().getSupplier());
+                marginAmount = marginAmount.add(order.getAmounts().getMargin());
+            }
+        }
+
+        BigDecimal advertAmount = wikiService.ejectTotalAmountsByConditions(OrderAmountTypes.ADVERT_BUDGET, period);
+        BigDecimal clickCount = wikiService.ejectTotalAmountsByConditions(OrderAmountTypes.COUNT_VISITS, period);
+        if (clickCount == null || clickCount.equals(BigDecimal.ZERO)) {
+            approvedConversion = BigDecimal.ZERO;
+            bidConversion = BigDecimal.ZERO;
+
+        } else {
+            approvedConversion = BigDecimal.valueOf(realOrdersCount).divide(clickCount, 4, RoundingMode.HALF_UP);
+            bidConversion = BigDecimal.valueOf(orders.size()).divide(clickCount, 4, RoundingMode.HALF_UP);
+        }
+        marginWithoutAdvertAmount = marginAmount.subtract(advertAmount);
+        results.put(OrderAmountTypes.BILL, billAmount);
+        results.put(OrderAmountTypes.SUPPLIER, supplierAmount);
+        results.put(OrderAmountTypes.MARGIN, marginWithoutAdvertAmount);
+        Map<OrderAmountTypes, BigDecimal> postpayAmounts = calcTotalOrdersPostpayAmountByConditions();
+
+        results.put(OrderAmountTypes.POSTPAY, postpayAmounts.get(OrderAmountTypes.POSTPAY));
+        results.put(OrderAmountTypes.POSTPAY_SDEK, postpayAmounts.get(OrderAmountTypes.POSTPAY_SDEK));
+        results.put(OrderAmountTypes.POSTPAY_POST, postpayAmounts.get(OrderAmountTypes.POSTPAY_POST));
+        results.put(OrderAmountTypes.POSTPAY_COMPANY, postpayAmounts.get(OrderAmountTypes.POSTPAY_COMPANY));
+        results.put(OrderAmountTypes.POSTPAY_YANDEX_MARKET, postpayAmounts.get(OrderAmountTypes.POSTPAY_YANDEX_MARKET));
+        results.put(OrderAmountTypes.POSTPAY_OZON_MARKET, postpayAmounts.get(OrderAmountTypes.POSTPAY_OZON_MARKET));
+        results.put(OrderAmountTypes.POSTPAY_OZON_ROCKET, postpayAmounts.get(OrderAmountTypes.POSTPAY_OZON_ROCKET));
+        results.put(OrderAmountTypes.POSTPAY_YANDEX_GO, postpayAmounts.get(OrderAmountTypes.POSTPAY_YANDEX_GO));
+
+        results.put(OrderAmountTypes.ADVERT_BUDGET, advertAmount);
+        results.put(OrderAmountTypes.COUNT_REAL_ORDERS, BigDecimal.valueOf(realOrdersCount));
+        results.put(OrderAmountTypes.CONVERSION_APPROVED, approvedConversion);
+        results.put(OrderAmountTypes.CONVERSION_BID, bidConversion);
+        return results;
+    }
+
+    private Map<OrderAmountTypes, BigDecimal> calcTotalOrdersPostpayAmountByConditions() {
+/*
+        final String sqlSelectMinOrderDate = "SELECT MIN(order_date) MIN_ORDER_DATE FROM sr_order "
+                + "WHERE amount_postpay > 0 "
+                + "AND status NOT IN (0, 1, 21, 22, 2, 4, 8, 13, 15, 16, 11)";
+
+        java.sql.Date minOrderDate = jdbcTemplate.queryForObject(sqlSelectMinOrderDate, java.sql.Date.class);
+*/
+        final Map<OrderAmountTypes, BigDecimal> postpayAmounts = new HashMap<>();
+
+        BigDecimal postpayAmount = BigDecimal.ZERO;
+        BigDecimal sDekPostpayAmount = BigDecimal.ZERO;
+        BigDecimal postPostpayAmount = BigDecimal.ZERO;
+        BigDecimal companyPostpayAmount = BigDecimal.ZERO;
+        BigDecimal yandexMarketPostpayAmount = BigDecimal.ZERO;
+        BigDecimal ozonMarketPostpayAmount = BigDecimal.ZERO;
+        BigDecimal ozonRocketPostpayAmount = BigDecimal.ZERO;
+        BigDecimal yandexGoPostpayAmount = BigDecimal.ZERO;
+/*
+        Pair<LocalDate> postpayPeriod;
+        try {
+            postpayPeriod = new Pair<Date>(new Date(minOrderDate.getTime()),
+                    DateTimeUtils.lastDayOfMonth(DateTimeUtils.sysDate()));
+        } catch (Exception e) {
+            postpayPeriod = new Pair<Date>();
+            log.error("Exception:", e);
+        }
+
+        OrderConditions orderPostpayConditions = new OrderConditions();
+        orderPostpayConditions.setPeriod(postpayPeriod);
+        List<Order> orders = listOrdersByConditions(orderPostpayConditions);
+        for (Order order : orders) {
+            if (order.isPostpayAmount()) {
+
+                postpayAmount = postpayAmount.add(order.getAmounts().getPostpay());
+
+                if (order.getAdvertType() == OrderAdvertTypes.YANDEX_MARKET) {
+                    yandexMarketPostpayAmount = yandexMarketPostpayAmount.add(order.getAmounts().getPostpay());
+                } else if (order.getAdvertType() == OrderAdvertTypes.OZON) {
+                    ozonMarketPostpayAmount = ozonMarketPostpayAmount.add(order.getAmounts().getPostpay());
+                } else if (order.getCustomer().isPerson() && (order.getDelivery().getDeliveryType().isOzonRocket())) {
+                    ozonRocketPostpayAmount = ozonRocketPostpayAmount.add(order.getAmounts().getPostpay());
+                } else if (order.getCustomer().isPerson() && (order.getDelivery().getDeliveryType().isCdek() || order.getDelivery().getDeliveryType() == DeliveryTypes.PICKUP)) {
+                    sDekPostpayAmount = sDekPostpayAmount.add(order.getAmounts().getPostpay());
+                } else if (order.getCustomer().isPerson() && order.getDelivery().getDeliveryType().isPost()) {
+                    postPostpayAmount = postPostpayAmount.add(order.getAmounts().getPostpay());
+                } else if (order.getCustomer().isPerson() && order.getDelivery().getDeliveryType() == DeliveryTypes.YANDEX_GO) {
+                    yandexGoPostpayAmount = postPostpayAmount.add(order.getAmounts().getPostpay());
+                } else if (order.getCustomer().isCompany()) {
+                    companyPostpayAmount = companyPostpayAmount.add(order.getAmounts().getPostpay());
+                } else {
+                    sDekPostpayAmount = sDekPostpayAmount.add(order.getAmounts().getPostpay());
+                }
+                log.debug("postpay: {}, {}, {}, [sdek:{}, post:{}, company:{}, ym:{}, ozon:{}, yGo:{}]", order.getNo(), order.getCustomer().getViewShortName(), order.getAmounts().getPostpay(),
+                        sDekPostpayAmount, postPostpayAmount, companyPostpayAmount,
+                        yandexMarketPostpayAmount, ozonMarketPostpayAmount, yandexGoPostpayAmount);
+            }
+        }
+
+ */
+        postpayAmounts.put(OrderAmountTypes.POSTPAY, postpayAmount);
+        postpayAmounts.put(OrderAmountTypes.POSTPAY_SDEK, sDekPostpayAmount);
+        postpayAmounts.put(OrderAmountTypes.POSTPAY_POST, postPostpayAmount);
+        postpayAmounts.put(OrderAmountTypes.POSTPAY_COMPANY, companyPostpayAmount);
+        postpayAmounts.put(OrderAmountTypes.POSTPAY_YANDEX_MARKET, yandexMarketPostpayAmount);
+        postpayAmounts.put(OrderAmountTypes.POSTPAY_OZON_MARKET, ozonMarketPostpayAmount);
+        postpayAmounts.put(OrderAmountTypes.POSTPAY_OZON_ROCKET, ozonRocketPostpayAmount);
+        postpayAmounts.put(OrderAmountTypes.POSTPAY_YANDEX_GO, yandexGoPostpayAmount);
+        return postpayAmounts;
+    }
 }

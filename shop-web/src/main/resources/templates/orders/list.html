@@ -182,6 +182,61 @@
           </table>
         </div>
     </main>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-9">
+        </div>
+        <div class="col-sm-3">
+          <ul class="list-group-flush">
+            <li class="list-group-item text-right">
+              <span th:text="#{orders.table.footers.amount.bill}"></span>&nbsp;
+              <strong th:text="${#numbers.formatCurrency(totalAmounts.get(T(com.sir.richard.boss.model.types.OrderAmountTypes).BILL))}"></strong>
+            </li>
+            <li class="list-group-item text-right">
+              <span th:text="#{orders.table.footers.amount.supplier}"></span>&nbsp;
+              <strong th:text="${#numbers.formatCurrency(totalAmounts.get(T(com.sir.richard.boss.model.types.OrderAmountTypes).SUPPLIER))}"></strong>
+            </li>
+            <li class="list-group-item text-right">
+              <span th:text="#{orders.table.footers.amount.advert}"></span>&nbsp;
+              <strong th:text="${#numbers.formatCurrency(totalAmounts.get(T(com.sir.richard.boss.model.types.OrderAmountTypes).ADVERT_BUDGET))}"></strong>
+            </li>
+            <li class="list-group-item text-right">
+              <span th:text="#{orders.table.footers.amount.margin}"></span>&nbsp;
+              <strong th:text="${#numbers.formatCurrency(totalAmounts.get(T(com.sir.richard.boss.model.types.OrderAmountTypes).MARGIN))}"></strong>
+            </li>
+            <li class="list-group-item text-right">
+              <span th:text="#{orders.table.footers.amount.postpay}"></span>&nbsp;
+              <strong th:text="${#numbers.formatCurrency(totalAmounts.get(T(com.sir.richard.boss.model.types.OrderAmountTypes).POSTPAY))}"
+                      data-container="body" data-toggle="tooltip" data-placement="bottom" title=""
+                      data-original-title="Наложенный платеж СДЭК: 15 660,00 ₽,
+				         							 Наложенный платеж Почта России: 0,00 ₽,
+				         							 Постоплата по организациям: 54 450,00 ₽
+				         							 Постоплата по Яндекс.Маркет: 0,00 ₽
+				         							 Постоплата по ОЗОН: 0,00 ₽
+				         							 Постоплата по Yandex.GO: 0,00 ₽">
+              </strong>
+            </li>
+            <li class="list-group-item text-right">
+              <span th:text="#{orders.table.footers.count.total}"></span>&nbsp;
+              <span th:text="${orders.size()}"></span>
+            </li>
+            <li class="list-group-item text-right">
+              <span th:text="#{orders.table.footers.count.real}"></span>&nbsp;
+              <span th:text="${#numbers.formatInteger(totalAmounts.get(T(com.sir.richard.boss.model.types.OrderAmountTypes).COUNT_REAL_ORDERS), 1)}"></span>
+            </li>
+            <li class="list-group-item text-right">
+              <strong data-container="body"
+                      data-toggle="tooltip"
+                      data-placement="bottom"
+                      title=""
+                      data-original-title="Конверсия в заявку:&nbsp;0,00 %">
+              </strong>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
     <div th:replace="~{fragments/footer-scripts :: footer-scripts}"></div>
     <script>
         $('#nav-link-orders').addClass('active');
