@@ -1,5 +1,7 @@
 package com.sir.richard.boss.services;
 
+import com.sir.richard.boss.bl.entity.TeUser;
+import com.sir.richard.boss.bl.jpa.TeUserRepository;
 import com.sir.richard.boss.error.CoreException;
 import com.sir.richard.boss.model.data.Order;
 import com.sir.richard.boss.model.types.CustomerTypes;
@@ -33,6 +35,9 @@ public class OrderServiceTest {
 
     @Autowired
     private InDtoOrderConverter inDtoOrderConverter;
+
+    @Autowired
+    private UserService userService;
 
     @Test
     public void testCustomerOrderFindById() {
@@ -103,7 +108,7 @@ public class OrderServiceTest {
         Assertions.assertNotNull(order.getItems());
         Assertions.assertNotNull(order.getStatuses());
 
-        Long orderId = orderService.add(order);
+        Long orderId = orderService.add(order, userService.getSystem());
         Order addedOrder = orderService.findById(orderId);
 
         Assertions.assertNotNull(addedOrder.getId());
@@ -143,11 +148,14 @@ public class OrderServiceTest {
 
     @Test
     public void testCompanyOrderAdd() throws CoreException {
+        //orderService.delete(100457L);
+        //customerService.delete(100458L);
+
         DtoOrder dtoOrder = jsonMapper.fromJSON(stub.getAddCompanyOrderData(), DtoOrder.class);
         Order order = inDtoOrderConverter.convertTo(dtoOrder);
         log.info("order: {}", order);
 
-        Long orderId = orderService.add(order);
+        Long orderId = orderService.add(order, userService.getSystem());
         Order addedOrder = orderService.findById(orderId);
 
         Assertions.assertNotNull(addedOrder.getId());
@@ -157,6 +165,13 @@ public class OrderServiceTest {
         Assertions.assertNotNull(addedOrder.getCustomer().getViewShortName());
 
         Long customerId = addedOrder.getCustomer().getId();
+
+        orderService.changeStatusOrder(orderId, OrderStatuses.APPROVED,
+                "annotation", "12345", null,
+                userService.getSystem());
+        Order changeStatusOrder = orderService.findById(orderId);
+        Assertions.assertEquals(OrderStatuses.APPROVED, changeStatusOrder.getStatus());
+        Assertions.assertEquals("12345", changeStatusOrder.getDelivery().getTrackCode());
 
         orderService.delete(orderId);
         customerService.delete(customerId);

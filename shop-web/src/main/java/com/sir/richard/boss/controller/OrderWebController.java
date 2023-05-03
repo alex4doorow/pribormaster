@@ -1,5 +1,6 @@
 package com.sir.richard.boss.controller;
 
+import com.sir.richard.boss.error.CoreException;
 import com.sir.richard.boss.model.data.Order;
 import com.sir.richard.boss.model.data.conditions.OrderConditions;
 import com.sir.richard.boss.rest.dto.DtoOrder;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/web/orders")
 @Slf4j
-public class OrderWebController {
+public class OrderWebController extends BaseController {
 
     @Autowired
     private OrderService orderService;
@@ -46,5 +48,26 @@ public class OrderWebController {
         List<DtoOrder> dtoOrders = outDtoOrderConverter.convertTo(orders);
         model.addAttribute("orders", dtoOrders);
         return "orders/list";
+    }
+
+    @PostMapping("/add")
+    public String addData(Model model) throws CoreException {
+        log.info("[START] {} request", "ADD");
+
+        //DtoOrder dtoOrder = jsonMapper.fromJSON(body, DtoOrder.class);
+        //Order order = inDtoOrderConverter.convertTo(dtoOrder);
+        Order order = new Order();
+        Long orderId = orderService.add(order, getCurrentUser());
+        /*
+        if (orderId == null) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        Order resultOrder = orderService.findById(orderId);
+        DtoOrder resultDtoOrder = outDtoOrderConverter.convertTo(resultOrder);
+        //Optional<DtoOrder> result = orderService.findById(orderId);
+        return new ResponseEntity<>(resultDtoOrder, HttpStatus.ACCEPTED);
+
+        */
+        return null;
     }
 }

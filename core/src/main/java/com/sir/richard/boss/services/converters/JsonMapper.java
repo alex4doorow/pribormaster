@@ -15,12 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-@Component
 @Slf4j
+@Component
 public class JsonMapper {
-
-    public static final boolean THROWS = true;
-    public static final boolean NOT_THROWS = false;
 
     private final ObjectMapper mapper;
 

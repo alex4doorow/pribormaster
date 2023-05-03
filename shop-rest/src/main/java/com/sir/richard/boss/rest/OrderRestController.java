@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/rest/v1/orders")
 @Slf4j
-public class OrderRestController extends BaseRestController{
+public class OrderRestController extends BaseRestController {
 
     @Autowired
     private OrderService orderService;
@@ -41,7 +41,7 @@ public class OrderRestController extends BaseRestController{
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Object> findDataById(@PathVariable Long id) {
+    public ResponseEntity<Object> findDataById(@PathVariable Long id) {
         log.info("[START] {} request: {}", "FIND", id);
 
         try {
@@ -54,11 +54,11 @@ public class OrderRestController extends BaseRestController{
     }
 
     @PostMapping("/add")
-    ResponseEntity<DtoOrder> addData(@RequestBody String body) throws CoreException {
+    public ResponseEntity<DtoOrder> addData(@RequestBody String body) throws CoreException {
         log.info("[START] {} request:\n{}", "ADD", body);
         DtoOrder dtoOrder = jsonMapper.fromJSON(body, DtoOrder.class);
         Order order = inDtoOrderConverter.convertTo(dtoOrder);
-        Long orderId = orderService.add(order);
+        Long orderId = orderService.add(order, getCurrentUser());
         if (orderId == null) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -69,7 +69,7 @@ public class OrderRestController extends BaseRestController{
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<DtoOrder> updateData(@PathVariable Long id,
+    public ResponseEntity<DtoOrder> updateData(@PathVariable Long id,
                                         @RequestBody String body) throws CoreException {
         log.info("[START] {} request:\n{}", "UPDATE", body);
         DtoOrder dtoOrder = jsonMapper.fromJSON(body, DtoOrder.class);
@@ -94,7 +94,7 @@ public class OrderRestController extends BaseRestController{
     }
 
     @DeleteMapping("/{id}")
-    void deleteData(@PathVariable Long id) {
+    public void deleteData(@PathVariable Long id) {
         log.info("[START] {} request: {}", "DELETE", id);
 
         //coffees.removeIf(c -> c.getId().equals(id));

@@ -100,10 +100,6 @@ public class InOrderConverter implements IOPersistConverter<Order, TeOrder> {
         teOrder.setEmailStatus(inputOrder.getEmailStatus().getId());
         teOrder.setAnnotation(inputOrder.getAnnotation());
 
-        // todo change after add spring security
-        TeUser user = entityManager.find(TeUser.class, 1L);
-        teOrder.setUserAdded(user);
-
         teOrder.setAmountTotal(inputOrder.getAmounts().getValue(OrderAmountTypes.TOTAL));
         teOrder.setAmountTotalWithDelivery(inputOrder.getAmounts().getValue(OrderAmountTypes.TOTAL_WITH_DELIVERY));
         teOrder.setAmountBill(inputOrder.getAmounts().getValue(OrderAmountTypes.BILL));

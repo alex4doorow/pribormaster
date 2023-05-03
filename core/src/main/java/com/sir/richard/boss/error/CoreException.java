@@ -7,6 +7,9 @@ public class CoreException extends Exception {
     @Serial
     private static final long serialVersionUID = -7090297228658157933L;
 
+    public static final boolean THROWS = true;
+    public static final boolean NOT_THROWS = false;
+
     public static final String INTERNAL_ERROR = "INTERNAL_ERROR";
     public static final String EXT_SERVICE_ERROR = "EXT_SERVICE_ERROR";
     public static final String EXT_SERVICE_REJECT = "EXT_SERVICE_REJECT";
