@@ -67,7 +67,7 @@ public class WebSecurityConfig {
                 .sessionManagement()
                 .sessionFixation().migrateSession()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .invalidSessionUrl("/web/login")
+                .invalidSessionUrl("/login")
                 .maximumSessions(2)
                 .expiredUrl("/session-expired");
         return http.build();

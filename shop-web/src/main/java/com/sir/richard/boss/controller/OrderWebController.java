@@ -48,26 +48,6 @@ public class OrderWebController extends BaseController {
         return "orders/show";
     }
 
-    @GetMapping("/")
-    public String findAll(Model model) {
-        log.info("[START] {} request", "FIND_ALL");
-
-        //OrderConditions orderConditions = wikiService.getConfig().loadOrderConditions(getUserIdByPrincipal());
-        OrderConditions orderConditions = new OrderConditions();
-
-        List<Order> orders = orderService.findAll(orderConditions);
-        List<DtoOrder> dtoOrders = outDtoOrderConverter.convertTo(orders);
-
-        Map<OrderAmountTypes, BigDecimal> totalAmounts = orderService.calcTotalOrdersAmountsByConditions(orders,
-                orderConditions.getPeriod());
-        populateDefaultModel(model);
-        model.addAttribute("orders", dtoOrders);
-        model.addAttribute("totalAmounts", totalAmounts);
-        model.addAttribute("reportPeriodType", ReportPeriodTypes.CURRENT_MONTH);
-        model.addAttribute("listType", "orders");
-        return "orders/list";
-    }
-
     @PostMapping("/add")
     public String addData(Model model) throws CoreException {
         log.info("[START] {} request", "ADD");

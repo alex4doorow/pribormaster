@@ -27,7 +27,7 @@ public class OrderWebControllerTest {
     public void testOrderByWeb() throws Exception {
         final Long id = 10714L;
         this.mockMvc.perform(
-                        get("/web/orders/" + id)
+                        get("/web/orders/" + id + "/orders")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(""))
                 .andExpect(status().is(HttpStatus.OK.value()))
