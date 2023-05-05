@@ -3,7 +3,7 @@ package com.sir.richard.boss.controller;
 import com.sir.richard.boss.bl.entity.TeUser;
 import com.sir.richard.boss.model.types.*;
 import com.sir.richard.boss.services.UserService;
-import com.sir.richard.boss.services.WikiService;
+import com.sir.richard.boss.services.WikiProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,7 +20,7 @@ public class BaseController {
     @Autowired
     private UserService userService;
     @Autowired
-    private WikiService wikiService;
+    private WikiProductService wikiProductService;
 
     protected TeUser getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -31,7 +31,7 @@ public class BaseController {
 
     protected void populateDefaultModel(Model model) {
 
-        model.addAttribute("productCategories", wikiService.getCategories());
+        model.addAttribute("productCategories", wikiProductService.getCategories());
         model.addAttribute("customerTypes", CustomerTypes.values());
         model.addAttribute("orderStatuses", OrderStatuses.values());
         model.addAttribute("orderTypes", OrderTypes.values());

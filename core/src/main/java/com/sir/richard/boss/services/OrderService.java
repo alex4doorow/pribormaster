@@ -4,12 +4,10 @@ import com.sir.richard.boss.bl.entity.*;
 import com.sir.richard.boss.bl.jpa.*;
 import com.sir.richard.boss.error.CoreException;
 import com.sir.richard.boss.model.data.Order;
-import com.sir.richard.boss.model.data.OrderItem;
 import com.sir.richard.boss.model.data.OrderStatusItem;
 import com.sir.richard.boss.model.data.conditions.OrderConditions;
 import com.sir.richard.boss.model.types.OrderAmountTypes;
 import com.sir.richard.boss.model.types.OrderStatuses;
-import com.sir.richard.boss.model.types.OrderTypes;
 import com.sir.richard.boss.services.converters.in.model.InOrderConverter;
 import com.sir.richard.boss.services.converters.out.model.OutOrderConverter;
 import com.sir.richard.boss.utils.Pair;
@@ -23,7 +21,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -34,7 +35,7 @@ public class OrderService {
     @Autowired
     private TePersonRepository personRepository;
     @Autowired
-    private WikiService wikiService;
+    private WikiProductService wikiProductService;
     @Autowired
     private TeCustomerRepository customerRepository;
     @Autowired
@@ -432,8 +433,8 @@ public class OrderService {
             }
         }
 
-        BigDecimal advertAmount = wikiService.ejectTotalAmountsByConditions(OrderAmountTypes.ADVERT_BUDGET, period);
-        BigDecimal clickCount = wikiService.ejectTotalAmountsByConditions(OrderAmountTypes.COUNT_VISITS, period);
+        BigDecimal advertAmount = wikiProductService.ejectTotalAmountsByConditions(OrderAmountTypes.ADVERT_BUDGET, period);
+        BigDecimal clickCount = wikiProductService.ejectTotalAmountsByConditions(OrderAmountTypes.COUNT_VISITS, period);
         if (clickCount == null || clickCount.equals(BigDecimal.ZERO)) {
             approvedConversion = BigDecimal.ZERO;
             bidConversion = BigDecimal.ZERO;

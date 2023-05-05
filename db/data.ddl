@@ -69,10 +69,6 @@ CREATE TABLE IF NOT EXISTS SR_SYS_TOTAL_AMOUNT (
 	PRIMARY KEY(ID)
 );
 
-/*-------------------------------------------------------------*/
-/*                ПОЛЬЗОВАТЕЛЬСКИЕ СПРАВОЧНИКИ                 */
-/*-------------------------------------------------------------*/
-
 /* СТАТУСЫ ПОКУПАТЕЛЕЙ */
 CREATE TABLE IF NOT EXISTS SR_WIKI_CUSTOMER_TYPE (
 	ID INT NOT NULL, /* ИДЕНТИФИКАТОР */
@@ -738,49 +734,49 @@ CREATE TABLE IF NOT EXISTS OC_PRODUCT_SPECIAL (
   PRIMARY KEY (PRODUCT_SPECIAL_ID)
 );
 
-CREATE TABLE oc_currency (
-  currency_id bigint NOT NULL,
-  title varchar(32) NOT NULL,
-  code varchar(3) NOT NULL,
-  symbol_left varchar(12) NOT NULL,
-  symbol_right varchar(12) NOT NULL,
-  decimal_place char(1) NOT NULL,
-  value numeric(15,8) NOT NULL,
-  status int NOT NULL,
-  date_modified timestamp NOT NULL,
-  PRIMARY KEY (currency_id)
+CREATE TABLE OC_CURRENCY (
+  CURRENCY_ID BIGINT NOT NULL,
+  TITLE VARCHAR(32) NOT NULL,
+  CODE VARCHAR(3) NOT NULL,
+  SYMBOL_LEFT VARCHAR(12) NOT NULL,
+  SYMBOL_RIGHT VARCHAR(12) NOT NULL,
+  DECIMAL_PLACE CHAR(1) NOT NULL,
+  VALUE NUMERIC(15,8) NOT NULL,
+  STATUS INT NOT NULL,
+  DATE_MODIFIED TIMESTAMP NOT NULL,
+  PRIMARY KEY (CURRENCY_ID)
 );
 
-CREATE TABLE oc_language (
-  language_id int NOT NULL,
-  name varchar(32) NOT NULL,
-  code varchar(5) NOT NULL,
-  locale varchar(255) NOT NULL,
-  image varchar(64) NOT NULL,
-  directory varchar(32) NOT NULL,
-  sort_order int NOT NULL DEFAULT '0',
-  status int NOT NULL,
-  PRIMARY KEY (language_id)
+CREATE TABLE OC_LANGUAGE (
+  LANGUAGE_ID INT NOT NULL,
+  NAME VARCHAR(32) NOT NULL,
+  CODE VARCHAR(5) NOT NULL,
+  LOCALE VARCHAR(255) NOT NULL,
+  IMAGE VARCHAR(64) NOT NULL,
+  DIRECTORY VARCHAR(32) NOT NULL,
+  SORT_ORDER INT NOT NULL DEFAULT '0',
+  STATUS INT NOT NULL,
+  PRIMARY KEY (LANGUAGE_ID)
  );
 
-CREATE TABLE oc_ll_cdek_city (
-  CityCode bigint NOT NULL,
-  region_id bigint NOT NULL,
-  country_id bigint NOT NULL,
-  CountryCode bigint NOT NULL,
-  CityName varchar(255) DEFAULT NULL,
-  EngName varchar(255) DEFAULT NULL,
-  FullName varchar(255) DEFAULT NULL,
-  EngFullName varchar(255) DEFAULT NULL,
-  Center varchar(255) DEFAULT NULL,
-  PostCodeList varchar(255) DEFAULT NULL,
-  NalSumLimit varchar(255) DEFAULT NULL,
-  FullNameFIAS varchar(255) DEFAULT NULL,
-  FIAS varchar(255) DEFAULT NULL,
-  KLADR varchar(255) DEFAULT NULL,
-  cityDD bigint DEFAULT NULL,
-  pvzCode varchar(255) DEFAULT NULL,
-  PRIMARY KEY (CityCode)
+CREATE TABLE OC_LL_CDEK_CITY (
+  CITYCODE BIGINT NOT NULL,
+  REGION_ID BIGINT NOT NULL,
+  COUNTRY_ID BIGINT NOT NULL,
+  COUNTRYCODE BIGINT NOT NULL,
+  CITYNAME VARCHAR(255) DEFAULT NULL,
+  ENGNAME VARCHAR(255) DEFAULT NULL,
+  FULLNAME VARCHAR(255) DEFAULT NULL,
+  ENGFULLNAME VARCHAR(255) DEFAULT NULL,
+  CENTER VARCHAR(255) DEFAULT NULL,
+  POSTCODELIST VARCHAR(255) DEFAULT NULL,
+  NALSUMLIMIT VARCHAR(255) DEFAULT NULL,
+  FULLNAMEFIAS VARCHAR(255) DEFAULT NULL,
+  FIAS VARCHAR(255) DEFAULT NULL,
+  KLADR VARCHAR(255) DEFAULT NULL,
+  CITYDD BIGINT DEFAULT NULL,
+  PVZCODE VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (CITYCODE)
 );
 
 /*-------------------------------------------------------------*/

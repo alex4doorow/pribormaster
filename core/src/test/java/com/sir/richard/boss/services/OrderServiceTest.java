@@ -1,7 +1,5 @@
 package com.sir.richard.boss.services;
 
-import com.sir.richard.boss.bl.entity.TeUser;
-import com.sir.richard.boss.bl.jpa.TeUserRepository;
 import com.sir.richard.boss.error.CoreException;
 import com.sir.richard.boss.model.data.Order;
 import com.sir.richard.boss.model.types.CustomerTypes;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.PropertySource;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Slf4j
@@ -61,11 +58,11 @@ public class OrderServiceTest {
 
         Assertions.assertNotNull(order.getItems());
         Assertions.assertNotNull(order.getStatuses());
-        Assertions.assertEquals(3, order.getStatuses().size());
+        Assertions.assertEquals(4, order.getStatuses().size());
         Assertions.assertNotNull(order.getStatuses().get(0).getStatus());
         Assertions.assertEquals(OrderStatuses.BID, order.getStatuses().get(0).getStatus());
-        Assertions.assertEquals(OrderStatuses.APPROVED, order.getStatuses().get(1).getStatus());
-        Assertions.assertEquals(OrderStatuses.DELIVERING, order.getStatuses().get(2).getStatus());
+        Assertions.assertEquals(OrderStatuses.APPROVED, order.getStatuses().get(2).getStatus());
+        Assertions.assertEquals(OrderStatuses.DELIVERING, order.getStatuses().get(3).getStatus());
     }
 
     @Test
