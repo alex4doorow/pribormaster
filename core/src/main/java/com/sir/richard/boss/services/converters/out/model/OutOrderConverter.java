@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -30,7 +31,7 @@ public class OutOrderConverter implements IOConverter<TeOrder, Order>, IOConvert
     private OutCustomerConverter customerConverter;
 
     @Override
-    public List<Order> convertTo(List<TeOrder> teOrders) {
+    public Collection<Order> convertTo(Collection<TeOrder> teOrders) {
         return teOrders
                 .stream()
                 .map(this::convertTo)

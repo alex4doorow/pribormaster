@@ -20,8 +20,6 @@ public class ConverterService {
     @Autowired
     private Environment environment;
     @Autowired
-    private TeProductRepository productRepository;
-    @Autowired
     private DataSource primaryDataSource;
     @Autowired
     private ProductConnector productConnector;

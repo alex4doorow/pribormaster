@@ -1070,12 +1070,195 @@ VALUES
 (14, "HOONT"),
 (15, "CARKU"),
 (16, "ТОРНАДО"),
+(17, "ПРАКТИК"),
 (21, "СЛЕДОПЫТ ЯМ-РЫБАЛКА");
 
 INSERT INTO sr_stock
 (product_id, stock_id, supplier_id, supplier_price, quantity)
 VALUES
 (45, 1, 5, 4500, 0);
+
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78125, 1, 'orderConditionsForm', 'statuses', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78123, 1, 'orderConditionsForm', 'period.start', '01.05.2023');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78111, 1, 'orderConditionsForm', 'periodExist', '0');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78118, 1, 'orderConditionsForm', 'customerConditions.person.phoneNumber', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78113, 1, 'orderConditionsForm', 'reportPeriodYear', '2023');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78117, 1, 'orderConditionsForm', 'product', '0');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78122, 1, 'orderConditionsForm', 'customerConditions.company.shortName', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78124, 1, 'orderConditionsForm', 'period.end', '31.05.2023');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78115, 1, 'orderConditionsForm', 'trackCode', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(76889, 1, 'productForm', 'product.id', '-1');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78121, 1, 'orderConditionsForm', 'customerConditions.company.inn', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78074, 1, 'productSalesReportForm', 'advertBudget', '26049');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78073, 1, 'productSalesReportForm', 'period.end', '12.02.2023');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78114, 1, 'orderConditionsForm', 'no', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78072, 1, 'productSalesReportForm', 'period.start', '06.02.2023');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78108, 1, 'salesFunnelReportForm', 'period.start', '01.04.2023');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78109, 1, 'salesFunnelReportForm', 'period.end', '30.04.2023');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78119, 1, 'orderConditionsForm', 'customerConditions.person.email', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78103, 1, 'salesFunnelReportForm', 'reportPeriodType', '4');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78104, 1, 'salesFunnelReportForm', 'reportPeriodMonth', '4');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78105, 1, 'salesFunnelReportForm', 'reportPeriodQuarter', '2');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78106, 1, 'salesFunnelReportForm', 'reportPeriodHalfYear', '1');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78107, 1, 'salesFunnelReportForm', 'reportPeriodYear', '2023');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78110, 1, 'orderConditionsForm', 'reportPeriodType', '1');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78120, 1, 'orderConditionsForm', 'customerConditions.person.lastName', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(73109, 1, 'productForm', 'product.sku', 'SITITEK_PREDATOR_6');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78116, 1, 'orderConditionsForm', 'deliveryAddress', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78126, 1, 'orderConditionsForm', 'orderTypes', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(76951, 1, 'aProductSalesReportForm', 'period.start', '05.02.2023');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78140, 1, 'stockForm', 'productCategory.id', '0');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78135, 1, 'ymProductConditionsForm', 'supplierStockExist', '-1');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78136, 1, 'ymProductConditionsForm', 'suppliers', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78134, 1, 'ymProductConditionsForm', 'yandexSellerExist', '1');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78127, 1, 'orderConditionsForm', 'deliveryTypes', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(59822, 1, 'productSalesReportFormByQuery', 'period.start', '02.05.2021');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(59823, 1, 'productSalesReportFormByQuery', 'period.end', '02.05.2021');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78058, 1, 'productSalesReportByQueryForm', 'reportPeriodType', '4');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78059, 1, 'productSalesReportByQueryForm', 'reportPeriodMonth', '0');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78060, 1, 'productSalesReportByQueryForm', 'reportPeriodYear', '0');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78062, 1, 'productSalesReportByQueryForm', 'customerTypes', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78063, 1, 'productSalesReportByQueryForm', 'paymentTypes', '2');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78056, 1, 'productSalesReportByQueryForm', 'period.start', '01.03.2023');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78057, 1, 'productSalesReportByQueryForm', 'period.end', '31.03.2023');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78061, 1, 'productSalesReportByQueryForm', 'deliveryTypes', '601');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78128, 1, 'orderConditionsForm', 'customerTypes', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78129, 1, 'orderConditionsForm', 'paymentTypes', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(60452, 1, 'productForm', 'product.name', '1000');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(77255, 1, 'ozonProductConditionsForm', 'supplierStockExist', '0');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(77254, 1, 'ozonProductConditionsForm', 'ozonSellerExist', '1');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(77256, 1, 'ozonProductConditionsForm', 'suppliers', '9');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78130, 1, 'orderConditionsForm', 'advertTypes', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78064, 1, 'productSalesReportByQueryForm', 'advertTypes', '');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78112, 1, 'orderConditionsForm', 'reportPeriodMonth', '1');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(78139, 1, 'stockForm', 'supplier.id', '1');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(77662, 1, 'productSalesReportByQueryForm', 'reportQueryName', '4');
+INSERT INTO sr_sys_user_query
+(id, user_id, form, code, value)
+VALUES(76952, 1, 'aProductSalesReportForm', 'period.end', '05.02.2023');
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 INSERT INTO sr_wiki_stock_supplier

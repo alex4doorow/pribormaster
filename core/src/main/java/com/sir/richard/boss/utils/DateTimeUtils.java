@@ -130,6 +130,10 @@ public class DateTimeUtils {
 	public static Date defaultFormatStringToDate(String inputString) throws ParseException {
 		return stringToDate(inputString, DATE_FORMAT_dd_MM_yyyy);
 	}
+
+	public static LocalDate defaultFormatStringToLocalDate(String inputString) throws ParseException {
+		return stringToLocalDate(inputString, DATE_FORMAT_dd_MM_yyyy);
+	}
 	
 	public static Date timestampToDate(Timestamp inputTimestamp) {
 		

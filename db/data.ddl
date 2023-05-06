@@ -607,13 +607,13 @@ ALTER TABLE SR_STOCK
 /*-------------------------------------------------------------*/
 
 /* НАСТРОЙКИ ПОЛЬЗОВАТЕЛЯ */
-CREATE TABLE SR_USER_QUERY (
+CREATE TABLE SR_SYS_USER_QUERY (
 	ID BIGINT NOT NULL, /* ИДЕНТИФИКАТОР */
     USER_ID BIGINT NOT NULL, /* ПОЛЬЗОВАТЕЛЬ */
     FORM VARCHAR(30) NOT NULL, /* ОПИСАНИЕ */
 	CODE VARCHAR(255) NOT NULL, /* ПАРАМЕТР */
 	VALUE VARCHAR(255) NOT NULL, /* ЗНАЧЕНИЕ */
-    CONSTRAINT SR_USER_QUERY_UQ UNIQUE (USER_ID, FORM, CODE),
+    CONSTRAINT SR_SYS_USER_QUERY_UQ UNIQUE (USER_ID, FORM, CODE),
 	PRIMARY KEY(ID)
 );
 

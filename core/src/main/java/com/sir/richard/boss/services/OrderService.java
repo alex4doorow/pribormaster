@@ -16,15 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -66,50 +64,9 @@ public class OrderService {
     }
 
     @Transactional
-    public List<Order> findAll(OrderConditions orderConditions) {
-        List<TeOrder> teOrders = orderRepository.findAll();
+    public Collection<Order> findAll(OrderConditions orderConditions) {
+        Collection<TeOrder> teOrders = findByConditions(orderConditions);
         return outOrderConverter.convertTo(teOrders);
-
-        /*
-    public Collection<SEReport> findReportsByParams(Date createdFrom, Date createdTo,
-                                                    Collection<String> rptTypes,
-                                                    Collection<String> statuses,
-                                                    String participantCode,
-                                                    String userCode) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<SEReport> query = cb.createQuery(SEReport.class);
-        Root<SEReport> reportRoot = query.from(SEReport.class);
-        Join<SEReport, SEDocument> reportRootDocumentJoin = reportRoot.join("document", JoinType.LEFT);
-        Join<SEReport, SEReportType> reportRootReportTypeJoin = reportRoot.join("reportType", JoinType.LEFT);
-        Join<SEDocument, SEUser> documentSenderJoin = reportRootDocumentJoin.join("senderUser", JoinType.LEFT);
-        Join<SEUser, SEParticipant> senderParticipantJoin = documentSenderJoin.join("participant", JoinType.LEFT);
-        query.select(reportRoot);
-
-        List<Predicate> predicates = new ArrayList<>();
-        predicates.add(cb.equal(reportRoot.get("recStatus"), BaseEntity.ACTIVE));
-        if (createdFrom != null) {
-            predicates.add(cb.greaterThanOrEqualTo(reportRootDocumentJoin.get("preparationDate"), createdFrom));
-        }
-        if (createdTo != null) {
-            predicates.add(cb.lessThanOrEqualTo(reportRootDocumentJoin.get("preparationDate"), createdTo));
-        }
-        if (rptTypes != null && rptTypes.size() > 0) {
-            predicates.add(reportRootReportTypeJoin.get("code").in(rptTypes));
-        }
-        if (statuses != null && statuses.size() > 0) {
-            predicates.add(reportRoot.get("status").in(statuses));
-        }
-        if (StringUtils.isNoneEmpty(userCode)) {
-            predicates.add(cb.equal(documentSenderJoin.get("code"), userCode));
-        }
-        if (StringUtils.isNoneEmpty(participantCode)) {
-            predicates.add(cb.equal(senderParticipantJoin.get("code"), participantCode));
-        }
-        query.select(reportRoot).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
-        return entityManager.createQuery(query).getResultList();
-    }
-
-    */
     }
 
     @Transactional
@@ -413,7 +370,7 @@ public class OrderService {
         return orderRepository.findMaxOrderNo() + 1;
     }
 
-    public Map<OrderAmountTypes, BigDecimal> calcTotalOrdersAmountsByConditions(List<Order> orders, Pair<LocalDate> period) {
+    public Map<OrderAmountTypes, BigDecimal> calcTotalOrdersAmountsByConditions(Collection<Order> orders, Pair<LocalDate> period) {
         Map<OrderAmountTypes, BigDecimal> results = new HashMap<OrderAmountTypes, BigDecimal>();
 
         BigDecimal billAmount = BigDecimal.ZERO;
@@ -534,5 +491,48 @@ public class OrderService {
         postpayAmounts.put(OrderAmountTypes.POSTPAY_OZON_ROCKET, ozonRocketPostpayAmount);
         postpayAmounts.put(OrderAmountTypes.POSTPAY_YANDEX_GO, yandexGoPostpayAmount);
         return postpayAmounts;
+    }
+
+    @Transactional
+    private Collection<TeOrder> findByConditions(OrderConditions orderConditions) {
+
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<TeOrder> query = cb.createQuery(TeOrder.class);
+        Root<TeOrder> orderRoot = query.from(TeOrder.class);
+
+        Join<TeOrder, TeCustomer> orderRootDocumentJoin = orderRoot.join("customer", JoinType.LEFT);
+        /*
+        Join<SEReport, SEReportType> reportRootReportTypeJoin = reportRoot.join("reportType", JoinType.LEFT);
+        Join<SEDocument, SEUser> documentSenderJoin = reportRootDocumentJoin.join("senderUser", JoinType.LEFT);
+        Join<SEUser, SEParticipant> senderParticipantJoin = documentSenderJoin.join("participant", JoinType.LEFT);
+
+        */
+        query.select(orderRoot);
+
+        List<Predicate> predicates = new ArrayList<>();
+        //predicates.add(cb.equal(reportRoot.get("recStatus"), BaseEntity.ACTIVE));
+        if (orderConditions.getPeriod().getStart() != null) {
+            predicates.add(cb.greaterThanOrEqualTo(orderRoot.get("orderDate"), orderConditions.getPeriod().getStart()));
+        }
+        if (orderConditions.getPeriod().getEnd() != null) {
+            predicates.add(cb.lessThanOrEqualTo(orderRoot.get("orderDate"), orderConditions.getPeriod().getEnd()));
+        }
+        /*
+        if (rptTypes != null && rptTypes.size() > 0) {
+            predicates.add(reportRootReportTypeJoin.get("code").in(rptTypes));
+        }
+        if (statuses != null && statuses.size() > 0) {
+            predicates.add(reportRoot.get("status").in(statuses));
+        }
+        if (StringUtils.isNoneEmpty(userCode)) {
+            predicates.add(cb.equal(documentSenderJoin.get("code"), userCode));
+        }
+        if (StringUtils.isNoneEmpty(participantCode)) {
+            predicates.add(cb.equal(senderParticipantJoin.get("code"), participantCode));
+        }
+
+        */
+        query.select(orderRoot).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
+        return entityManager.createQuery(query).getResultList();
     }
 }

@@ -23,6 +23,10 @@ public class DtoCustomer {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private DtoAddress address;
 
+    public DtoCustomer(CustomerTypes type) {
+        this.type = type;
+    }
+
     @JsonIgnore
     public String getViewInn() {
         if (type.isPerson()) {

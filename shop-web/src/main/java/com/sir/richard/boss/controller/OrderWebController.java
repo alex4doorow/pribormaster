@@ -2,11 +2,17 @@ package com.sir.richard.boss.controller;
 
 import com.sir.richard.boss.error.CoreException;
 import com.sir.richard.boss.model.data.Order;
+import com.sir.richard.boss.model.data.OrderItem;
 import com.sir.richard.boss.model.data.conditions.OrderConditions;
+import com.sir.richard.boss.model.types.CustomerTypes;
 import com.sir.richard.boss.model.types.OrderAmountTypes;
 import com.sir.richard.boss.model.types.ReportPeriodTypes;
+import com.sir.richard.boss.rest.dto.DtoCustomer;
 import com.sir.richard.boss.rest.dto.DtoOrder;
+import com.sir.richard.boss.rest.dto.DtoOrderItem;
+import com.sir.richard.boss.rest.dto.DtoPerson;
 import com.sir.richard.boss.services.OrderService;
+import com.sir.richard.boss.services.WikiProductService;
 import com.sir.richard.boss.services.converters.in.dto.InDtoOrderConverter;
 import com.sir.richard.boss.services.converters.out.dto.OutDtoOrderConverter;
 import com.sir.richard.boss.utils.DateTimeUtils;
@@ -22,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +39,8 @@ public class OrderWebController extends BaseController {
 
     @Autowired
     private OrderService orderService;
-
+    @Autowired
+    private WikiProductService wikiProductService;
     @Autowired
     private OutDtoOrderConverter outDtoOrderConverter;
     @Autowired
@@ -48,9 +56,27 @@ public class OrderWebController extends BaseController {
         return "orders/show";
     }
 
-    @PostMapping("/add")
-    public String addData(Model model) throws CoreException {
+    @GetMapping("/add/{listType}")
+    public String addData(@PathVariable("listType") String listType, Model model) throws CoreException {
         log.info("[START] {} request", "ADD");
+
+        DtoOrder dtoOrder = new DtoOrder();
+        DtoCustomer customer = new DtoCustomer(CustomerTypes.CUSTOMER);
+        DtoPerson person = new DtoPerson();
+        customer.setPerson(person);
+        dtoOrder.setCustomer(customer);
+        dtoOrder.setOrderNo(orderService.nextOrderNo());
+        dtoOrder.setOrderDate(LocalDate.now());
+        //dtoOrder.setProductCategory(wikiProductService.getCategoryById(0L));
+        dtoOrder.getItems().add(new DtoOrderItem());
+        model.addAttribute("order", dtoOrder);
+        model.addAttribute("listType", listType);
+        return "orders/edit";
+    }
+
+    @PostMapping("/add")
+    public String saveAddData(Model model) throws CoreException {
+        log.info("[START] {} request", "SAVE_ADD");
 
         //DtoOrder dtoOrder = jsonMapper.fromJSON(body, DtoOrder.class);
         //Order order = inDtoOrderConverter.convertTo(dtoOrder);
@@ -65,7 +91,7 @@ public class OrderWebController extends BaseController {
         //Optional<DtoOrder> result = orderService.findById(orderId);
         return new ResponseEntity<>(resultDtoOrder, HttpStatus.ACCEPTED);
         */
-        return null;
+        return "orders/edit";
     }
 
     @GetMapping("/{id}/change-status/{listType}")

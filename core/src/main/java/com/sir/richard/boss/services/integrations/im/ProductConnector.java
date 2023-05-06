@@ -100,7 +100,6 @@ public class ProductConnector {
                         log.error("oc_product_description > 0: {}", rs.getInt("product_id"));
                         continue;
                     }
-
                     */
                     final String sqlInsertProductDescription = "INSERT INTO oc_product_description" +
                             "(product_id, language_id, name, description, tag, meta_title, meta_description, meta_keyword)\n" +

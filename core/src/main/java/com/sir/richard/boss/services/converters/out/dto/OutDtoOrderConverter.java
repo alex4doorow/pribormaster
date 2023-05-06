@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -21,7 +22,7 @@ public class OutDtoOrderConverter implements IOConverter<Order, DtoOrder>, IOCon
     OutDtoCustomerConverter customerConverter;
 
     @Override
-    public List<DtoOrder> convertTo(List<Order> orders) {
+    public Collection<DtoOrder> convertTo(Collection<Order> orders) {
         return orders
                 .stream()
                 .map(this::convertTo)

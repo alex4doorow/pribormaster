@@ -5,6 +5,7 @@ import com.sir.richard.boss.model.data.conditions.OrderConditions;
 import com.sir.richard.boss.model.types.OrderAmountTypes;
 import com.sir.richard.boss.model.types.ReportPeriodTypes;
 import com.sir.richard.boss.rest.dto.DtoOrder;
+import com.sir.richard.boss.services.ConfigService;
 import com.sir.richard.boss.services.ConverterService;
 import com.sir.richard.boss.services.OrderService;
 import com.sir.richard.boss.services.converters.in.dto.InDtoOrderConverter;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,8 @@ import java.util.Map;
 @Slf4j
 public class OrderListWebController extends BaseController {
 
+    @Autowired
+    private ConfigService configService;
     @Autowired
     private OrderService orderService;
     @Autowired
@@ -36,11 +40,10 @@ public class OrderListWebController extends BaseController {
     public String findAll(Model model) {
         log.info("[START] {} request", "FIND_ALL");
 
-        //OrderConditions orderConditions = wikiService.getConfig().loadOrderConditions(getUserIdByPrincipal());
-        OrderConditions orderConditions = new OrderConditions();
+        OrderConditions orderConditions = configService.loadOrderConditions(getCurrentUser());
 
-        List<Order> orders = orderService.findAll(orderConditions);
-        List<DtoOrder> dtoOrders = outDtoOrderConverter.convertTo(orders);
+        Collection<Order> orders = orderService.findAll(orderConditions);
+        Collection<DtoOrder> dtoOrders = outDtoOrderConverter.convertTo(orders);
 
         Map<OrderAmountTypes, BigDecimal> totalAmounts = orderService.calcTotalOrdersAmountsByConditions(orders,
                 orderConditions.getPeriod());

@@ -18,7 +18,6 @@ import java.util.List;
 @Service
 public class WikiProductService {
 
-
     private List<ProductCategory> categories = new ArrayList<>();
 
     @Autowired
@@ -37,6 +36,18 @@ public class WikiProductService {
 
     public void setCategories(List<ProductCategory> categories) {
         this.categories = categories;
+    }
+
+    public ProductCategory getCategoryById(Long categoryId) {
+        if (categories == null) {
+            return null;
+        }
+        for (ProductCategory category: categories) {
+            if (categoryId == category.getId()) {
+                return category;
+            }
+        }
+        return null;
     }
 
     public BigDecimal ejectTotalAmountsByConditions(OrderAmountTypes amountType, Pair<LocalDate> period) {

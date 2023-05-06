@@ -55,7 +55,6 @@
             <i class="bi bi-cash-stack text-dark"></i>
           </button>
 
-
           <button id="button-add" type="button" class="btn btn-sm btn-light" onclick="onClickAddOrder()">Добавить</button>
           <button id="button-update" type="button" class="btn btn-sm btn-light" disabled="" onclick="onClickUpdateOrder()">Изменить</button>
           <button id="button-erase" type="button" class="btn btn-sm btn-danger" disabled="" onclick="onClickEraseOrder()">Удалить</button>
@@ -273,7 +272,7 @@
         }
         function onClickAddOrder() {
             console.log('${urlOrders}/add');
-            window.location = '${urlOrders}/add/${listType}';
+            window.location = 'add/orders';
         }
         function onClickUpdateOrder() {
             console.log('onClickUpdateOrder: ' + $('#button-update').attr('href'));
