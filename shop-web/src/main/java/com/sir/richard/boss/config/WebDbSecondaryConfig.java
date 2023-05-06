@@ -4,6 +4,7 @@ import com.sir.richard.boss.error.CoreException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -24,21 +25,9 @@ import java.sql.DriverManager;
 */
 public class WebDbSecondaryConfig {
 
-    @Autowired
-    private Environment environment;
 
-    private Connection getConnection() throws Exception {
-        final String url = environment.getProperty("spring.second-datasource.url");
-        final String username = environment.getProperty("spring.second-datasource.username");
-        final String password = environment.getProperty("spring.second-datasource.password");
-        log.debug("spring.second-datasource.url: {}", url);
-        log.debug("spring.second-datasource.username: {}", username);
-        log.debug("spring.second-datasource.password: {}", password);
-        if (StringUtils.isEmpty(url)) {
-            throw new CoreException(CoreException.CONFIG_ERROR);
-        }
-        return DriverManager.getConnection(url, username, password);
-    }
+
+
 
 /*
     @Bean

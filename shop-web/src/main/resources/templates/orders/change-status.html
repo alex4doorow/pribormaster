@@ -23,7 +23,7 @@
         </div>
         <br/>
 
-        <form id="orderForm" action="#" th:action="@{/web/orders/{orderId}/change-status/save/{listType}(orderId=${order.id}, listType=${listType})}" th:object="${order}" method="post">
+        <form id="orderForm" class="needs-validation" th:action="@{/web/orders/{orderId}/change-status/save/{listType}(orderId=${order.id}, listType=${listType})}" th:object="${order}" method="post">
             <input id="id" type="hidden" th:field="*{id}"/>
             <input id="no" type="hidden" th:field="*{orderNo}"/>
             <input id="orderDate" type="hidden" th:field="*{orderDate}"/>
@@ -165,6 +165,24 @@
                 $('#checkbox-send-message').prop('checked', false);
             }
         });
+
+        (function () {
+        'use strict'
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.querySelectorAll('.needs-validation')
+
+          // Loop over them and prevent submission
+          Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+              form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                  event.preventDefault()
+                  event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+              }, false)
+            })
+        })()
 
     </script>
 </body>
