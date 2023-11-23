@@ -6,14 +6,12 @@
   <version>5.0.1-SNAPSHOT</version>
   <description>priborMaster web</description>
   <packaging>jar</packaging>
-
   <parent>
     <groupId>com.sir.richard.boss</groupId>
     <artifactId>pribormaster</artifactId>
     <version>5.0.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-
   <properties>
     <pribormaster.version>${parent.version}</pribormaster.version>
     <!-- Generic properties -->
@@ -27,7 +25,6 @@
     <nohttp-checkstyle.version>0.0.11</nohttp-checkstyle.version>
     <spring-format.version>0.0.38</spring-format.version>
   </properties>
-
   <dependencies>
     <dependency>
       <groupId>com.sir.richard.boss</groupId>
@@ -54,7 +51,6 @@
       <artifactId>spring-security-test</artifactId>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
@@ -85,7 +81,6 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-
     <!-- Databases - Uses H2 by default -->
     <dependency>
       <groupId>com.h2database</groupId>

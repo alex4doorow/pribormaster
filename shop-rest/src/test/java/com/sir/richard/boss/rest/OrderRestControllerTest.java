@@ -1,10 +1,12 @@
 package com.sir.richard.boss.rest;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -13,7 +15,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @Slf4j
 public class OrderRestControllerTest {
@@ -29,10 +31,21 @@ public class OrderRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private TestRestTemplate restTemplate;
+
+    @Test
+    public void testOrderByRestTemplate() throws Exception {
+        final long id = 10714L;
+        String body = restTemplate.getForObject("/rest/v1/orders/" + id, String.class);
+        Assertions.assertTrue(body.contains("order"));
+
+    }
+
 
     @Test
     public void testOrderByRest() throws Exception {
-        final Long id = 10714L;
+        final long id = 10714L;
 
         //insert
         /*
