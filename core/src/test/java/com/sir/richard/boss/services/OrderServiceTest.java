@@ -1,6 +1,6 @@
 package com.sir.richard.boss.services;
 
-import com.sir.richard.boss.bl.core.CoreException;
+import com.sir.richard.boss.error.CoreException;
 import com.sir.richard.boss.model.data.Order;
 import com.sir.richard.boss.model.types.CustomerTypes;
 import com.sir.richard.boss.model.types.OrderStatuses;
@@ -34,6 +34,9 @@ public class OrderServiceTest {
     @Autowired
     private InDtoOrderConverter inDtoOrderConverter;
 
+    @Autowired
+    private UserService userService;
+
     @Test
     public void testCustomerOrderFindById() {
         Order order = orderService.findById(10714L);
@@ -55,11 +58,11 @@ public class OrderServiceTest {
 
         Assertions.assertNotNull(order.getItems());
         Assertions.assertNotNull(order.getStatuses());
-        Assertions.assertEquals(3, order.getStatuses().size());
+        Assertions.assertEquals(4, order.getStatuses().size());
         Assertions.assertNotNull(order.getStatuses().get(0).getStatus());
         Assertions.assertEquals(OrderStatuses.BID, order.getStatuses().get(0).getStatus());
-        Assertions.assertEquals(OrderStatuses.APPROVED, order.getStatuses().get(1).getStatus());
-        Assertions.assertEquals(OrderStatuses.DELIVERING, order.getStatuses().get(2).getStatus());
+        Assertions.assertEquals(OrderStatuses.APPROVED, order.getStatuses().get(2).getStatus());
+        Assertions.assertEquals(OrderStatuses.DELIVERING, order.getStatuses().get(3).getStatus());
     }
 
     @Test
@@ -103,7 +106,7 @@ public class OrderServiceTest {
         Assertions.assertNotNull(order.getItems());
         Assertions.assertNotNull(order.getStatuses());
 
-        Long orderId = orderService.add(order);
+        Long orderId = orderService.add(order, userService.getSystem());
         Order addedOrder = orderService.findById(orderId);
 
         Assertions.assertNotNull(addedOrder.getId());
@@ -143,11 +146,14 @@ public class OrderServiceTest {
 
     @Test
     public void testCompanyOrderAdd() throws CoreException {
+        //orderService.delete(100524L);
+        //customerService.delete(100525L);
+
         DtoOrder dtoOrder = jsonMapper.fromJSON(stub.getAddCompanyOrderData(), DtoOrder.class);
         Order order = inDtoOrderConverter.convertTo(dtoOrder);
         log.info("order: {}", order);
 
-        Long orderId = orderService.add(order);
+        Long orderId = orderService.add(order, userService.getSystem());
         Order addedOrder = orderService.findById(orderId);
 
         Assertions.assertNotNull(addedOrder.getId());
@@ -157,6 +163,17 @@ public class OrderServiceTest {
         Assertions.assertNotNull(addedOrder.getCustomer().getViewShortName());
 
         Long customerId = addedOrder.getCustomer().getId();
+        addedOrder.setStatus(OrderStatuses.APPROVED);
+        addedOrder.setAnnotation("annotation");
+        addedOrder.getDelivery().setTrackCode("12345678");
+
+
+        orderService.changeFullStatusOrder(addedOrder, userService.getSystem());
+
+        Order changeStatusOrder = orderService.findById(orderId);
+        Assertions.assertEquals(OrderStatuses.APPROVED, changeStatusOrder.getStatus());
+        Assertions.assertEquals("12345678", changeStatusOrder.getDelivery().getTrackCode());
+        Assertions.assertEquals("annotation", changeStatusOrder.getAnnotation());
 
         orderService.delete(orderId);
         customerService.delete(customerId);

@@ -2,12 +2,12 @@ package com.sir.richard.boss.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.sir.richard.boss.utils.helpers.CustomerHelper;
+import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class DtoPerson {
@@ -24,26 +24,7 @@ public class DtoPerson {
 
     @JsonIgnore
     public String getShortName() {
-        if (StringUtils.isNotEmpty(this.firstName) && StringUtils.isEmpty(this.lastName)) {
-            return this.firstName.trim();
-        }
-        if (StringUtils.isEmpty(this.firstName) && StringUtils.isNotEmpty(this.lastName)) {
-            return this.lastName.trim();
-        }
-        if (StringUtils.isNotEmpty(this.firstName) && StringUtils.isNotEmpty(this.lastName) && StringUtils.isEmpty(this.middleName)) {
-            return (this.lastName + " " + this.firstName).trim();
-        }
-        String ln = "", fn = "", mn = "";
-        if (!StringUtils.isEmpty(this.lastName)) {
-            ln = this.lastName.trim();
-        }
-        if (!StringUtils.isEmpty(this.firstName)) {
-            fn = this.firstName.trim().charAt(0) + ".";
-        }
-        if (!StringUtils.isEmpty(this.middleName)) {
-            mn = this.middleName.trim().charAt(0) + ".";
-        }
-        return (ln + " " + fn + " " + mn).trim();
+        return CustomerHelper.getCustomerShortName(firstName, middleName, lastName);
     }
 
     @JsonIgnore
@@ -56,5 +37,18 @@ public class DtoPerson {
     @JsonIgnore
     public static DtoPerson createEmpty() {
         return new DtoPerson();
+    }
+
+    @JsonIgnore
+    @Override
+    public String toString() {
+        return "DtoPerson {" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

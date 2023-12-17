@@ -18,6 +18,14 @@ public enum CustomerTypes {
 	private final String longName;
 	private final String shortName;
 
+	public boolean isPerson() {
+		return this == CUSTOMER || this == FOREIGNER_CUSTOMER;
+	}
+
+	public boolean isCompany() {
+		return this == COMPANY || this == BUSINESSMAN || this == FOREIGNER_COMPANY;
+	}
+
 	public static CustomerTypes getValueById(int value) {
 		if (value == 1) {
 			return CustomerTypes.CUSTOMER;

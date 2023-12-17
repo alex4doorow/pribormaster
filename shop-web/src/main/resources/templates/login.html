@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header-head :: header-head((customPageTitle=#{login.title}))}"></head>
+<body>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <div class="container-fluid">
+            <div class="col-md-4 order-md-1">
+                <div class="row">
+                    <form class="needs-validation" name='f' th:action="@{/login}" method='POST'>
+                        <h1 class="h2 mb-3">Login</h1>
+                        <hr class="mb-4">
+                        <div class="col-md form-group">
+                            <label for="input-login-name" class="form-label" th:text="#{login.form.fields.login}"></label>
+                            <input type="text" class="form-control" id="input-login-name" name="username" th:attr="placeholder=#{login.form.fields.placeholder.login}">
+                            <small id="input-login-name-help" class="text-muted form-text" th:text="#{login.form.fields.help.login}"></small>
+                        </div>
+                        <div class="col-md form-group">
+                            <label for="input-login-password" class="form-label" th:text="#{login.form.fields.password}"></label>
+                            <input type="password" class="form-control" id="input-login-password" name="password" th:attr="placeholder=#{login.form.fields.placeholder.password}">
+                            <small id="input-login-password-help" class="text-muted form-text" th:text="#{login.form.fields.help.password}"></small>
+                        </div>
+                        <div class="col-md form-group">
+                            <button type="submit" class="btn btn-primary" th:text="#{main.btn.enter}"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </main>
+    <div th:replace="~{fragments/footer-scripts :: footer-scripts}"></div>
+    <script>
+
+    </script>
+</body>
+<footer th:replace="~{fragments/footer-footer :: footer-footer}"></footer>
+</html>

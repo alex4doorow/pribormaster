@@ -18,7 +18,9 @@
         <div>
             <button id="btn-update-order" type="button" class="btn btn-primary" th:text="#{main.btn.updateData}"></button>
             <button id="btn-show-order" type="button" class="btn btn-light" disabled th:text="#{main.btn.showData}"></button>
-            <button id="btn-status-order" type="button" class="btn btn-light" th:text="#{main.btn.statusData}"></button>
+            <button id="btn-status-order" type="button" class="btn btn-light" th:text="#{main.btn.statusData}" th:onclick="'window.location.href = \'' + @{/web/orders/{orderId}/change-status/{listType}(orderId=${order.id}, listType=${listType})} + '\''">
+
+            </button>
             <button id="btn-clone-order" type="button" class="btn btn-light" th:text="#{main.btn.cloneData}"></button>
         </div>
         <br/>
@@ -55,7 +57,6 @@
                             <strong th:text="${order.viewNo}"></strong>
                         </div>
                     </div>
-
                     <div class="row">
                         <label class="col-sm-3" th:text="#{order.show.fields.orderDate}"></label>
                         <div class="col-sm-9">
@@ -407,9 +408,11 @@
         $('#btn-update-order').click(function() {
             window.location.href = '/sir-richard-boss-web/orders/10764/update/orders';
         });
+        /*
         $('#btn-status-order').click(function() {
             window.location.href = '/sir-richard-boss-web/orders/10764/change-status/orders';
         });
+        */
         $('#btn-clone-order').click(function() {
             window.location.href = '/sir-richard-boss-web/orders/10764/clone';
         });

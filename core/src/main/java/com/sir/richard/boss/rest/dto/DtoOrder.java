@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sir.richard.boss.model.types.*;
 import com.sir.richard.boss.rest.dto.view.ViewOrderStatus;
 import com.sir.richard.boss.utils.DateTimeUtils;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.sir.richard.boss.utils.helpers.OrderHelper;
+import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -18,8 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
+//@ToString(callSuper=true, includeFieldNames=true)
 public class DtoOrder {
 
     private Long id;
@@ -29,6 +31,7 @@ public class DtoOrder {
     private LocalDate orderDate;
 
     private OrderTypes type;
+    //@ToString.Exclude
     private DtoCustomer customer;
 
     private DtoProductCategory productCategory = new DtoProductCategory();
@@ -52,6 +55,9 @@ public class DtoOrder {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String annotation;
+
+    @JsonIgnore
+    private boolean sendMessage;
 
     @JsonIgnore
     public String getViewNo() {
@@ -97,8 +103,9 @@ public class DtoOrder {
         return ViewOrderStatus.createViewOrderStatus(this);
     }
 
+    @JsonIgnore
     public String getExpiredDate() {
-        String result = "";
+        return "";
         /*
         if (this.getOffer().getCountDay() <= 0) {
             return result;
@@ -107,7 +114,6 @@ public class DtoOrder {
             result = DateTimeUtils.defaultFormatDate(this.getOffer().getExpiredDate());
         }
         */
-        return result;
     }
 
     @JsonIgnore
@@ -123,11 +129,7 @@ public class DtoOrder {
 
     @JsonIgnore
     public boolean isPrepayment() {
-        if (payment == PaymentTypes.PREPAYMENT || payment == PaymentTypes.YANDEX_PAY) {
-            return true;
-        } else {
-            return false;
-        }
+        return OrderHelper.isPrepayment(payment);
     }
 
     @JsonIgnore
@@ -148,5 +150,32 @@ public class DtoOrder {
     @JsonIgnore
     public BigDecimal getAmountPostpay() {
         return amounts.get(OrderAmountTypes.POSTPAY);
+    }
+
+    @Override
+    @JsonIgnore
+    public String toString() {
+        return "DtoOrder {" +
+                "id=" + id +
+                ", orderNo=" + orderNo +
+                ", orderDate=" + orderDate +
+                ", type=" + type +
+               // ", customer=" + customer +
+                ", productCategory=" + productCategory +
+                ", source=" + source +
+                ", advert=" + advert +
+                ", payment=" + payment +
+                ", store=" + store +
+                ", status=" + status +
+                ", emailStatus=" + emailStatus +
+               // ", delivery=" + delivery +
+                ", externalCrms=" + externalCrms +
+                ", amounts=" + amounts +
+                ", items=" + items +
+                ", statuses=" + statuses +
+                ", addedDate=" + addedDate +
+                ", modifiedDate=" + modifiedDate +
+                ", annotation='" + annotation + '\'' +
+                '}';
     }
 }

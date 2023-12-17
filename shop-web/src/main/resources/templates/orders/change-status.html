@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header-head :: header-head((customPageTitle=#{order.form.changeStatus.header}))}"></head>
+<body>
+    <nav th:replace="~{fragments/header-main-search :: header-main-search}"></nav>
+    <div class="container-fluid">
+        <div class="row">
+            <nav th:replace="~{fragments/header-left-panel :: header-left-panel}"></nav>
+        </div>
+    </div>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <div class="d-flex justify-content-start flex-wrap flex-md-nowrap align-items-start">
+            <h1 class="h4" th:text="#{order.form.changeStatus.headers.h1( ${order.viewNo}, ${T(com.sir.richard.boss.utils.DateTimeUtils).defaultFormatLocalDate(order.orderDate)})}"></h1>
+        </div>
+        <div class="d-flex justify-content-start flex-wrap flex-md-nowrap align-items-start border-bottom- mb-2">
+            <h2 class="h5" th:utext="${order.customer.viewLongNameWithContactInfo} + ' ' + '<span class=\'badge badge-secondary\'>' + ${order.customer.id} + '</span>'"></h2>
+        </div>
+        <div>
+            <button id="btn-update-order" type="button" class="btn btn-primary" th:text="#{main.btn.updateData}"></button>
+            <button id="btn-show-order" type="button" class="btn btn-light" disabled th:text="#{main.btn.showData}"></button>
+            <button id="btn-status-order" type="button" class="btn btn-light" th:text="#{main.btn.statusData}"></button>
+            <button id="btn-clone-order" type="button" class="btn btn-light" th:text="#{main.btn.cloneData}"></button>
+        </div>
+        <br/>
+
+        <form id="orderForm" class="needs-validation" th:action="@{/web/orders/{orderId}/change-status/save/{listType}(orderId=${order.id}, listType=${listType})}" th:object="${order}" method="post">
+            <input id="id" type="hidden" th:field="*{id}"/>
+            <input id="no" type="hidden" th:field="*{orderNo}"/>
+            <input id="orderDate" type="hidden" th:field="*{orderDate}"/>
+            <input id="delivery.address.id" type="hidden" th:field="*{delivery.address.id}"/>
+            <input id="delivery.address.courierInfo.deliveryDate" type="hidden" th:field="*{delivery.address.courierInfo.deliveryDate}"/>
+            <input id="customer.id" type="hidden" th:field="*{customer.id}"/>
+            <input id="customer.type" type="hidden" th:field="*{customer.type}"/>
+            <input id="customer.phoneNumber" th:field="*{customer.viewPhoneNumber}" type="hidden"/>
+            <input id="customer.email" th:field="*{customer.viewEmail}" type="hidden"/>
+            <input id="customer.shortName" th:field="*{customer.viewShortName}" type="hidden"/>
+            <input id="customer.longName" th:field="*{customer.viewLongName}" type="hidden"/>
+            <input id="customer.inn" th:field="*{customer.viewInn}" type="hidden"/>
+            <input id="customer.address.id" th:field="*{customer.address.id}" type="hidden"/>
+            <div class="form-row">
+                <div class="form-group col-4">
+                    <label for="select-order-type" th:text="#{order.form.fields.orderType}"></label>
+                    <select id="select-order-type" class="form-control form-control-sm" th:field="*{type}">
+                        <option th:each="orderType : ${orderTypes}"
+                                th:value="${orderType}"
+                                th:text="${orderType.annotation}"/>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-4">
+                    <label for="select-source-type" th:text="#{order.form.fields.sourceType}"></label>
+                    <select id="select-source-type" class="form-control form-control-sm" th:field="*{source}">
+                        <option th:each="sourceType : ${sourceTypes}"
+                                th:value="${sourceType}"
+                                th:text="${sourceType.annotation}"/>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-4">
+                    <label for="select-payment-type" th:text="#{order.form.payment.fields.type}"></label>
+                    <select id="select-payment-type" class="form-control form-control-sm" th:field="*{payment}">
+                        <option th:each="paymentType : ${paymentTypes}"
+                                th:value="${paymentType}"
+                                th:text="${paymentType.annotation}"/>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-4">
+                    <label for="select-product-category" th:text="#{order.show.fields.productCategory}"></label>
+                    <select id="select-product-category" class="form-control form-control-sm" th:field="*{productCategory.id}">
+                        <option th:each="productCategory : ${productCategories}"
+                                th:value="${productCategory.id}"
+                                th:text="${productCategory.name}"/>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-4">
+                    <label for="select-order-status" th:text="#{order.show.fields.status}"></label>
+                    <select id="select-order-status" class="form-control form-control-sm" th:field="*{status}">
+                        <option th:each="status : ${orderStatuses}"
+                                th:value="${status}"
+                                th:text="${status.annotation}"/>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-4">
+                    <label for="input-payment-annotation" th:text="#{order.form.fields.annotation}"></label>
+                    <textarea id="input-payment-annotation"
+                              maxlength="255"
+                              class="form-control form-control-sm"
+                              rows="2"
+                              th:field="*{annotation}"></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-4">
+                    <label for="input-delivery-trackCode" th:text="#{order.form.delivery.fields.trackCode}"></label>
+                    <input id="input-delivery-trackCode" type="text" class="form-control form-control-sm" th:field="*{delivery.trackCode}"/>
+                </div>
+            </div>
+            <h5 class="mb-3" th:text="#{order.form.headers.delivery.sendMessage}"></h5>
+            <div class="custom-control custom-checkbox">
+                <input id="checkbox-send-message" class="custom-control-input" type="checkbox" th:field="*{sendMessage}"/>
+                <label for="checkbox-send-message" class="custom-control-label" th:text="#{order.form.delivery.fields.isSendMessage}"></label>
+            </div>
+            <hr class="mb-4">
+            <button id="btn-submit-order" type="submit" class="btn btn-primary" th:text="#{main.btn.save}"></button>
+        </form>
+        <br/>
+        <div id="feedback"></div>
+    </main>
+    <div th:replace="~{fragments/footer-scripts :: footer-scripts}"></div>
+    <script>
+        $('#nav-link-orders').addClass('active');
+        $('#checkbox-send-message').prop('checked', false);
+        //$('#checkbox-send-message').prop('disabled', true);
+
+        $('#btn-show-order').click(function() {
+            window.location.href = '${urlHome}orders/${order.id}/${listType}';
+        });
+        $('#btn-update-order').click(function() {
+            window.location.href = '${urlHome}orders/${order.id}/update/${listType}';
+        });
+        $('#btn-status-order').click(function() {
+            window.location.href = '${urlHome}orders/${order.id}/change-status/${listType}';
+        });
+        $('#btn-clone-order').click(function() {
+            window.location.href = '${urlHome}orders/${order.id}/clone';
+        });
+
+        $('#btn-save-order').click(function() {
+            $('#btn-submit-order').click();
+        });
+
+        (function() {
+          'use strict';
+          window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+              form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+              }, false);
+            });
+          }, false);
+        })();
+
+        $('#select-order-status').change(function() {
+            var status = $('#select-order-status').val();
+            if ((status == 'DELIVERING' || status == 'READY_GIVE_AWAY' || status == 'READY_GIVE_AWAY_TROUBLE') && $('#input-delivery-trackCode').val().trim() != '') {
+                //$('#checkbox-send-message').prop('disabled', false);
+                $('#checkbox-send-message').prop('checked', true);
+            } else {
+                //$('#checkbox-send-message').prop('disabled', true);
+                $('#checkbox-send-message').prop('checked', false);
+            }
+        });
+
+        (function () {
+        'use strict'
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.querySelectorAll('.needs-validation')
+
+          // Loop over them and prevent submission
+          Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+              form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                  event.preventDefault()
+                  event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+              }, false)
+            })
+        })()
+
+    </script>
+</body>
+<footer th:replace="~{fragments/footer-footer :: footer-footer}"></footer>
+</html>

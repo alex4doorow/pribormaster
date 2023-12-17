@@ -1,15 +1,51 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'home')}">
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-  <body>
-
-    <h2 th:text="#{welcome}">Welcome</h2>
-    <div class="row">
-        <div class="col-md-12">
-          <img class="img-responsive" src="../static/resources/images/pets.png" th:src="@{/resources/images/pets.png}"/>
+<head th:replace="~{fragments/header-head :: header-head((customPageTitle=#{index.title}))}"></head>
+<body>
+    <nav th:replace="~{fragments/header-main-search :: header-main-search}"></nav>
+    <div class="container-fluid">
+        <div class="row">
+            <nav th:replace="~{fragments/header-left-panel :: header-left-panel}"></nav>
         </div>
     </div>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <!-- local content -->
+            <h1 class="h2" th:inline="text">Главная: [[${#httpServletRequest.remoteUser}]]</h1>
+            <p><a th:href="@{/logout}">Logout</a></p>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <p>"Бэк офис интернет-магазина" «приборМАСТЕР» является приложением полного цикла.
+                Приложение обслуживает физических и юридических лиц (резиденты/нерезиденты). Делает:
+            </p>
 
-  </body>
-
+        </div>
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <ol>
+                <li>ввод заявок, контроль и расход товарных остатков склада через web интерфейс.</li>
+                <li>формирование первичных документов и основной отчетной документации.</li>
+                <li>выгрузка данных в Excel</li>
+                <li>интеграция с фронтом – сайтом интернет-магазина pribormaster.ru (на нем пользователи просматривают карточки товара, перемещают выбранные товары в корзину и делают покупки).</li>
+                <li>интеграция с маркетплейсами (сейчас это Яндекс-Маркет м ОЗОН), где также размещены товары нашего магазина.</li>
+                <li>интеграция с транспортными компаниями (СДЭК, Почта России, Деловые Линии).</li>
+                <li>интеграция с поставщиками</li>
+                <li>email рассылки по информированию</li>
+            </ol>
+        </div>
+        <div sec:authorize="hasRole('ROLE_USER')">
+            <p>Приложение позволяет работать пользователям с несколькими ролями.</p>
+        </div>
+        <br>
+        <br>
+    </main>
+    <div th:replace="~{fragments/footer-scripts :: footer-scripts}"></div>
+    <script>
+        $('#nav-link-home').addClass('active');
+    </script>
+    </body>
+    <footer th:replace="~{fragments/footer-footer :: footer-footer}"></footer>
 </html>

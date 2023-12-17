@@ -27,7 +27,7 @@ public class TextUtils {
 		return text.replaceAll("&quot;", "\"").replaceAll("  ", " ").replaceAll("&nbsp;", " ").trim();			
 	}
 	
-	public static String repaceToHTMLTag(String text) {
+	public static String replaceToHTMLTag(String text) {
 		if (text == null || text.isEmpty()) {
 			return text;
 		}	
@@ -164,7 +164,7 @@ public class TextUtils {
 	
 	public static List<String> convertDelimitedStringToList(String delimitedString) {
 
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		if (!StringUtils.isEmpty(delimitedString)) {
 			result = Arrays.asList(StringUtils.reverseDelimited(delimitedString, ','));
 		}
@@ -190,7 +190,6 @@ public class TextUtils {
 	}
 	
 	private static String createTailText(BigInteger partNumber, String stringObjectTextVariants) {
-		
 
 		String[] objectTextVariants = stringObjectTextVariants.split(",");		
 		String textPartNumber = partNumber.toString();

@@ -3,11 +3,14 @@ package com.sir.richard.boss.rest.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sir.richard.boss.model.types.CustomerTypes;
+import com.sir.richard.boss.utils.helpers.CustomerHelper;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
+@ToString
 public class DtoCustomer {
 
     private Long id;
@@ -17,14 +20,28 @@ public class DtoCustomer {
     private DtoCompanyCustomer company;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private DtoPerson person;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private DtoAddress address;
 
+    public DtoCustomer(CustomerTypes type) {
+        this.type = type;
+    }
+
+    @JsonIgnore
+    public String getViewInn() {
+        if (type.isPerson()) {
+            return "";
+        } else if (type.isCompany()) {
+            return company.getInn();
+        } else {
+            return "";
+        }
+    }
+
     @JsonIgnore
     public String getViewShortName() {
-        if (type == CustomerTypes.CUSTOMER) {
-            return person.getShortName();
+        if (type.isPerson()) {
+            return CustomerHelper.getCustomerShortName(person.getFirstName(), person.getMiddleName(), person.getLastName());
         } else if (type == CustomerTypes.COMPANY) {
             return company.getShortName();
         } else {
@@ -34,9 +51,9 @@ public class DtoCustomer {
 
     @JsonIgnore
     public String getViewLongName() {
-        if (type == CustomerTypes.CUSTOMER) {
+        if (type.isPerson()) {
             return person.getViewLongName();
-        } else if (type == CustomerTypes.COMPANY) {
+        } else if (type.isCompany()) {
             return company.getViewLongName();
         } else {
             return "Unknown";
@@ -46,9 +63,9 @@ public class DtoCustomer {
     @JsonIgnore
     public String getViewLongNameWithContactInfo() {
         String viewLongName = getViewLongName();
-        if (type == CustomerTypes.CUSTOMER || type == CustomerTypes.FOREIGNER_CUSTOMER) {
+        if (type.isPerson()) {
             return viewLongName + ", " + person.getPhoneNumber();
-        } else if (type == CustomerTypes.COMPANY || type == CustomerTypes.FOREIGNER_COMPANY || type == CustomerTypes.BUSINESSMAN) {
+        } else if (type.isCompany()) {
             String contact = company.getMainContact().getViewLongName() + " " + company.getMainContact().getEmail();
             return viewLongName.trim() + ", " + contact;
         } else {
@@ -58,9 +75,9 @@ public class DtoCustomer {
 
     @JsonIgnore
     public String getViewPhoneNumber() {
-        if (type == CustomerTypes.CUSTOMER || type == CustomerTypes.FOREIGNER_CUSTOMER) {
+        if (type.isPerson()) {
             return person.getPhoneNumber();
-        } else if (type == CustomerTypes.COMPANY || type == CustomerTypes.FOREIGNER_COMPANY || type == CustomerTypes.BUSINESSMAN) {
+        } else if (type.isCompany()) {
             if (company.getContacts().size() > 0) {
                 return company.getContacts().get(0).getPhoneNumber();
             } else {
@@ -73,9 +90,9 @@ public class DtoCustomer {
 
     @JsonIgnore
     public String getViewEmail() {
-        if (type == CustomerTypes.CUSTOMER) {
+        if (type.isPerson()) {
             return person.getEmail();
-        } else if (type == CustomerTypes.COMPANY || type == CustomerTypes.FOREIGNER_COMPANY || type == CustomerTypes.BUSINESSMAN) {
+        } else if (type.isCompany()) {
             if (company.getContacts().size() > 0) {
                 return company.getContacts().get(0).getEmail();
             } else {

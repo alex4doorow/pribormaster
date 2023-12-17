@@ -2,6 +2,7 @@ package com.sir.richard.boss.model.data;
 
 import com.sir.richard.boss.model.types.*;
 import com.sir.richard.boss.utils.DateTimeUtils;
+import com.sir.richard.boss.utils.helpers.OrderHelper;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -92,6 +93,18 @@ public class Order extends AnyId {
             //Просмотр данных по заказу #10161 (197) от 01.03.2021 г.
         }
         return result;
+    }
+
+    public boolean isBillAmount() {
+        return OrderHelper.isBillAmount(orderType, paymentType, status);
+    }
+
+    public boolean isPrepayment() {
+        return OrderHelper.isPrepayment(paymentType);
+    }
+
+    public boolean isPostpaidAmount() {
+        return OrderHelper.isPostpaidAmount(orderType, paymentType, status);
     }
 
     @Override

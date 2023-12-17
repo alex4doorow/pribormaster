@@ -1,6 +1,6 @@
 package com.sir.richard.boss.services.converters.in.dto;
 
-import com.sir.richard.boss.bl.core.CoreException;
+import com.sir.richard.boss.error.CoreException;
 import com.sir.richard.boss.model.data.Order;
 import com.sir.richard.boss.rest.dto.DtoOrder;
 import com.sir.richard.boss.services.OrderServiceJsonStub;
@@ -25,6 +25,8 @@ public class InDtoOrderConverterTest {
     public void testOrderAdd() throws CoreException {
 
         DtoOrder dtoOrder = jsonMapper.fromJSON(stub.getAddCompanyOrderData(), DtoOrder.class);
+        log.info("{}", dtoOrder);
+
         Order order = inDtoOrderConverter.convertTo(dtoOrder);
         log.info("order: {}", order);
 

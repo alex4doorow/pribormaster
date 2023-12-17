@@ -12,4 +12,7 @@ public interface TeOrderRepository extends JpaRepository<TeOrder, Long> {
     @Query("SELECT MAX(te.orderNo) FROM TeOrder te")
     Integer findMaxOrderNo();
 
+
+
+
 }

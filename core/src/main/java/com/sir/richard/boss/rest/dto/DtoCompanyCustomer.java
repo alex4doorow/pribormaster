@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
 @Data
 @NoArgsConstructor
+@ToString
 public class DtoCompanyCustomer {
     private String inn;
     private String shortName;
