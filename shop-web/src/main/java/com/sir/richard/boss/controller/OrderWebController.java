@@ -82,15 +82,7 @@ public class OrderWebController extends BaseController {
         //Order order = inDtoOrderConverter.convertTo(dtoOrder);
         Order order = new Order();
         Long orderId = orderService.add(order, getCurrentUser());
-        /*
-        if (orderId == null) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        Order resultOrder = orderService.findById(orderId);
-        DtoOrder resultDtoOrder = outDtoOrderConverter.convertTo(resultOrder);
-        //Optional<DtoOrder> result = orderService.findById(orderId);
-        return new ResponseEntity<>(resultDtoOrder, HttpStatus.ACCEPTED);
-        */
+
         return "orders/edit";
     }
 
@@ -127,10 +119,7 @@ public class OrderWebController extends BaseController {
         order.setCustomer(oldOrder.getCustomer());
         orderService.changeFullStatusOrder(order, getCurrentUser());
         Order newOrder = orderService.findById(id);
-        /*
-        MessageManager messageManager = new MessageManager(environment);
-        MessageSendingStatus responceStatus = messageManager.sendOrderMessage(newOrder, formOrder.isSendMessage());
-        */
+
         MessageSendingStatus responseStatus = new MessageSendingStatus();
         String msg = String.format("Статус заказа изменен: #%s от %s г, %s. Было: \"%s\", стало: \"%s\". Сообщение %s",
                 order.getOrderNo(),

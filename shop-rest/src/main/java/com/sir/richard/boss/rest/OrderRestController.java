@@ -64,7 +64,6 @@ public class OrderRestController extends BaseRestController {
         }
         Order resultOrder = orderService.findById(orderId);
         DtoOrder resultDtoOrder = outDtoOrderConverter.convertTo(resultOrder);
-        //Optional<DtoOrder> result = orderService.findById(orderId);
         return new ResponseEntity<>(resultDtoOrder, HttpStatus.ACCEPTED);
     }
 
@@ -76,28 +75,12 @@ public class OrderRestController extends BaseRestController {
         Order order = inDtoOrderConverter.convertTo(dtoOrder);
         orderService.update(order);
 
-        /*
-        int coffeeIndex = -1;
-        for (Coffee c: coffees) {
-            if (c.getId().equals(id)) {
-                coffeeIndex = coffees.indexOf(c);
-                coffees.set(coffeeIndex, coffee);
-            }
-        }
-        return (coffeeIndex == -1) ?
-                new ResponseEntity<>(postCoffee(coffee), HttpStatus.CREATED) :
-                new ResponseEntity<>(coffee, HttpStatus.OK);
-
-         */
-
         return new ResponseEntity<>(dtoOrder, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")
     public void deleteData(@PathVariable Long id) {
         log.info("[START] {} request: {}", "DELETE", id);
-
-        //coffees.removeIf(c -> c.getId().equals(id));
     }
 
     private ResponseEntity<Object> response(String msgInType, DtoOrder response, boolean isError)	{
