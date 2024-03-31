@@ -3,19 +3,19 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>shop-web</artifactId>
   <name>shop-web</name>
-  <version>5.0.1-SNAPSHOT</version>
+  <version>6.0.1-SNAPSHOT</version>
   <description>priborMaster web</description>
   <packaging>jar</packaging>
   <parent>
     <groupId>com.sir.richard.boss</groupId>
     <artifactId>pribormaster</artifactId>
-    <version>5.0.1-SNAPSHOT</version>
+    <version>6.0.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <properties>
-    <pribormaster.version>${parent.version}</pribormaster.version>
+    <pribormaster.version>${project.parent.version}</pribormaster.version>
     <!-- Generic properties -->
-    <java.version>18</java.version>
+    <java.version>17</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- Web dependencies -->
@@ -92,11 +92,6 @@
       <artifactId>postgresql</artifactId>
       <scope>runtime</scope>
     </dependency>
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <scope>runtime</scope>
-    </dependency>
     <!-- caching -->
     <dependency>
       <groupId>javax.cache</groupId>
@@ -146,8 +141,8 @@
               <additionalProperties>
                 <encoding.source>${project.build.sourceEncoding}</encoding.source>
                 <encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
-                <java.source>${maven.compiler.source}</java.source>
-                <java.target>${maven.compiler.target}</java.target>
+                <java.source>${java.version}</java.source>
+                <java.target>${java.version}</java.target>
               </additionalProperties>
             </configuration>
           </execution>
@@ -257,7 +252,6 @@
               </execution>
             </executions>
           </plugin>
-
           <plugin>
             <groupId>com.gitlab.haynes</groupId>
             <artifactId>libsass-maven-plugin</artifactId>
@@ -334,5 +328,4 @@
       </build>
     </profile>
   </profiles>
-
 </project>

@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.sir.richard.boss</groupId>
         <artifactId>pribormaster</artifactId>
-        <version>5.0.1-SNAPSHOT</version>
+        <version>6.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>core</artifactId>
@@ -15,16 +15,12 @@
     <properties>
         <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
         <maven.build.timestamp>${maven.build.timestamp.format}</maven.build.timestamp>
-        <pribormaster.version>${parent.version}</pribormaster.version>
+        <pribormaster.version>${project.parent.version}</pribormaster.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
