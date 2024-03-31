@@ -611,7 +611,7 @@ ALTER TABLE SR_STOCK
 /*-------------------------------------------------------------*/
 
 /* НАСТРОЙКИ ПОЛЬЗОВАТЕЛЯ */
-CREATE TABLE SR_USER_QUERY (
+CREATE TABLE SR_SYS_USER_QUERY (
 	ID BIGINT NOT NULL, /* ИДЕНТИФИКАТОР */
     USER_ID BIGINT NOT NULL, /* ПОЛЬЗОВАТЕЛЬ */
     FORM VARCHAR(30) NOT NULL, /* ОПИСАНИЕ */

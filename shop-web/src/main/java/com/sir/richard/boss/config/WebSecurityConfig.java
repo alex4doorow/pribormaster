@@ -38,8 +38,28 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         log.info("filterChain: {}", http);
+
+
         http
-                .csrf().disable()
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/", "/ajax").permitAll()
+                        .requestMatchers("/", "/error*").permitAll()
+                        .requestMatchers("/", "/errors*").permitAll()
+                        .requestMatchers("/", "/resources/**").permitAll()
+                        .requestMatchers("/", "/anonymous/**").anonymous()
+                        .requestMatchers("/login*","/invalid-session*", "/session-expired*", "/index-logout*").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin((form) -> form
+                        .loginPage("/login")
+                        .permitAll()
+                )
+                .logout((logout) -> logout.permitAll());
+
+        return http.build();
+        /*
+        http
+                //.csrf().disable()
                 .authorizeRequests()
                 //.antMatchers("/hello/*").permitAll()
                 //.antMatchers("/main/*").permitAll()
@@ -71,5 +91,6 @@ public class WebSecurityConfig {
                 .maximumSessions(2)
                 .expiredUrl("/session-expired");
         return http.build();
+        */
     }
 }
